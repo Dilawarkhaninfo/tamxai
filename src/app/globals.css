@@ -74,13 +74,66 @@
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 @keyframes pulseGlow {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes scrollRight {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes scrollLeft {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes cinematicBreathe {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+
+  33% {
+    opacity: 0.85;
+    transform: scale(1.03) translateX(-2px);
+  }
+
+  66% {
+    opacity: 0.75;
+    transform: scale(1.06) translateX(2px);
+  }
 }
 
 :root {
@@ -122,9 +175,11 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-dark-primary text-text-primary;
   }
+
   html {
     scroll-behavior: smooth;
   }
@@ -159,5 +214,13 @@
 
   .container-padding {
     @apply px-4 md:px-6 lg:px-8;
+  }
+
+  .animate-scroll-right {
+    animation: scrollRight 40s linear infinite;
+  }
+
+  .animate-scroll-left {
+    animation: scrollLeft 40s linear infinite;
   }
 }
