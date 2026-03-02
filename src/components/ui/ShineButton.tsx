@@ -12,11 +12,13 @@ export function ShineButton({ children, className = '', href, ...props }: ShineB
     <button
       className={`
         relative overflow-hidden
-        px-8 py-4 rounded-lg
-        font-semibold text-white
-        gradient-purple-blue
+        px-10 py-4 rounded-full
+        font-medium text-white
+        bg-[#6a67ce]/80 backdrop-blur-md
+        border border-white/20
         transition-all duration-300
-        hover:scale-105 hover:shadow-[0_8px_30px_rgba(147,51,234,0.5)]
+        hover:bg-[#6a67ce] hover:border-white/40
+        hover:shadow-[0_0_20px_rgba(106,103,206,0.3)]
         group
         ${className}
       `}
@@ -26,14 +28,13 @@ export function ShineButton({ children, className = '', href, ...props }: ShineB
       <span
         className="absolute inset-0 w-full h-full
           bg-gradient-to-r from-transparent via-white/30 to-transparent
-          -translate-x-full
-          group-hover:translate-x-full
-          transition-transform duration-700 ease-in-out
+          translate-x-full
+          group-hover:animate-[shine_1.5s_ease-in-out_infinite]
           pointer-events-none"
       />
       
       {/* Button content */}
-      <span className="relative z-10 flex items-center gap-2">
+      <span className="relative z-10 flex items-center gap-2 text-lg">
         {children}
       </span>
     </button>

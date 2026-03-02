@@ -1,0 +1,166 @@
+.cta-section {
+    z-index: 10;
+}
+
+.cta-outer {
+    background: #03040b;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+    position: relative;
+}
+
+.animated-text-line {
+    background: linear-gradient(to right,
+            #F2F3FF 20%,
+            #AEB4FF 40%,
+            #60A5FA 60%,
+            #AEB4FF 80%,
+            #F2F3FF 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textGradientFlow 8s linear infinite;
+}
+
+@keyframes textGradientFlow {
+    0% {
+        background-position: 0% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* Purple Light Waves Animation */
+.cta-wave-mesh {
+    position: absolute;
+    inset: 0;
+    filter: blur(60px);
+    background: radial-gradient(circle at 20% 50%, rgba(94, 92, 237, 0.15), transparent 40%);
+}
+
+.wave-element {
+    position: absolute;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+}
+
+.wave-1 {
+    width: 100%;
+    height: 100%;
+    top: -20%;
+    left: -10%;
+    background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.25), transparent 70%);
+    animation: waveMorph 20s ease-in-out infinite alternate;
+    transform-origin: center center;
+}
+
+.wave-2 {
+    width: 120%;
+    height: 80%;
+    bottom: -20%;
+    right: -20%;
+    background: radial-gradient(ellipse at center, rgba(109, 40, 217, 0.2), transparent 60%);
+    animation: waveMorph 25s ease-in-out infinite alternate-reverse;
+}
+
+.wave-3 {
+    width: 80%;
+    height: 60%;
+    top: 10%;
+    right: 15%;
+    background: radial-gradient(ellipse at center, rgba(94, 92, 237, 0.15), transparent 50%);
+    animation: waveMorph 15s ease-in-out infinite alternate;
+}
+
+@keyframes waveMorph {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+        opacity: 0.5;
+    }
+
+    33% {
+        transform: translate(10%, 10%) scale(1.1) rotate(10deg);
+        opacity: 0.8;
+    }
+
+    66% {
+        transform: translate(-5%, 15%) scale(0.9) rotate(-10deg);
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+        opacity: 0.5;
+    }
+}
+
+/* Button Refinement */
+.cta-button-pill {
+    box-shadow: 0 0 20px rgba(94, 92, 237, 0.3);
+    transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.cta-button-pill:hover {
+    background: #6a68f0;
+    box-shadow: 0 0 30px rgba(94, 92, 237, 0.5);
+}
+
+.animate-gradient-x {
+    background-size: 200% 100%;
+    animation: gradientX 5s ease infinite;
+}
+
+@keyframes gradientX {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%) skewX(-15deg);
+    }
+
+    100% {
+        transform: translateX(200%) skewX(-15deg);
+    }
+}
+
+.animate-shimmer {
+    animation: shimmer 2s infinite;
+}
+
+.cta-particles {
+    mix-blend-mode: soft-light;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .cta-outer {
+        height: auto;
+        padding: 60px 32px;
+        border-radius: 32px;
+    }
+
+    .cta-content-inner {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .flex.justify-start {
+        justify-content: center;
+    }
+}

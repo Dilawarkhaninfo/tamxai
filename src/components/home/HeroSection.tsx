@@ -20,14 +20,13 @@ export function HeroSection() {
 
         {/* Bottom Left - Tagline and CTA Button */}
         <div className="absolute bottom-12 left-8 max-w-sm hidden lg:block">
-          <p className="text-sm text-text-secondary leading-relaxed mb-6">
-            We empower organizations with AI that turns complex challenges
+          <p className="text-lg text-white font-medium leading-relaxed mb-8">
+            We empower organizations with AI that turns complex challenges<br />
             into real-world outcomes.
           </p>
           
           <ShineButton>
             Start Your Project
-            <ArrowRight className="w-5 h-5" />
           </ShineButton>
         </div>
 
@@ -35,7 +34,6 @@ export function HeroSection() {
         <div className="lg:hidden text-center mt-10">
           <ShineButton>
             Start Your Project
-            <ArrowRight className="w-5 h-5" />
           </ShineButton>
         </div>
 
