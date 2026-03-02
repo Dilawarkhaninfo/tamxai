@@ -1,183 +1,197 @@
-import Link from 'next/link'
-import { Facebook, Twitter, Linkedin, Github, Mail, Phone, MapPin } from 'lucide-react'
+'use client';
 
-const footerLinks = {
-  company: [
-    { label: 'About Us', href: '/about' },
-    { label: 'Services', href: '/services' },
-    { label: 'Portfolio', href: '/portfolio' },
-    { label: 'Contact', href: '/contact' },
-  ],
-  services: [
-    { label: 'AI Solutions', href: '/services#ai' },
-    { label: 'Web Development', href: '/services#web' },
-    { label: 'E-commerce', href: '/services#ecommerce' },
-    { label: 'Automation', href: '/services#automation' },
-  ],
-  resources: [
-    { label: 'Blog', href: '/blog' },
-    { label: 'Case Studies', href: '/case-studies' },
-    { label: 'Documentation', href: '/docs' },
-    { label: 'Support', href: '/support' },
-  ],
-}
+import React, { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import Link from 'next/link';
+import { Facebook, Github, Linkedin, Twitter, Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
+import './Footer.css';
 
-const socialLinks = [
-  { icon: Facebook, href: '#', label: 'Facebook' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
-  { icon: Github, href: '#', label: 'GitHub' },
-]
+// Sub-component for individual animated digits
+const AnimatedDigit = ({ value }: { value: string }) => {
+  const [displayValue, setDisplayValue] = useState(value);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const currentRef = useRef<HTMLDivElement>(null);
+  const prevRef = useRef<HTMLDivElement>(null);
 
-export function Footer() {
-  const currentYear = new Date().getFullYear()
+  useEffect(() => {
+    if (value !== displayValue) {
+      const ctx = gsap.context(() => {
+        const prevVal = displayValue;
+        setDisplayValue(value);
+
+        gsap.fromTo(currentRef.current, 
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
+        );
+
+        if (prevRef.current) {
+          prevRef.current.innerText = prevVal;
+          gsap.fromTo(prevRef.current,
+            { y: 0, opacity: 1 },
+            { y: -20, opacity: 0, duration: 0.4, ease: 'power2.out' }
+          );
+        }
+      }, containerRef);
+      return () => ctx.revert();
+    }
+  }, [value, displayValue]);
 
   return (
-    <footer className="border-t border-white/10 bg-dark-primary">
-      {/* Gradient top border */}
-      <div className="h-px w-full gradient-purple-blue" />
+    <div ref={containerRef} className="digit-container relative inline-block overflow-hidden h-[1.1em] align-bottom">
+      <div ref={prevRef} className="digit-prev absolute inset-0 opacity-0 pointer-events-none" aria-hidden="true" />
+      <div ref={currentRef} className="digit-current relative leading-none">
+        {displayValue}
+      </div>
+    </div>
+  );
+};
 
-      {/* Main Footer */}
-      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
-          {/* Company Info */}
-          <div className="space-y-6">
-            <Link href="/" className="inline-block">
-              <span className="font-display text-xl font-bold tracking-[0.2em] uppercase text-white">
-                TAMx
-              </span>
-            </Link>
-            <p className="text-sm leading-relaxed text-text-secondary">
-              Building digital solutions that matter. We transform businesses
-              through AI-driven technology and innovation.
-            </p>
-            <div className="flex items-center gap-3">
-              {socialLinks.map((social) => {
-                const Icon = social.icon
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
+const DigitalClock = () => {
+  const [mounted, setMounted] = useState(false);
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    setMounted(true);
+    const timer = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="digital-clock-wrapper flex items-baseline gap-2 md:gap-4 font-bold tracking-tighter opacity-0" aria-hidden="true">
+        00:00:00 AM
+      </div>
+    );
+  }
+
+  const format = (num: number) => num.toString().padStart(2, '0');
+  
+  const hours = time.getHours();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const displayHours = format(hours % 12 || 12);
+  const minutes = format(time.getMinutes());
+  const seconds = format(time.getSeconds());
+
+  return (
+    <div className="digital-clock-wrapper flex items-baseline gap-2 md:gap-4 font-bold tracking-tighter text-[#F2F3FF]" aria-live="polite">
+      <div className="flex">
+        <AnimatedDigit value={displayHours[0]} />
+        <AnimatedDigit value={displayHours[1]} />
+      </div>
+      <span className="colon">:</span>
+      <div className="flex">
+        <AnimatedDigit value={minutes[0]} />
+        <AnimatedDigit value={minutes[1]} />
+      </div>
+      <span className="colon">:</span>
+      <div className="flex">
+        <AnimatedDigit value={seconds[0]} />
+        <AnimatedDigit value={seconds[1]} />
+      </div>
+      <span className="ampm uppercase">
+        {ampm}
+      </span>
+    </div>
+  );
+};
+
+export function Footer() {
+  return (
+    <footer className="footer-section bg-[#03040b] pt-24 pb-12 px-6 lg:px-20 relative overflow-hidden border-t border-white/5">
+      {/* Cinematic Background Glows */}
+      <div className="footer-bg-glow absolute bottom-0 right-0 w-[50%] h-[50%] bg-brand-purple/10 blur-[120px] rounded-full pointer-events-none" />
+      <div className="footer-bg-glow absolute top-0 left-0 w-[40%] h-[40%] bg-brand-blue/5 blur-[100px] rounded-full pointer-events-none" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start pb-20">
+          
+          {/* Left Side: Contact / Clock / Socials */}
+          <div className="lg:col-span-12 xl:col-span-8 flex flex-col gap-10">
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-5">
+                {/* Email Item */}
+                <a href="mailto:info@tamxai.com" className="footer-email text-xl md:text-2xl text-[#F2F3FF] hover:text-brand-lavender transition-all font-medium flex items-center gap-3 group w-fit">
+                  <div className="p-2 rounded-lg bg-brand-purple/10 text-brand-purple group-hover:bg-brand-purple group-hover:text-white transition-all duration-300">
+                    <Mail className="w-5 h-5" />
+                  </div>
+                  info@tamxai.com
+                </a>
+
+                {/* Phone Item */}
+                <a href="tel:+923155320243" className="text-lg md:text-xl text-[#F2F3FF] hover:text-brand-lavender transition-all font-medium flex items-center gap-3 group w-fit">
+                  <div className="p-2 rounded-lg bg-brand-purple/10 text-brand-purple group-hover:bg-brand-purple group-hover:text-white transition-all duration-300">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  +92 315-5320243
+                </a>
+
+                {/* Location Item */}
+                <div className="text-lg md:text-xl text-[#F2F3FF] font-medium flex items-center gap-3 group w-fit">
+                  <div className="p-2 rounded-lg bg-brand-purple/10 text-brand-purple transition-all duration-300">
+                    <MapPin className="w-5 h-5" />
+                  </div>
+                  Islamabad, Pakistan
+                </div>
+              </div>
+              
+              {/* Social Icons Row */}
+              <div className="flex items-center gap-4 mt-2">
+                {[
+                  { icon: Linkedin, href: "#", label: "LinkedIn" },
+                  { icon: Github, href: "#", label: "GitHub" },
+                  { icon: Facebook, href: "#", label: "Facebook" },
+                  { icon: Twitter, href: "#", label: "Twitter" }
+                ].map((social, i) => (
+                  <Link 
+                    key={i}
+                    href={social.href} 
+                    className="social-icon-link group relative p-3 rounded-full bg-white/5 border border-white/10 transition-all hover:bg-brand-purple/20 hover:border-brand-purple/50"
                     aria-label={social.label}
-                    className="flex h-10 w-10 items-center justify-center rounded-full glass-effect transition-colors hover:bg-brand-purple/20"
                   >
-                    <Icon className="h-4 w-4 text-text-secondary" />
-                  </a>
-                )
-              })}
+                    <social.icon className="w-5 h-5 text-[#AEB4FF] group-hover:text-white transition-colors" />
+                    <div className="absolute inset-0 rounded-full bg-brand-purple/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="footer-clock-container">
+              <DigitalClock />
             </div>
           </div>
 
-          {/* Company Links */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
-              Company
-            </h3>
-            <ul className="space-y-3">
-              {footerLinks.company.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-text-secondary transition-colors hover:text-brand-purple-light"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Services Links */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
-              Services
-            </h3>
-            <ul className="space-y-3">
-              {footerLinks.services.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-text-secondary transition-colors hover:text-brand-purple-light"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-white">
-              Contact
-            </h3>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <Mail className="mt-0.5 h-4 w-4 shrink-0 text-brand-purple-light" />
-                <div>
-                  <p className="text-xs text-text-muted">Email</p>
-                  <a
-                    href="mailto:info@tamxai.com"
-                    className="text-sm text-text-secondary transition-colors hover:text-brand-purple-light"
-                  >
-                    info@tamxai.com
-                  </a>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <Phone className="mt-0.5 h-4 w-4 shrink-0 text-brand-purple-light" />
-                <div>
-                  <p className="text-xs text-text-muted">Phone</p>
-                  <a
-                    href="tel:+923155320243"
-                    className="text-sm text-text-secondary transition-colors hover:text-brand-purple-light"
-                  >
-                    +92 315-5320243
-                  </a>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-purple-light" />
-                <div>
-                  <p className="text-xs text-text-muted">Location</p>
-                  <p className="text-sm text-text-secondary">Islamabad, Pakistan</p>
-                </div>
-              </li>
-            </ul>
+          {/* Right Side: Link Columns */}
+          <div className="lg:col-span-12 xl:col-span-4 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-2 gap-12">
+            <div className="flex flex-col gap-6">
+              <h4 className="text-white font-bold text-sm tracking-[0.2em] uppercase opacity-90">Services</h4>
+              <ul className="flex flex-col gap-4">
+                {['Product Design', 'Development', 'GTM Strategy', 'AI Development'].map(link => (
+                  <li key={link}><Link href="#" className="text-[#AEB4FF]/70 hover:text-white transition-colors flex items-center gap-1 group">{link} <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -translate-y-0.5" /></Link></li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex flex-col gap-6">
+              <h4 className="text-white font-bold text-sm tracking-[0.2em] uppercase opacity-90">Resources</h4>
+              <ul className="flex flex-col gap-4">
+                {['Clinix AI', 'Synergies4', 'Curehire', 'Contact'].map(link => (
+                  <li key={link}><Link href="#" className="text-[#AEB4FF]/70 hover:text-white transition-colors flex items-center gap-1 group">{link} <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -translate-y-0.5" /></Link></li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-white/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-6 md:flex-row lg:px-8">
-          <p className="text-sm text-text-muted">
-            &copy; {currentYear} TAMx. All rights reserved.
+        {/* Bottom Bar */}
+        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+          <p className="text-[#AEB4FF]/40 text-sm">
+            TAMx AI, © 2026. All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/privacy"
-              className="text-sm text-text-muted transition-colors hover:text-text-secondary"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/terms"
-              className="text-sm text-text-muted transition-colors hover:text-text-secondary"
-            >
-              Terms of Service
-            </Link>
-            <Link
-              href="/cookies"
-              className="text-sm text-text-muted transition-colors hover:text-text-secondary"
-            >
-              Cookie Policy
-            </Link>
+          <div className="flex gap-8 text-[#AEB4FF]/40 text-sm">
+            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }

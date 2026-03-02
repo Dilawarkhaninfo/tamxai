@@ -3,12 +3,45 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, ArrowUpRight } from 'lucide-react'
+import { Menu, X, ArrowUpRight, Layout, Code2, Rocket, Brain, Stethoscope, Cpu, ChevronDown } from 'lucide-react'
+
+const services = [
+  {
+    title: 'Product Design',
+    icon: Layout,
+    items: ['User Research & Strategy', 'UX Flows & Wireframes', 'UI Systems & Prototypes', 'Design Ops & Dev Handoff']
+  },
+  {
+    title: 'Development',
+    icon: Code2,
+    items: ['Frontend Platforms (React / Next)', 'Backend APIs & Microservices (Node)', 'Mobile & Cross-platform (Flutter)', 'CI/CD & Cloud Ops (Docker)']
+  },
+  {
+    title: 'GTM Strategy',
+    icon: Rocket,
+    items: ['ICP & Segmentation', 'Positioning, Narrative & Messaging', 'Pricing & Packaging', 'Demand Gen & Content Engine']
+  },
+  {
+    title: 'AI Development',
+    icon: Brain,
+    items: ['LLM Apps & Agents (RAG / Tools)', 'Fine-tuning & Prompt Optimization', 'Model Evals, Guardrails & Monitoring', 'Vision, NLP & Speech Pipelines']
+  },
+  {
+    title: 'Healthcare Apps',
+    icon: Stethoscope,
+    items: ['HIPAA & PHI Compliance', 'Telehealth & Patient Portals', 'EHR Integrations (FHIR / HL7)', 'Audit Logging & Access Controls']
+  },
+  {
+    title: 'IoT Development',
+    icon: Cpu,
+    items: ['Embedded Firmware & Drivers', 'BLE / Zigbee / LoRA Connectivity', 'MQTT Ingestion & Stream Processing', 'Edge AI & OTA Update Pipelines']
+  }
+]
 
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
-  { href: '/services', label: 'Services' },
+  { href: '/services', label: 'Services', hasDropdown: true },
   { href: '/portfolio', label: 'Portfolio' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -16,6 +49,7 @@ const navLinks = [
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isServicesOpen, setIsServicesOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,30 +61,105 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-dark-primary/80 backdrop-blur-xl border-b border-white/10'
-          : 'bg-transparent'
+          ? 'bg-dark-primary/40 backdrop-blur-xl border-b border-white/5 py-3'
+          : 'bg-transparent py-5'
       }`}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center">
-          <span className="font-display text-xl font-bold tracking-[0.2em] uppercase text-white">
-            TAMx
+        <Link href="/" className="flex items-center group">
+          <span className="font-display text-2xl font-bold tracking-[0.3em] uppercase text-white transition-all duration-300 group-hover:tracking-[0.4em]">
+            TAM<span className="text-brand-purple">x</span>
           </span>
         </Link>
 
         {/* Desktop Navigation - Center */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <Link
+            <div
               key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-text-secondary transition-colors duration-200 hover:text-white"
+              className="relative group"
+              onMouseEnter={() => link.hasDropdown && setIsServicesOpen(true)}
+              onMouseLeave={() => link.hasDropdown && setIsServicesOpen(false)}
             >
-              {link.label}
-            </Link>
+              <Link
+                href={link.href}
+                className="flex items-center gap-1.5 text-sm font-medium text-text-secondary transition-colors duration-300 hover:text-brand-lavender py-2"
+              >
+                <span>{link.label}</span>
+                {link.hasDropdown && (
+                  <motion.div
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ 
+                      opacity: isServicesOpen ? 1 : 0, 
+                      width: isServicesOpen ? 'auto' : 0,
+                      marginLeft: isServicesOpen ? 4 : 0
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`} />
+                  </motion.div>
+                )}
+                <span className="absolute -bottom-1 left-0 w-full h-[1.5px] bg-brand-lavender rounded-full origin-center scale-x-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100" />
+              </Link>
+
+              {/* Megamenu */}
+              {link.hasDropdown && (
+                <AnimatePresence>
+                  {isServicesOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, x: -20, scale: 0.98 }}
+                      animate={{ opacity: 1, x: 0, scale: 1 }}
+                      exit={{ opacity: 0, x: -20, scale: 0.98 }}
+                      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                      className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[800px] bg-[#0F172A]/90 backdrop-blur-3xl border border-white/5 rounded-[2rem] p-8 shadow-[0_40px_100px_rgba(0,0,0,0.7)] z-50 overflow-hidden"
+                    >
+                      {/* Left-to-right reveal overlay */}
+                      <motion.div
+                         initial={{ scaleX: 1 }}
+                         animate={{ scaleX: 0 }}
+                         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                         className="absolute inset-0 bg-brand-purple/10 origin-right z-10 pointer-events-none"
+                      />
+
+                      <div className="grid grid-cols-3 gap-4 relative z-0">
+                        {services.map((service, idx) => (
+                          <motion.div
+                            key={service.title}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.05 + 0.1 }}
+                            className="bg-white/[0.03] border border-white/5 rounded-2xl p-5 transition-all duration-500 hover:bg-white/[0.08] hover:border-white/10 hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-purple/10 group/card"
+                          >
+                            <div className="flex items-center gap-3 mb-4">
+                              <div className="p-2 rounded-xl bg-brand-purple/10 border border-brand-purple/20 text-brand-lavender transition-all duration-500 group-hover/card:scale-110 group-hover/card:bg-brand-purple/20 group-hover/card:shadow-[0_0_20px_rgba(168,85,247,0.3)]">
+                                <service.icon className="w-5 h-5" />
+                              </div>
+                              <h3 className="text-lg font-bold text-white group-hover/card:text-brand-lavender transition-colors">
+                                {service.title}
+                              </h3>
+                            </div>
+                            <ul className="flex flex-col gap-2">
+                              {service.items.map((item) => (
+                                <li 
+                                  key={item}
+                                  className="text-[13px] text-text-secondary group-hover/card:text-text-primary transition-colors flex items-center gap-2"
+                                >
+                                  <div className="w-1 h-1 rounded-full bg-brand-purple/30 group-hover/card:bg-brand-purple transition-colors" />
+                                  {item}
+                                </li>
+                              ))}
+                            </ul>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              )}
+            </div>
           ))}
         </div>
 
