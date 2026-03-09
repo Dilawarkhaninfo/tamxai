@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ArrowUpRight, Layout, Code2, Rocket, Brain, Stethoscope, Cpu, ChevronDown } from 'lucide-react'
 
@@ -43,6 +44,7 @@ const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services', hasDropdown: true },
   { href: '/portfolio', label: 'Portfolio' },
+  { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ]
 
@@ -50,6 +52,7 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -86,7 +89,9 @@ export function Navbar() {
             >
               <Link
                 href={link.href}
-                className="flex items-center gap-1.5 text-sm font-medium text-text-secondary transition-colors duration-300 hover:text-brand-lavender py-2"
+                className={`flex items-center gap-1.5 text-sm font-medium transition-colors duration-300 py-2 ${
+                  pathname === link.href ? 'text-brand-lavender' : 'text-text-secondary hover:text-brand-lavender'
+                }`}
               >
                 <span>{link.label}</span>
                 {link.hasDropdown && (
@@ -102,7 +107,9 @@ export function Navbar() {
                     <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`} />
                   </motion.div>
                 )}
-                <span className="absolute -bottom-1 left-0 w-full h-[1.5px] bg-brand-lavender rounded-full origin-center scale-x-0 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100" />
+                <span className={`absolute -bottom-1 left-0 w-full h-[1.5px] bg-brand-lavender rounded-full origin-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                  pathname === link.href ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                }`} />
               </Link>
 
               {/* Megamenu */}
@@ -199,7 +206,9 @@ export function Navbar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="rounded-lg px-4 py-3 text-base font-medium text-text-secondary transition-colors hover:bg-white/5 hover:text-white"
+                  className={`rounded-lg px-4 py-3 text-base font-medium transition-colors ${
+                    pathname === link.href ? 'bg-white/10 text-white' : 'text-text-secondary hover:bg-white/5 hover:text-white'
+                  }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}

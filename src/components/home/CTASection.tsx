@@ -2,148 +2,139 @@
 
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { motion } from 'framer-motion';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight } from 'lucide-react';
 import './CTASection.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+import { PageSection } from '@/components/layout/PageSection';
+import { InfinityScientist } from './InfinityScientist';
+
 export function CTASection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
   const waveTextRef = useRef<HTMLSpanElement>(null);
+  const [stars, setStars] = React.useState<any[]>([]);
 
   useEffect(() => {
+    // Generate stars only on the client to avoid hydration mismatch
+    const generatedStars = [...Array(80)].map((_, i) => ({
+      id: i,
+      width: Math.random() * 2 + 0.5 + 'px',
+      height: Math.random() * 2 + 0.5 + 'px',
+      top: Math.random() * 100 + '%',
+      left: Math.random() * 100 + '%',
+      animation: `glow ${Math.random() * 4 + 2}s infinite alternate ease-in-out`,
+      animationDelay: Math.random() * 5 + 's'
+    }));
+    setStars(generatedStars);
+
     const ctx = gsap.context(() => {
-      // 1. Text Wave Animation for the second line
+      // 1. Text Wave Animation
       const words = waveTextRef.current?.querySelectorAll('.wave-word');
       if (words) {
         gsap.to(words, {
-          y: -8,
-          duration: 2,
+          y: -12,
+          duration: 1.2,
           repeat: -1,
           yoyo: true,
           stagger: {
-            each: 0.2,
-            from: 'start',
+            each: 0.15,
+            from: 'center',
           },
-          ease: 'sine.inOut',
+          ease: 'power1.inOut',
         });
       }
-
-      // 2. Continuous Light Sweep Animation
-      gsap.to('.cta-light-sweep', {
-        x: '200%',
-        duration: 4,
-        repeat: -1,
-        ease: 'power2.inOut',
-        repeatDelay: 6
-      });
-
-      // 3. Entrance Animations
-      gsap.from('.cta-content-inner', {
-        opacity: 0,
-        y: 60,
-        scale: 0.95,
-        duration: 1.5,
-        ease: 'power4.out',
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 75%',
-        }
-      });
-
-      // 4. Subtle Parallax on Mouse Move
-      const handleMouseMove = (e: MouseEvent) => {
-        if (!containerRef.current) return;
-        const { clientX, clientY } = e;
-        const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-        const moveX = ((clientX - left) / width - 0.5) * 15;
-        const moveY = ((clientY - top) / height - 0.5) * 15;
-
-        gsap.to('.cta-content-inner', {
-          x: moveX,
-          y: moveY,
-          duration: 2,
-          ease: 'power3.out'
-        });
-
-        // Inverse move for background glows
-        gsap.to('.cta-bg-glow', {
-          x: -moveX * 2,
-          y: -moveY * 2,
-          duration: 3,
-          ease: 'power2.out'
-        });
-      };
-
-      window.addEventListener('mousemove', handleMouseMove);
-      return () => window.removeEventListener('mousemove', handleMouseMove);
-
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
-  const secondLine = "powerful digital realities.";
-  const words = secondLine.split(' ');
+  const secondLine = "powerful digital AI realities.";
+  const thirdLine = "that redefine the future.";
+  const secondWords = secondLine.split(' ');
 
   return (
-    <section ref={containerRef} className="cta-section py-32 px-6 lg:px-20 relative overflow-hidden bg-[#030712]">
-      {/* Cinematic Background System */}
-      <div className="cta-bg-system absolute inset-0 pointer-events-none">
-        <div className="cta-bg-glow glow-1 absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-brand-purple/10 blur-[120px] rounded-full animate-pulse" />
-        <div className="cta-bg-glow glow-2 absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-brand-blue/10 blur-[120px] rounded-full animate-pulse-slow" />
+    <PageSection id="cta" fullHeight={true} z={40} className="bg-black overflow-hidden relative">
+      {/* Cinematic Galaxy Background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden bg-black">
+        {/* Deep Space Gradient - Subtle */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.06),transparent_80%)]" />
         
-        {/* Animated Light Wave Mesh */}
-        <div className="cta-wave-mesh absolute inset-0 opacity-40">
-          <div className="wave-element wave-1" />
-          <div className="wave-element wave-2" />
-          <div className="wave-element wave-3" />
+        {/* Starfield / Galaxy Dots - Placed behind everything */}
+        <div className="starfield-layer absolute inset-0 z-0 opacity-40">
+          {stars.map((star) => (
+            <div 
+              key={star.id} 
+              className="star absolute bg-white rounded-full opacity-0"
+              style={{
+                width: star.width,
+                height: star.height,
+                top: star.top,
+                left: star.left,
+                animation: star.animation,
+                animationDelay: star.animationDelay
+              }}
+            />
+          ))}
         </div>
-        
-        {/* Particle Overlay */}
-        <div className="cta-particles absolute inset-0 opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] blend-overlay" />
+
+        {/* Cinematic Fog & Lighting - Very subtle to avoid wash-out */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.02),transparent_70%)]" />
       </div>
 
-      {/* Main Container */}
-      <div className="cta-outer min-h-[400px] flex items-center p-12 md:p-20 relative z-10">
-        <div className="cta-content-inner relative max-w-2xl text-left">
-          
-          {/* Headline Section */}
-          <h2 className="text-4xl md:text-5xl lg:text-5xl font-medium text-[#F2F3FF] leading-[1.2] tracking-tight mb-10">
-            <span className="opacity-90 block mb-2">We turn bold ideas into</span>
-            <span ref={waveTextRef} className="block font-bold text-white">
-              {words.map((word, i) => (
-                <span key={i} className="wave-word inline-block mr-[0.2em]">
-                  {word}
+      <div className="container mx-auto px-6 h-full flex flex-col items-center justify-center relative z-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center w-full max-w-[1400px]"
+        >
+          {/* Left Content */}
+          <div className="cta-content-inner text-left lg:pr-8">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="w-8 h-[1px] bg-brand-lavender/30" />
+              <span className="text-brand-lavender font-bold uppercase tracking-[0.4em] text-[10px]">Visionaries only</span>
+            </div>
+            
+            <h2 className="text-4xl md:text-6xl lg:text-[68px] font-bold text-white leading-[0.9] tracking-tighter mb-10">
+              <span className="block opacity-50 font-light mb-2">We turn bold ideas into</span>
+              <span ref={waveTextRef} className="block mb-2">
+                <span className="gradient-text drop-shadow-[0_10px_30px_rgba(139,92,246,0.3)]">
+                  {secondWords.map((word, i) => (
+                    <span key={i} className="wave-word inline-block mr-[0.2em] relative">
+                      {word}
+                    </span>
+                  ))}
                 </span>
-              ))}
-            </span>
-          </h2>
+              </span>
+              <span className="block opacity-90 text-[clamp(1.5rem,4vw,2.8rem)] font-medium text-brand-lavender/80">
+                {thirdLine}
+              </span>
+            </h2>
 
-          {/* CTA Button */}
-          <div className="flex justify-start">
-            <button className="cta-button-pill group relative flex items-center gap-4 px-8 py-4 rounded-full overflow-hidden transition-all duration-500 hover:scale-105 active:scale-95 bg-[#5E5CED] border border-white/10 shadow-[0_0_20px_rgba(94,92,237,0.4)]">
-              <span className="relative z-10 text-white font-medium text-lg">Let's work together</span>
-              <div className="relative z-10 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center transition-colors group-hover:bg-white/20">
-                <ArrowRight className="w-5 h-5 text-white transition-transform duration-500 group-hover:translate-x-1" />
-              </div>
-              
-              {/* Shimmer Effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
-            </button>
+            <div className="flex flex-wrap gap-6 items-center">
+              <button className="cta-button-pill group relative flex items-center gap-4 px-8 py-4 rounded-full overflow-hidden transition-all duration-500 hover:scale-[1.02] bg-brand-purple shadow-[0_15px_40px_rgba(94,92,237,0.3)]">
+                <span className="relative z-10 text-white font-bold text-xl tracking-tight">Launch Your Project</span>
+                <div className="relative z-10 p-1.5 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
+                  <ArrowRight className="w-5 h-5 text-white transition-transform duration-500 group-hover:translate-x-1" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer" />
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* Floating Light Sweep across the outer container */}
-        <div className="cta-light-sweep absolute top-[-50%] left-[-100%] w-[150%] h-[200%] bg-gradient-to-r from-transparent via-white/5 to-transparent rotate-45 pointer-events-none" />
+          {/* Right Visual Content */}
+          <div className="cta-visual-container relative h-[450px] md:h-[650px] lg:h-[850px] flex items-center justify-center">
+            <InfinityScientist />
+          </div>
+        </motion.div>
       </div>
 
-      {/* Infinity Light Trail background glow */}
-      <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-full h-40 opacity-20 pointer-events-none blur-3xl">
-        <div className="w-full h-full bg-gradient-to-r from-brand-purple via-brand-lavender to-brand-blue rounded-full animate-infinity-trail" />
-      </div>
-    </section>
+      {/* Subtle Bottom Ambient Finish */}
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/40 to-transparent" />
+    </PageSection>
   );
 }
