@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { motion } from 'framer-motion';
 import { caseStudiesData } from './CaseStudiesData';
 import Image from 'next/image';
 import { ArrowUpRight, Smartphone, Globe, Code2, TrendingUp, Monitor, Layout } from 'lucide-react';
+import { PageSection } from '@/components/layout/PageSection';
 
 export function CaseStudiesSection() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -105,19 +107,28 @@ export function CaseStudiesSection() {
   }, [activeIndex, prevIndex]);
 
   return (
-    <section ref={containerRef} className="bg-black py-24 px-8 overflow-hidden relative">
-      <div className="max-w-[1400px] mx-auto">
+    <PageSection id="case-studies" fullHeight={true} z={20} className="bg-black">
+      <div ref={containerRef} className="max-w-[1400px] mx-auto w-full">
         
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tight">
-            Case Studies
-          </h2>
-          <p className="text-white/40 text-sm md:text-base max-w-sm text-right leading-relaxed font-medium">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 gap-12 px-4"
+        >
+          <div className="flex flex-col gap-4">
+            <span className="text-brand-purple font-bold uppercase tracking-[0.4em] text-xs">Portfolio</span>
+            <h2 className="text-5xl md:text-7xl font-bold text-white tracking-tighter leading-none">
+              Case <span className="gradient-text">Studies</span>
+            </h2>
+          </div>
+          <p className="text-text-secondary text-lg md:text-xl max-w-md md:text-right leading-relaxed font-medium pb-1">
             Proven results, measurable impact—explore <br className="hidden md:block"/> 
             the transformations we've delivered.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[48%_52%] gap-12 items-start">
           
@@ -139,15 +150,15 @@ export function CaseStudiesSection() {
                 />
                 
                 <div className="flex items-center gap-8 px-6 relative z-10">
-                  <span className={`text-sm font-mono transition-colors duration-300 ${
-                    activeIndex === index ? 'text-brand-lavender' : 'text-white/20'
+                  <span className={`text-base font-display font-black transition-colors duration-300 ${
+                    activeIndex === index ? 'text-brand-lavender' : 'text-white/10'
                   }`}>
                     {caseStudy.id}
                   </span>
                   
                   <div className="flex flex-row items-center gap-6 flex-grow">
-                    <h3 className={`text-xl font-bold transition-all duration-300 ${
-                      activeIndex === index ? 'text-white' : 'text-white/40'
+                    <h3 className={`text-2xl font-bold transition-all duration-300 ${
+                      activeIndex === index ? 'text-white' : 'text-white/30'
                     }`}>
                       {caseStudy.name}
                     </h3>
@@ -219,6 +230,6 @@ export function CaseStudiesSection() {
 
         </div>
       </div>
-    </section>
+    </PageSection>
   );
 }

@@ -16,53 +16,49 @@ export const Preloader = () => {
 
     const timeline = gsap.timeline({
       onComplete: () => {
-        // Delayed fade out for ultra-premium feel
         gsap.to(overlayRef.current, {
           opacity: 0,
-          scale: 1.05,
-          duration: 0.8,
+          scale: 1.02,
+          duration: 0.4,
           ease: 'power2.inOut',
           onComplete: () => setComplete(true)
         });
       }
     });
 
-    // 1. Initial State
-    gsap.set('.brand-char', { opacity: 0, y: 30, filter: 'blur(10px)' });
-
-    // 2. Neural Pulse Wave
+    // Neural Pulse Wave
     const rings = pulseContainerRef.current.querySelectorAll('.pulse-ring');
     timeline.to(rings, {
       opacity: 0.6,
       scale: 4,
-      duration: 1.2,
-      stagger: 0.15,
+      duration: 0.8,
+      stagger: 0.1,
       ease: 'power1.out',
-    }, 0.2);
+    }, 0.1);
 
     timeline.to(rings, {
       opacity: 0,
-      duration: 0.6,
+      duration: 0.4,
       ease: 'power1.in',
-    }, 0.8);
+    }, 0.5);
 
-    // 3. Staggered Brand Reveal (T -> A -> M -> x)
+    // Staggered Brand Reveal
     timeline.to('.brand-char', {
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
-      duration: 0.8,
-      stagger: 0.12,
+      duration: 0.5,
+      stagger: 0.08,
       ease: 'expo.out',
-    }, 0.6);
+    }, 0.3);
 
-    // 4. Subtle Shimmer Pass
+    // Shimmer Pass
     if (shimmerRef.current) {
         timeline.to(shimmerRef.current, {
             left: '150%',
-            duration: 1.2,
+            duration: 0.8,
             ease: 'power2.inOut'
-        }, 1.2);
+        }, 0.8);
     }
 
     // 5. Ambient Ambient Pulse & Final Glow Expansion

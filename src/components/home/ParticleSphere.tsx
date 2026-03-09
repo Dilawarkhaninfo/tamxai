@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 export function ParticleSphere() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number>(undefined);
   const timeRef = useRef(0);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export function ParticleSphere() {
   useEffect(() => {
     const animate = () => {
       timeRef.current += 0.005; // Slow, elegant speed
-      animationFrameRef.current = requestAnimationFrame(animate);
+      animationFrameRef.current = requestAnimationFrame((time: number) => animate());
     };
     
     animate();
