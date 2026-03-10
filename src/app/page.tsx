@@ -1,21 +1,29 @@
+import { AnimatedBackground } from '@/components/home/AnimatedBackground';
+import { AtomicSphere } from '@/components/home/AtomicSphere';
+import { HeroSection } from '@/components/home/HeroSection';
+import { ServicesSection } from '@/components/home/ServicesSection';
+import { CaseStudiesSection } from '@/components/home/CaseStudiesSection';
+import { TrustedBySection } from '@/components/home/TrustedBySection';
+import { CTASection } from '@/components/home/CTASection';
+
 export default function Home() {
   return (
-    <div className="min-h-screen gradient-hero">
-      {/* Hero placeholder - to be implemented */}
-      <section className="flex min-h-screen items-center justify-center pt-20">
-        <div className="text-center">
-          <h1 className="font-display text-5xl font-bold tracking-tight text-white md:text-7xl">
-            Building{' '}
-            <span className="gradient-text">Digital Solutions</span>
-            <br />
-            That Matter
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-text-secondary">
-            Transform your business with cutting-edge AI and technology solutions.
-            We build scalable platforms that drive growth and innovation.
-          </p>
-        </div>
-      </section>
-    </div>
-  )
+    <main className="relative bg-[#030712]">
+      <div className="relative h-screen gradient-hero overflow-hidden">
+        {/* Background Layer - z-0 */}
+        <AnimatedBackground />
+        
+        {/* Atomic Sphere - z-10 */}
+        <AtomicSphere />
+        
+        {/* Hero Content - z-20 */}
+        <HeroSection />
+      </div>
+
+      <ServicesSection />
+      <CaseStudiesSection />
+      <TrustedBySection />
+      <CTASection />
+    </main>
+  );
 }
