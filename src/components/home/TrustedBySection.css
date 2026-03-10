@@ -1,0 +1,83 @@
+.trusted-section {
+    position: relative;
+    z-index: 5;
+    background-color: #030712;
+}
+
+.trusted-header {
+    letter-spacing: -0.02em;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Layered Curve Styling */
+.curve-path {
+    filter: drop-shadow(0 0 15px rgba(196, 181, 253, 0.4));
+    opacity: 0.9;
+}
+
+.sparkle-line {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: curveSparkle 6s linear infinite;
+    filter: blur(1px);
+}
+
+@keyframes curveSparkle {
+    0% {
+        stroke-dashoffset: 1400;
+    }
+
+    100% {
+        stroke-dashoffset: -1400;
+    }
+}
+
+.trusted-logo {
+    position: relative;
+    will-change: transform;
+    text-transform: uppercase;
+    font-family: var(--font-space-grotesk), sans-serif;
+    letter-spacing: 0.15em;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    filter: grayscale(1) opacity(0.5);
+}
+
+.trusted-logo:hover {
+    filter: grayscale(0) opacity(1) drop-shadow(0 0 12px rgba(186, 168, 255, 0.6));
+    color: #fff;
+    scale: 1.15 !important;
+}
+
+.trusted-logo span {
+    display: inline-block;
+}
+
+/* Depth blur on edges */
+.trusted-by-container::before,
+.trusted-by-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 25%;
+    pointer-events: none;
+    z-index: 30;
+}
+
+.trusted-by-container::before {
+    left: 0;
+    background: linear-gradient(to right, #030712 10%, transparent);
+}
+
+.trusted-by-container::after {
+    right: 0;
+    background: linear-gradient(to left, #030712 10%, transparent);
+}
+
+@media (max-width: 1024px) {
+
+    .trusted-by-container::before,
+    .trusted-by-container::after {
+        width: 15%;
+    }
+}
