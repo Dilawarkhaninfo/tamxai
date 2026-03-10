@@ -26,6 +26,8 @@ export const metadata: Metadata = {
     "AI-driven technology solutions for modern businesses. Transform your business with cutting-edge AI and technology solutions.",
 };
 
+import { PageTransition } from "@/components/layout/PageTransition";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -39,7 +41,7 @@ export default function RootLayout({
       >
         <Preloader />
         <Navbar />
-        <main>{children}</main>
+        <PageTransition>{children}</PageTransition>
         <Footer />
       </body>
     </html>
