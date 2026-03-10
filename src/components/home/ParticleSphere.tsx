@@ -1,14 +1,17 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export function ParticleSphere() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const animationFrameRef = useRef<number>(undefined);
+  const [mounted, setMounted] = useState(false);
+  const [, setTick] = useState(0);
+  const animationFrameRef = useRef<number | undefined>(undefined);
   const timeRef = useRef(0);
 
   useEffect(() => {
+    setMounted(true);
     const handleMouseMove = (e: MouseEvent) => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
@@ -31,10 +34,13 @@ export function ParticleSphere() {
   useEffect(() => {
     const animate = () => {
       timeRef.current += 0.005; // Slow, elegant speed
-      animationFrameRef.current = requestAnimationFrame((time: number) => animate());
+      setTick(prev => prev + 1); // Force re-render for animation
+      animationFrameRef.current = requestAnimationFrame(animate);
     };
     
-    animate();
+    if (mounted) {
+      animate();
+    }
     
     return () => {
       if (animationFrameRef.current) {
@@ -60,6 +66,15 @@ export function ParticleSphere() {
     const offset = i * 0.1;
 
     particles.push({ x, y, z, id: i, offset });
+  }
+
+  if (!mounted) {
+    return (
+      <div 
+        ref={containerRef}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] pointer-events-none z-10"
+      />
+    );
   }
 
   return (
