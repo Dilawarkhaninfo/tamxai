@@ -3,11 +3,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import Link from 'next/link';
-import Image from 'next/image';
-import { Facebook, Github, Linkedin, Twitter, Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import './Footer.css';
 
-// Sub-component for individual animated digits
 const AnimatedDigit = ({ value }: { value: string }) => {
   const [displayValue, setDisplayValue] = useState(value);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -20,14 +18,16 @@ const AnimatedDigit = ({ value }: { value: string }) => {
         const prevVal = displayValue;
         setDisplayValue(value);
 
-        gsap.fromTo(currentRef.current, 
+        gsap.fromTo(
+          currentRef.current,
           { y: 20, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
         );
 
         if (prevRef.current) {
           prevRef.current.innerText = prevVal;
-          gsap.fromTo(prevRef.current,
+          gsap.fromTo(
+            prevRef.current,
             { y: 0, opacity: 1 },
             { y: -20, opacity: 0, duration: 0.4, ease: 'power2.out' }
           );
@@ -38,16 +38,14 @@ const AnimatedDigit = ({ value }: { value: string }) => {
   }, [value, displayValue]);
 
   return (
-    <div ref={containerRef} className="digit-container relative inline-block overflow-hidden h-[1.1em] align-bottom">
-      <div ref={prevRef} className="digit-prev absolute inset-0 opacity-0 pointer-events-none" aria-hidden="true" />
-      <div ref={currentRef} className="digit-current relative leading-none">
-        {displayValue}
-      </div>
-    </div>
+    <span ref={containerRef} className="digit-slot">
+      <span ref={prevRef} className="digit-ghost" aria-hidden="true" />
+      <span ref={currentRef} className="digit-live">{displayValue}</span>
+    </span>
   );
 };
 
-const DigitalClock = () => {
+const LiveClock = () => {
   const [mounted, setMounted] = useState(false);
   const [time, setTime] = useState(new Date());
 
@@ -57,156 +55,158 @@ const DigitalClock = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const format = (num: number) => num.toString().padStart(2, '0');
+
   if (!mounted) {
     return (
-      <div className="digital-clock-wrapper flex items-baseline gap-2 md:gap-4 font-bold tracking-tighter opacity-0" aria-hidden="true">
-        00:00:00 AM
-      </div>
+      <h3 className="font-semibold text-5xl sm:text-6xl lg:text-8xl mt-2 opacity-0" aria-hidden="true">
+        00:00:00 <span className="text-xl align-bottom">AM</span>
+      </h3>
     );
   }
 
-  const format = (num: number) => num.toString().padStart(2, '0');
-  
   const hours = time.getHours();
   const ampm = hours >= 12 ? 'PM' : 'AM';
-  const displayHours = format(hours % 12 || 12);
-  const minutes = format(time.getMinutes());
-  const seconds = format(time.getSeconds());
+  const hh = format(hours % 12 || 12);
+  const mm = format(time.getMinutes());
+  const ss = format(time.getSeconds());
 
   return (
-    <div className="digital-clock-wrapper flex items-baseline gap-2 md:gap-4 font-bold tracking-tighter text-[#F2F3FF] drop-shadow-[0_0_20px_rgba(174,180,255,0.3)] animate-pulse" aria-live="polite">
-      <div className="flex">
-        <AnimatedDigit value={displayHours[0]} />
-        <AnimatedDigit value={displayHours[1]} />
-      </div>
-      <span className="colon">:</span>
-      <div className="flex">
-        <AnimatedDigit value={minutes[0]} />
-        <AnimatedDigit value={minutes[1]} />
-      </div>
-      <span className="colon">:</span>
-      <div className="flex">
-        <AnimatedDigit value={seconds[0]} />
-        <AnimatedDigit value={seconds[1]} />
-      </div>
-      <span className="ampm uppercase">
-        {ampm}
+    <h3 className="font-semibold text-5xl sm:text-6xl lg:text-8xl mt-2" aria-live="polite">
+      <span className="clock-digits">
+        <AnimatedDigit value={hh[0]} />
+        <AnimatedDigit value={hh[1]} />
+        <span className="clock-sep">:</span>
+        <AnimatedDigit value={mm[0]} />
+        <AnimatedDigit value={mm[1]} />
+        <span className="clock-sep">:</span>
+        <AnimatedDigit value={ss[0]} />
+        <AnimatedDigit value={ss[1]} />
+        {' '}
+        <span className="text-xl align-bottom">{ampm}</span>
       </span>
-    </div>
+    </h3>
   );
 };
 
+const columns = [
+  {
+    title: 'Services',
+    links: [
+      { label: 'Product Design', href: '/services' },
+      { label: 'Development', href: '/services' },
+      { label: 'GTM Strategy', href: '/services' },
+      { label: 'Healthcare Apps', href: '/services' },
+      { label: 'AI Development', href: '/services' },
+      { label: 'IoT Development', href: '/services' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'About Us', href: '/about' },
+      { label: 'Portfolio', href: '/portfolio' },
+      { label: 'Blog', href: '/blog' },
+      { label: 'Careers', href: '/contact' },
+    ],
+  },
+  {
+    title: 'Work',
+    links: [
+      { label: 'Case Studies', href: '/portfolio' },
+      { label: 'Projects', href: '/portfolio' },
+      { label: 'Testimonials', href: '/about' },
+    ],
+  },
+  {
+    title: 'Resources',
+    links: [
+      { label: 'Contact', href: '/contact' },
+      { label: 'Privacy Policy', href: '#' },
+      { label: 'Terms of Service', href: '#' },
+    ],
+  },
+];
+
 export function Footer() {
   return (
-    <footer className="footer-section bg-[#03040b] pt-24 pb-12 px-6 lg:px-20 relative overflow-hidden border-t border-white/5">
-      {/* Cinematic Background Glows */}
-      <div className="footer-bg-glow absolute bottom-0 right-0 w-[50%] h-[50%] bg-brand-purple/10 blur-[120px] rounded-full pointer-events-none" />
-      <div className="footer-bg-glow absolute top-0 left-0 w-[40%] h-[40%] bg-brand-blue/5 blur-[100px] rounded-full pointer-events-none" />
-      
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start pb-20">
-          
-          {/* Left Side: Contact / Clock / Socials */}
-          <div className="lg:col-span-12 xl:col-span-8 flex flex-col gap-10">
-            {/* Brand Logo & Name */}
-            <Link href="/" className="flex items-center gap-4 group w-fit">
-              <div className="relative w-12 h-12 transition-transform duration-500 group-hover:scale-110">
-                <Image
-                  src="/Logo_tamx.png"
-                  alt="TAMx Logo"
-                  fill
-                  className="object-contain"
-                />
+    <footer className="w-full relative overflow-hidden bg-background">
+      <div className="w-main mx-auto pb-5 md:pb-10 relative z-20">
+        <div className="flex flex-col md:flex-row gap-20 md:gap-5 justify-between">
+
+          {/* Left — Contact & Clock */}
+          <div className="flex flex-col font-light text-lg">
+            <p className="text-2xl">
+              <a
+                href="mailto:info@tamxai.com"
+                className="hover:opacity-70 transition-opacity duration-300"
+              >
+                info@tamxai.com
+              </a>
+            </p>
+
+            <div className="flex gap-4 mt-3">
+              <a
+                href="https://www.linkedin.com/company/tamxai/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 border-b border-current pb-0.5 hover:opacity-70 transition-opacity duration-300"
+              >
+                Linkedin <ArrowUpRight className="size-4" />
+              </a>
+            </div>
+
+            <div className="flex flex-col mt-10">
+              <div className="flex flex-col lg:flex-row gap-0 lg:gap-4">
+                <p>Based in Islamabad, PK</p>
+                <p className="opacity-50">Serving clients globally</p>
               </div>
-              <span className="font-display text-3xl font-bold tracking-[0.2em] uppercase text-white transition-all duration-300 group-hover:tracking-[0.3em]">
-                TAM<span className="text-brand-purple">x</span>
-              </span>
-            </Link>
+              <LiveClock />
+            </div>
+          </div>
 
-            <div className="flex flex-col gap-6">
-              <div className="flex flex-col gap-5">
-                {/* Email Item */}
-                <a href="mailto:info@tamxai.com" className="footer-email text-xl md:text-2xl text-[#F2F3FF] hover:text-brand-lavender transition-all font-medium flex items-center gap-3 group w-fit">
-                  <div className="p-2 rounded-lg bg-brand-purple/10 text-brand-purple group-hover:bg-brand-purple group-hover:text-white transition-all duration-300">
-                    <Mail className="w-5 h-5" />
-                  </div>
-                  info@tamxai.com
-                </a>
-
-                {/* Phone Item */}
-                <a href="tel:+923155320243" className="text-lg md:text-xl text-[#F2F3FF] hover:text-brand-lavender transition-all font-medium flex items-center gap-3 group w-fit">
-                  <div className="p-2 rounded-lg bg-brand-purple/10 text-brand-purple group-hover:bg-brand-purple group-hover:text-white transition-all duration-300">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  +92 315-5320243
-                </a>
-
-                {/* Location Item */}
-                <div className="text-lg md:text-xl text-[#F2F3FF] font-medium flex items-center gap-3 group w-fit">
-                  <div className="p-2 rounded-lg bg-brand-purple/10 text-brand-purple transition-all duration-300">
-                    <MapPin className="w-5 h-5" />
-                  </div>
-                  Islamabad, Pakistan
+          {/* Right — Navigation Columns */}
+          <div className="flex flex-col sm:flex-row flex-wrap justify-between sm:justify-normal gap-10 sm:gap-14 md:gap-16 lg:gap-24">
+            {columns.map((col) => (
+              <div key={col.title}>
+                <h2 className="text-foreground/50 mb-2">{col.title}</h2>
+                <div className="flex flex-col gap-2">
+                  {col.links.map((link) => (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      className="hover:opacity-70 transition-opacity duration-300"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
                 </div>
               </div>
-              
-              {/* Social Icons Row */}
-              <div className="flex items-center gap-4 mt-2">
-                {[
-                  { icon: Linkedin, href: "#", label: "LinkedIn" },
-                  { icon: Github, href: "#", label: "GitHub" },
-                  { icon: Facebook, href: "#", label: "Facebook" },
-                  { icon: Twitter, href: "#", label: "Twitter" }
-                ].map((social, i) => (
-                  <Link 
-                    key={i}
-                    href={social.href} 
-                    className="social-icon-link group relative p-3 rounded-full bg-white/5 border border-white/10 transition-all hover:bg-brand-purple/20 hover:border-brand-purple/50"
-                    aria-label={social.label}
-                  >
-                    <social.icon className="w-5 h-5 text-[#AEB4FF] group-hover:text-white transition-colors" />
-                    <div className="absolute inset-0 rounded-full bg-brand-purple/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <div className="footer-clock-container">
-              <DigitalClock />
-            </div>
-          </div>
-
-          {/* Right Side: Link Columns */}
-          <div className="lg:col-span-12 xl:col-span-4 grid grid-cols-2 md:grid-cols-4 xl:grid-cols-2 gap-12">
-            <div className="flex flex-col gap-6">
-              <h4 className="text-white font-bold text-sm tracking-[0.2em] uppercase opacity-90">Services</h4>
-              <ul className="flex flex-col gap-4">
-                {['Product Design', 'Development', 'GTM Strategy', 'AI Development'].map(link => (
-                  <li key={link}><Link href="#" className="text-[#AEB4FF]/70 hover:text-white transition-colors flex items-center gap-1 group">{link} <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -translate-y-0.5" /></Link></li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex flex-col gap-6">
-              <h4 className="text-white font-bold text-sm tracking-[0.2em] uppercase opacity-90">Resources</h4>
-              <ul className="flex flex-col gap-4">
-                {['Clinix AI', 'Synergies4', 'Curehire', 'Contact'].map(link => (
-                  <li key={link}><Link href="#" className="text-[#AEB4FF]/70 hover:text-white transition-colors flex items-center gap-1 group">{link} <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all -translate-y-0.5" /></Link></li>
-                ))}
-              </ul>
-            </div>
+            ))}
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-[#AEB4FF]/40 text-sm">
-            TAMx AI, © 2026. All rights reserved.
+        {/* Bottom — Copyright */}
+        <div className="flex flex-col md:flex-row mt-20 gap-10 md:gap-5 justify-between font-light">
+          <p className="text-foreground/50 text-center">
+            TAMx AI, &copy; {new Date().getFullYear()}. All rights reserved.
           </p>
-          <div className="flex gap-8 text-[#AEB4FF]/40 text-sm">
-            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white transition-colors">Terms of Service</Link>
-          </div>
         </div>
+      </div>
+
+      {/* Gradient veil */}
+      <div
+        className="absolute bottom-0 left-0 w-full h-32 sm:h-40 md:h-48 pointer-events-none z-10"
+        style={{
+          background:
+            'linear-gradient(to top, var(--background) 0%, var(--background) 20%, transparent 100%)',
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Ambient glow */}
+      <div className="absolute bottom-0 left-0 w-full h-full bg-primary blur-3xl scale-150 opacity-60">
+        <div className="absolute left-0 bottom-20 w-full h-full scale-y-[2] origin-bottom rounded-[100%] bg-background" />
       </div>
     </footer>
   );

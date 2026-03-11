@@ -1,125 +1,34 @@
-.footer-section {
-    z-index: 10;
-    background-color: #03040b;
-    position: relative;
-    overflow: hidden;
-    border-top: 1px solid rgba(255, 255, 255, 0.03);
+/* Animated clock digits */
+.clock-digits {
+  display: inline-flex;
+  align-items: baseline;
 }
 
-/* Cinematic Smooth Soft Glow at bottom - No sharp edges */
-.footer-section::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 100%;
-    /* Super long gradual linear gradient for seamless blend */
-    background: linear-gradient(to top,
-            rgba(147, 51, 234, 0.08) 0%,
-            /* Final Purple accent */
-            rgba(139, 92, 246, 0.04) 15%,
-            /* Mid Lavender */
-            rgba(96, 165, 250, 0.02) 40%,
-            /* Subtle Blue Light */
-            transparent 80%);
-    pointer-events: none;
-    z-index: 0;
+.digit-slot {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  width: 0.58em;
+  height: 1.1em;
+  vertical-align: bottom;
+  text-align: center;
 }
 
-/* Supplemental wide radial glow for natural depth */
-.footer-section::before {
-    content: '';
-    position: absolute;
-    bottom: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 150%;
-    height: 350px;
-    background: radial-gradient(ellipse at 50% 100%,
-            rgba(139, 92, 246, 0.1),
-            transparent 70%);
-    filter: blur(100px);
-    pointer-events: none;
-    z-index: 0;
+.digit-ghost {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
-.footer-clock-container {
-    position: relative;
-    z-index: 1;
+.digit-live {
+  position: relative;
+  display: block;
+  line-height: 1;
 }
 
-.digital-clock-wrapper {
-    /* Professional secondary size */
-    font-size: clamp(2.5rem, 8vw, 6rem);
-    line-height: 1;
-    font-family: var(--font-space-grotesk), sans-serif;
-    letter-spacing: -0.02em;
-    color: #F2F3FF;
-    /* Solid light color */
-    font-weight: 700;
-    display: flex;
-    align-items: baseline;
-}
-
-.digit-container {
-    width: 0.6em;
-    text-align: center;
-}
-
-.social-icon-link {
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.social-icon-link:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.3);
-}
-
-.colon {
-    font-weight: 300;
-    opacity: 0.4;
-    margin: 0 0.1em;
-}
-
-.ampm {
-    font-size: 0.35em;
-    opacity: 0.5;
-    margin-left: 0.4em;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-}
-
-/* Subtle background animations */
-@keyframes footerPulse {
-
-    0%,
-    100% {
-        opacity: 0.6;
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: 1;
-        transform: scale(1.05);
-    }
-}
-
-.footer-bg-glow {
-    animation: footerPulse 10s ease-in-out infinite;
-    mix-blend-mode: screen;
-    z-index: 0;
-    pointer-events: none;
-}
-
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-    .digital-clock-wrapper {
-        font-size: 3rem;
-    }
-
-    .footer-section {
-        padding-top: 60px;
-        padding-bottom: 40px;
-    }
+.clock-sep {
+  font-weight: 300;
+  opacity: 0.35;
+  margin: 0 0.02em;
 }
