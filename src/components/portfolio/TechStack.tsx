@@ -8,7 +8,6 @@ import {
   Layers, 
   Database, 
   Cloud, 
-  Infinity, 
   ShieldCheck, 
   Cpu, 
   Workflow,
