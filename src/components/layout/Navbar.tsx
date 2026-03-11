@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, ArrowUpRight, Layout, Code2, Rocket, Brain, Stethoscope, Cpu, ChevronDown } from 'lucide-react'
@@ -72,8 +73,17 @@ export function Navbar() {
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center group">
-          <span className="font-display text-2xl font-bold tracking-[0.3em] uppercase text-white transition-all duration-300 group-hover:tracking-[0.4em]">
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="relative w-10 h-10 transition-transform duration-500 group-hover:scale-110">
+            <Image
+              src="/Logo_tamx.png"
+              alt="TAMx Logo"
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+          <span className="font-display text-2xl font-bold tracking-[0.2em] uppercase text-white transition-all duration-300 group-hover:tracking-[0.3em]">
             TAM<span className="text-brand-purple">x</span>
           </span>
         </Link>

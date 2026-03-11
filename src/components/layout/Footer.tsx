@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Facebook, Github, Linkedin, Twitter, Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react';
 import './Footer.css';
 
@@ -73,7 +74,7 @@ const DigitalClock = () => {
   const seconds = format(time.getSeconds());
 
   return (
-    <div className="digital-clock-wrapper flex items-baseline gap-2 md:gap-4 font-bold tracking-tighter text-[#F2F3FF]" aria-live="polite">
+    <div className="digital-clock-wrapper flex items-baseline gap-2 md:gap-4 font-bold tracking-tighter text-[#F2F3FF] drop-shadow-[0_0_20px_rgba(174,180,255,0.3)] animate-pulse" aria-live="polite">
       <div className="flex">
         <AnimatedDigit value={displayHours[0]} />
         <AnimatedDigit value={displayHours[1]} />
@@ -107,6 +108,21 @@ export function Footer() {
           
           {/* Left Side: Contact / Clock / Socials */}
           <div className="lg:col-span-12 xl:col-span-8 flex flex-col gap-10">
+            {/* Brand Logo & Name */}
+            <Link href="/" className="flex items-center gap-4 group w-fit">
+              <div className="relative w-12 h-12 transition-transform duration-500 group-hover:scale-110">
+                <Image
+                  src="/Logo_tamx.png"
+                  alt="TAMx Logo"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <span className="font-display text-3xl font-bold tracking-[0.2em] uppercase text-white transition-all duration-300 group-hover:tracking-[0.3em]">
+                TAM<span className="text-brand-purple">x</span>
+              </span>
+            </Link>
+
             <div className="flex flex-col gap-6">
               <div className="flex flex-col gap-5">
                 {/* Email Item */}

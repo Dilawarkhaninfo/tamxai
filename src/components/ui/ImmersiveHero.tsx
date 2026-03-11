@@ -54,15 +54,16 @@ export function ImmersiveHero({
       {/* Content Layer */}
       <div className="relative z-20 max-w-7xl mx-auto px-6 text-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
+          whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+          viewport={{ once: true }}
         >
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-8">
             {title.split(' ').map((word, i) => (
               <span key={i} className="inline-block mr-[0.2em]">
                 {word === highlightedWord ? (
-                  <span className="gradient-text animate-pulse">{word}</span>
+                  <span className="gradient-text">{word}</span>
                 ) : (
                   word
                 )}
