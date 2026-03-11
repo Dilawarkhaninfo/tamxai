@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Space_Grotesk, JetBrains_Mono, Playfair_Display } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Preloader } from "@/components/layout/Preloader";
+import { PreloaderProvider } from "@/context/PreloaderContext";
 
-const inter = Inter({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-jakarta",
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
 });
 
 const spaceGrotesk = Space_Grotesk({
@@ -16,6 +19,18 @@ const spaceGrotesk = Space_Grotesk({
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains-mono",
+});
+
+const playfairDisplay = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  style: ["normal", "italic"],
+});
+
+const customDisplay = localFont({
+  src: "../../public/6fe53d21e6e7ebd8-s.woff2",
+  variable: "--font-custom-display",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -34,11 +49,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans antialiased`}
+        className={`${plusJakarta.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${playfairDisplay.variable} ${customDisplay.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
-        <Preloader />
-        {children}
+        <PreloaderProvider>
+          <Preloader />
+          {children}
+        </PreloaderProvider>
       </body>
     </html>
   );
