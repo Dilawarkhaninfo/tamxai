@@ -62,6 +62,27 @@ export function CTASection() {
         {/* Deep Space Gradient - Subtle */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(139,92,246,0.06),transparent_80%)]" />
         
+        {/* Animated Gradient Waves */}
+        <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-0 w-full h-full bg-gradient-to-br from-brand-purple/20 via-transparent to-brand-blue/20 animate-pulse" />
+            <motion.div 
+               animate={{ 
+                 x: [-100, 100],
+                 opacity: [0.1, 0.3, 0.1]
+               }}
+               transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+               className="absolute top-1/4 -left-1/4 w-[150%] h-1/2 bg-gradient-to-r from-transparent via-brand-purple/30 to-transparent blur-[120px] rotate-12"
+            />
+            <motion.div 
+               animate={{ 
+                 x: [100, -100],
+                 opacity: [0.1, 0.2, 0.1]
+               }}
+               transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+               className="absolute bottom-1/4 -right-1/4 w-[150%] h-1/2 bg-gradient-to-r from-transparent via-brand-blue/30 to-transparent blur-[120px] -rotate-12"
+            />
+        </div>
+
         {/* Starfield / Galaxy Dots - Placed behind everything */}
         <div className="starfield-layer absolute inset-0 z-0 opacity-40">
           {stars.map((star) => (

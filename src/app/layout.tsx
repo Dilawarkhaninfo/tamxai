@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
 import { Preloader } from "@/components/layout/Preloader";
 
 const inter = Inter({
@@ -26,6 +24,8 @@ export const metadata: Metadata = {
     "AI-driven technology solutions for modern businesses. Transform your business with cutting-edge AI and technology solutions.",
 };
 
+
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -38,9 +38,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <Preloader />
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );
