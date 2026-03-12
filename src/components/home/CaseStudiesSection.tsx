@@ -119,7 +119,7 @@ export function CaseStudiesSection() {
           className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 gap-12 px-4"
         >
           <div className="flex flex-col gap-4">
-            <span className="text-brand-purple font-bold uppercase tracking-[0.4em] text-xs">Portfolio</span>
+            <span className="text-brand-purple font-bold uppercase tracking-[0.4em] text-xs">Product</span>
             <h2 className="text-5xl md:text-7xl font-bold text-white tracking-tighter leading-none">
               Case <span className="gradient-text">Studies</span>
             </h2>

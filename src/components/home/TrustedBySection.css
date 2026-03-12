@@ -1,83 +1,85 @@
-.trusted-section {
-    position: relative;
-    z-index: 5;
-    background-color: #030712;
+/* ── Trusted-word entrance (GSAP animates to opacity:1) ───────────────────── */
+.trusted-word {
+  opacity: 0; /* GSAP drives scroll reveal */
 }
 
-.trusted-header {
-    letter-spacing: -0.02em;
-    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+/* ── Core curve sparkle animation ────────────────────────────────────────── */
+.curve-sparkle {
+  animation: curveSpark 5s linear infinite;
 }
 
-/* Layered Curve Styling */
-.curve-path {
-    filter: drop-shadow(0 0 15px rgba(196, 181, 253, 0.4));
-    opacity: 0.9;
+@keyframes curveSpark {
+  0%   { stroke-dashoffset:  1400; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { stroke-dashoffset: -1400; opacity: 0; }
 }
 
-.sparkle-line {
-    stroke-dasharray: 400;
-    stroke-dashoffset: 400;
-    animation: curveSparkle 6s linear infinite;
-    filter: blur(1px);
+/* ── Orbit container: wraps animated logos, adds edge fade mask ───────────── */
+.orbit-container {
+  position: relative;
+  width: 1500px;
+  height: 100%;
+  /* Fade logos in/out at left & right edges */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
 }
 
-@keyframes curveSparkle {
-    0% {
-        stroke-dashoffset: 1400;
-    }
-
-    100% {
-        stroke-dashoffset: -1400;
-    }
+/* ── Individual orbiting logo ────────────────────────────────────────────── */
+/* CSS offset-path scaled from SVG viewBox (0 0 1200 400) rendered at 1500px:
+   scale = 1.25x, y-offset = +50px centering, then -35px to sit ABOVE curve
+   Original SVG:  M0.5  86.5    C471.448 -28.453 738.829 -27.05  1221.5  86.5
+   Scaled+above:  M0.63 123.13  C589.31   -20.57 923.54  -18.81 1526.88 123.13 */
+.orbit-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  offset-path: path('M0.63 123.13C589.31 -20.57 923.54 -18.81 1526.88 123.13');
+  offset-rotate: auto;
+  offset-anchor: center center;
+  animation: followPath var(--orbit-duration) linear infinite;
+  animation-delay: var(--orbit-delay, 0s);
+  will-change: offset-distance, transform;
+  /* Text styling */
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  white-space: nowrap;
+  pointer-events: none;
+  offset-distance: 0%;
 }
 
-.trusted-logo {
-    position: relative;
-    will-change: transform;
-    text-transform: uppercase;
-    font-family: var(--font-space-grotesk), sans-serif;
-    letter-spacing: 0.15em;
-    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-    filter: grayscale(1) opacity(0.5);
+/* Larger text for short names */
+.orbit-logo--large {
+  font-size: 24px;
+  font-weight: 900;
 }
 
-.trusted-logo:hover {
-    filter: grayscale(0) opacity(1) drop-shadow(0 0 12px rgba(186, 168, 255, 0.6));
-    color: #fff;
-    scale: 1.15 !important;
+@keyframes followPath {
+  0%   { offset-distance: 0%; }
+  100% { offset-distance: 100%; }
 }
 
-.trusted-logo span {
-    display: inline-block;
+/* ── Unused curve-logo hover (kept for compatibility) ────────────────────── */
+.curve-logo {
+  cursor: default;
+  transition: filter 0.3s ease;
 }
 
-/* Depth blur on edges */
-.trusted-by-container::before,
-.trusted-by-container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 25%;
-    pointer-events: none;
-    z-index: 30;
-}
-
-.trusted-by-container::before {
-    left: 0;
-    background: linear-gradient(to right, #030712 10%, transparent);
-}
-
-.trusted-by-container::after {
-    right: 0;
-    background: linear-gradient(to left, #030712 10%, transparent);
-}
-
-@media (max-width: 1024px) {
-
-    .trusted-by-container::before,
-    .trusted-by-container::after {
-        width: 15%;
-    }
+.curve-logo:hover {
+  filter: drop-shadow(0 0 10px rgba(162, 163, 233, 0.45));
 }
