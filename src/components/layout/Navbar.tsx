@@ -2,11 +2,13 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, ChevronDown } from 'lucide-react'
 import {
-  Paintbrush, Code, TrendingUp, Brain, Stethoscope, Cpu
+  Paintbrush, Code, TrendingUp, Brain, Stethoscope, Cpu,
+  ShoppingCart, GraduationCap
 } from 'lucide-react'
 import { usePreloader } from '@/context/PreloaderContext'
 
@@ -55,11 +57,26 @@ const services = [
   }
 ]
 
+const products = [
+  {
+    title: 'Ecommerce',
+    icon: ShoppingCart,
+    href: '/product',
+    desc: 'Full-featured ecommerce platform with inventory management, payments, and analytics.',
+  },
+  {
+    title: 'LMS',
+    icon: GraduationCap,
+    href: '/product',
+    desc: 'Learning management system with courses, assessments, and progress tracking.',
+  },
+]
+
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/about', label: 'About' },
-  { href: '/services', label: 'Services', hasDropdown: true },
-  { href: '/portfolio', label: 'Portfolio' },
+  { href: '/services', label: 'Services', hasDropdown: true, dropdownId: 'services' as const },
+  { href: '/product', label: 'Product', hasDropdown: true, dropdownId: 'product' as const },
   { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -68,10 +85,12 @@ export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
+  const [isProductOpen, setIsProductOpen] = useState(false)
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
   const navRef = useRef<HTMLUListElement>(null)
   const linkRefs = useRef<(HTMLLIElement | null)[]>([])
-  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const servicesTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const productTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const pathname = usePathname()
   const { finished } = usePreloader()
   const isHomepage = pathname === '/'
@@ -98,18 +117,24 @@ export function Navbar() {
     }
   }, [hoveredIdx])
 
-  const openDropdown = useCallback(() => {
-    if (dropdownTimeoutRef.current) {
-      clearTimeout(dropdownTimeoutRef.current)
-      dropdownTimeoutRef.current = null
+  const openDropdown = useCallback((id: 'services' | 'product') => {
+    if (id === 'services') {
+      if (servicesTimeoutRef.current) { clearTimeout(servicesTimeoutRef.current); servicesTimeoutRef.current = null }
+      setIsServicesOpen(true)
+      setIsProductOpen(false)
+    } else {
+      if (productTimeoutRef.current) { clearTimeout(productTimeoutRef.current); productTimeoutRef.current = null }
+      setIsProductOpen(true)
+      setIsServicesOpen(false)
     }
-    setIsServicesOpen(true)
   }, [])
 
-  const closeDropdown = useCallback(() => {
-    dropdownTimeoutRef.current = setTimeout(() => {
-      setIsServicesOpen(false)
-    }, 150)
+  const closeDropdown = useCallback((id: 'services' | 'product') => {
+    if (id === 'services') {
+      servicesTimeoutRef.current = setTimeout(() => setIsServicesOpen(false), 150)
+    } else {
+      productTimeoutRef.current = setTimeout(() => setIsProductOpen(false), 150)
+    }
   }, [])
 
   if (isHomepage && !finished) return null
@@ -134,9 +159,17 @@ export function Navbar() {
 
       <div className="relative z-20 mx-auto" style={{ width: 'calc(100% - 60px)', maxWidth: '1400px' }}>
         <div className="flex justify-between items-center relative">
-          <Link href="/" className="shrink-0">
+          <Link href="/" className="shrink-0 flex items-center gap-2">
+            <Image
+              src="/Logo_tamx.png"
+              alt="TAMx Logo"
+              width={32}
+              height={32}
+              className="w-7 h-7 lg:w-8 lg:h-8"
+              priority
+            />
             <span className="text-[15px] lg:text-[17px] font-semibold tracking-[0.22em] uppercase text-foreground">
-              TAMx AI
+              TAMx
             </span>
           </Link>
 
@@ -153,16 +186,16 @@ export function Navbar() {
                   className="relative"
                   onMouseEnter={() => {
                     setHoveredIdx(idx)
-                    if (link.hasDropdown) openDropdown()
+                    if (link.hasDropdown && link.dropdownId) openDropdown(link.dropdownId)
                   }}
                   onMouseLeave={() => {
-                    if (link.hasDropdown) closeDropdown()
+                    if (link.hasDropdown && link.dropdownId) closeDropdown(link.dropdownId)
                   }}
                 >
                   {link.hasDropdown ? (
                     <button className="px-4 lg:px-6 py-2 flex items-center gap-1 cursor-pointer text-foreground/70 hover:text-foreground transition-colors duration-200">
                       {link.label}
-                      <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${isServicesOpen ? 'rotate-180' : ''}`} />
+                      <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${(link.dropdownId === 'services' && isServicesOpen) || (link.dropdownId === 'product' && isProductOpen) ? 'rotate-180' : ''}`} />
                     </button>
                   ) : (
                     <Link
@@ -173,6 +206,43 @@ export function Navbar() {
                     >
                       {link.label}
                     </Link>
+                  )}
+
+                  {/* Product dropdown — rendered inside li for correct centering */}
+                  {link.dropdownId === 'product' && (
+                    <AnimatePresence>
+                      {isProductOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -8 }}
+                          transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                          className="absolute top-full left-1/2 -translate-x-1/2 pt-4 z-50"
+                        >
+                          <div className="w-[340px] bg-zinc-950 border border-foreground/20 rounded-xl overflow-hidden">
+                            <div className="p-3">
+                              {products.map((product) => (
+                                <Link
+                                  key={product.title}
+                                  href={product.href}
+                                  className="flex items-start gap-3 px-3 py-2.5 rounded-lg border border-transparent transition hover:bg-white/5 hover:border-white/5 cursor-pointer"
+                                >
+                                  <div className="mt-0.5 text-white/90">
+                                    <product.icon className="w-5 h-5" />
+                                  </div>
+                                  <div className="flex flex-col flex-1">
+                                    <h3 className="text-sm font-semibold">{product.title}</h3>
+                                    <p className="text-xs text-pretty leading-snug opacity-60">
+                                      {product.desc}
+                                    </p>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   )}
                 </li>
               ))}
@@ -217,8 +287,8 @@ export function Navbar() {
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
             className="absolute left-1/2 -translate-x-1/2 top-full pt-2 z-50 hidden md:block"
-            onMouseEnter={openDropdown}
-            onMouseLeave={closeDropdown}
+            onMouseEnter={() => openDropdown('services')}
+            onMouseLeave={() => closeDropdown('services')}
           >
             <div className="w-[680px] lg:w-[860px] xl:w-[980px] rounded-2xl overflow-hidden border border-white/10 bg-[#0a0a14]/95 backdrop-blur-2xl shadow-2xl shadow-black/40">
               <div className="p-2">
@@ -268,6 +338,8 @@ export function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+
 
       {/* Mobile Menu */}
       <AnimatePresence>

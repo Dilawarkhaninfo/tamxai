@@ -19,7 +19,7 @@ export default function Home() {
             id="hero-company"
             className="absolute top-30 left-1/2 -translate-x-1/2 text-[14vw] font-bold text-nowrap text-center opacity-5 pointer-events-none select-none"
           >
-            TAMX AI
+            TAMX.AI &nbsp; TAMX.AI &nbsp; TAMX.AI
           </h2>
 
           <AtomicSphere />

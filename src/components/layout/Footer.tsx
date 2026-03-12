@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import './Footer.css';
 
@@ -105,7 +106,7 @@ const columns = [
     title: 'Company',
     links: [
       { label: 'About Us', href: '/about' },
-      { label: 'Portfolio', href: '/portfolio' },
+      { label: 'Product', href: '/product' },
       { label: 'Blog', href: '/blog' },
       { label: 'Careers', href: '/contact' },
     ],
@@ -113,8 +114,8 @@ const columns = [
   {
     title: 'Work',
     links: [
-      { label: 'Case Studies', href: '/portfolio' },
-      { label: 'Projects', href: '/portfolio' },
+      { label: 'Case Studies', href: '/product' },
+      { label: 'Projects', href: '/product' },
       { label: 'Testimonials', href: '/about' },
     ],
   },
@@ -136,6 +137,20 @@ export function Footer() {
 
           {/* Left — Contact & Clock */}
           <div className="flex flex-col font-light text-lg">
+            {/* Logo + Brand */}
+            <Link href="/" className="flex items-center gap-2.5 mb-6">
+              <Image
+                src="/Logo_tamx.png"
+                alt="TAMx Logo"
+                width={36}
+                height={36}
+                className="w-9 h-9"
+              />
+              <span className="text-[17px] font-semibold tracking-[0.22em] uppercase text-foreground">
+                TAMx
+              </span>
+            </Link>
+
             <p className="text-2xl">
               <a
                 href="mailto:info@tamxai.com"
@@ -186,11 +201,17 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom — Copyright */}
-        <div className="flex flex-col md:flex-row mt-20 gap-10 md:gap-5 justify-between font-light">
-          <p className="text-foreground/50 text-center">
-            TAMx AI, &copy; {new Date().getFullYear()}. All rights reserved.
-          </p>
+        {/* Bottom — Divider + Copyright */}
+        <div className="border-t border-foreground/10 mt-20 pt-6">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-5 justify-between items-center font-light">
+            <p className="text-foreground/40 text-sm text-center">
+              &copy; {new Date().getFullYear()} TAMx. All rights reserved.
+            </p>
+            <div className="flex items-center gap-6 text-sm text-foreground/40">
+              <Link href="#" className="hover:text-foreground/70 transition-colors duration-300">Privacy Policy</Link>
+              <Link href="#" className="hover:text-foreground/70 transition-colors duration-300">Terms of Service</Link>
+            </div>
+          </div>
         </div>
       </div>
 
