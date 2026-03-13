@@ -168,9 +168,14 @@ export function Navbar() {
               className="w-7 h-7 lg:w-8 lg:h-8"
               priority
             />
-            <span className="text-[15px] lg:text-[17px] font-semibold tracking-[0.22em] uppercase text-foreground">
-              TAMx
-            </span>
+            <Image
+              src="/logo_name.png"
+              alt="TAMx"
+              width={100}
+              height={24}
+              className="h-5 lg:h-6 w-auto object-contain"
+              priority
+            />
           </Link>
 
           <nav className="hidden md:block absolute left-1/2 -translate-x-1/2">

@@ -60,8 +60,17 @@ const LiveClock = () => {
 
   if (!mounted) {
     return (
-      <h3 className="font-semibold text-5xl sm:text-6xl lg:text-8xl mt-2 opacity-0" aria-hidden="true">
-        00:00:00 <span className="text-xl align-bottom">AM</span>
+      <h3 
+        className="mt-2" 
+        style={{
+          fontFamily: 'var(--font-jakarta)',
+          fontWeight: 'var(--font-weight-semibold)',
+          fontSize: 'var(--text-8xl)',
+          lineHeight: 'var(--tw-leading, var(--text-8xl--line-height))'
+        }}
+        aria-hidden="true"
+      >
+        <span>00:00:00 <span className="text-xl align-bottom">AM</span></span>
       </h3>
     );
   }
@@ -73,19 +82,17 @@ const LiveClock = () => {
   const ss = format(time.getSeconds());
 
   return (
-    <h3 className="font-semibold text-5xl sm:text-6xl lg:text-8xl mt-2" aria-live="polite">
-      <span className="clock-digits">
-        <AnimatedDigit value={hh[0]} />
-        <AnimatedDigit value={hh[1]} />
-        <span className="clock-sep">:</span>
-        <AnimatedDigit value={mm[0]} />
-        <AnimatedDigit value={mm[1]} />
-        <span className="clock-sep">:</span>
-        <AnimatedDigit value={ss[0]} />
-        <AnimatedDigit value={ss[1]} />
-        {' '}
-        <span className="text-xl align-bottom">{ampm}</span>
-      </span>
+    <h3 
+      className="mt-2" 
+      style={{
+        fontFamily: 'var(--font-jakarta)',
+        fontWeight: 'var(--font-weight-semibold)',
+        fontSize: 'var(--text-8xl)',
+        lineHeight: 'var(--tw-leading, var(--text-8xl--line-height))'
+      }}
+      aria-live="polite"
+    >
+      <span>{hh}:{mm}:{ss} <span className="text-xl align-bottom">{ampm}</span></span>
     </h3>
   );
 };
@@ -146,9 +153,13 @@ export function Footer() {
                 height={36}
                 className="w-9 h-9"
               />
-              <span className="text-[17px] font-semibold tracking-[0.22em] uppercase text-foreground">
-                TAMx
-              </span>
+            <Image
+                src="/logo_name.png"
+                alt="TAMx"
+                width={110}
+                height={30}
+                className="h-6 w-auto object-contain"
+              />
             </Link>
 
             <p className="text-2xl">

@@ -58,7 +58,12 @@ export function TrustedBySection() {
     >
       {/* ── Header ── */}
       <div className="flex flex-col text-center gap-3 items-center justify-center">
-        <h2 className="text-3xl sm:text-title/tight font-semibold leading-tight text-center">
+        <h2 className="text-center" style={{ 
+          fontFamily: '"Plus Jakarta Sans", "Plus Jakarta Sans Fallback", sans-serif',
+          fontWeight: 'var(--font-weight-semibold, 600)',
+          fontSize: '2.5rem',
+          lineHeight: 'var(--leading-tight, 1.25)'
+        }}>
           <span className="inline-flex flex-wrap justify-center gap-x-2 gap-y-1">
             {['Trusted', 'by', 'Industry', 'Leaders'].map((w) => (
               <span
@@ -71,7 +76,9 @@ export function TrustedBySection() {
             ))}
           </span>
         </h2>
-        <p className="font-light relative z-10">
+        <p className="font-light relative z-10" style={{
+          fontFamily: '"Plus Jakarta Sans", "Plus Jakarta Sans Fallback", sans-serif'
+        }}>
           Powering Innovation for Companies Worldwide
         </p>
       </div>
