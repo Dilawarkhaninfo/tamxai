@@ -67,11 +67,22 @@
 
   /* Custom Shadows */
   --shadow-glow-purple: 0 0 40px rgba(105, 106, 172, 0.3), 0 0 80px rgba(162, 163, 233, 0.2);
+  --shadow-glow-lavender: 0 0 40px rgba(199, 200, 242, 0.3), 0 0 80px rgba(199, 200, 242, 0.2);
   --shadow-glow-card: 0 20px 60px rgba(105, 106, 172, 0.4);
 
   /* TAMx Animations */
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-glow: pulseGlow 2s ease-in-out infinite;
+  --animate-flowing-line: flowingLine 3s linear infinite;
+}
+
+@keyframes flowingLine {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes float {
