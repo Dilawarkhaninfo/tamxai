@@ -27,7 +27,7 @@ export default function Home() {
         </div>
 
         <div className="pt-40 sm:pt-60 overflow-x-hidden relative z-20">
-          <div className="relative flex flex-col mb-40 sm:mb-60 gap-40 sm:gap-80 w-main m-auto">
+          <div className="relative flex flex-col mb-40 sm:mb-60 gap-20 sm:gap-32 w-main m-auto">
             <ServicesSection />
             <CaseStudiesSection />
             <TrustedBySection />
