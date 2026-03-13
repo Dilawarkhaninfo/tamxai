@@ -26,7 +26,7 @@ export function CaseStudiesSection() {
 
 
   return (
-    <section id="case-studies" className="w-full relative pb-20 pt-10">
+    <section id="case-studies" className="w-full relative pb-20">
       <div className="relative w-full" id="work-section">
         <div className="flex flex-col gap-20 md:gap-32">
           
