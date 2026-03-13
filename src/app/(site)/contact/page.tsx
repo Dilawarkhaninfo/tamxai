@@ -378,7 +378,7 @@ export default function ContactPage() {
                                                 initial={{ opacity: 0, y: 10 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 exit={{ opacity: 0, y: 10 }}
-                                                className="absolute top-full left-0 w-full mt-2 bg-[#0F172A] border border-white/10 rounded-xl overflow-hidden z-20 shadow-2xl backdrop-blur-xl"
+                                                className="absolute top-full left-0 w-full mt-2 bg-[#0c0c12] border border-white/10 rounded-2xl overflow-hidden z-20 shadow-2xl backdrop-blur-xl max-h-64 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10"
                                             >
                                                 {countryCodes.map((item) => (
                                                     <div 
@@ -387,10 +387,13 @@ export default function ContactPage() {
                                                             setFormData(p => ({ ...p, countryCode: item.code, flag: item.flag }));
                                                             setOpenDropdown(null);
                                                         }}
-                                                        className="px-4 py-3 hover:bg-white/5 cursor-pointer text-white flex items-center gap-3 transition-colors"
+                                                        className="px-6 py-4 flex items-center justify-between hover:bg-white/5 cursor-pointer text-white/90 transition-colors border-b border-white/5 last:border-0"
                                                     >
-                                                        <span>{item.flag}</span>
-                                                        <span>{item.code}</span>
+                                                        <div className="flex items-center gap-3">
+                                                            <span className="text-xl">{item.flag}</span>
+                                                            <span className="font-medium">{item.code}</span>
+                                                        </div>
+                                                        {formData.countryCode === item.code && <CheckCircle2 className="w-4 h-4 text-brand-lavender" />}
                                                     </div>
                                                 ))}
                                             </motion.div>
@@ -430,15 +433,16 @@ export default function ContactPage() {
                                                 initial={{ opacity: 0, y: 10 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 exit={{ opacity: 0, y: 10 }}
-                                                className="absolute top-full left-0 w-full mt-2 bg-[#0F172A] border border-white/10 rounded-xl overflow-hidden z-20 shadow-2xl backdrop-blur-xl"
+                                                className="absolute top-full left-0 w-full mt-2 bg-[#0c0c12] border border-white/10 rounded-2xl overflow-hidden z-20 shadow-2xl backdrop-blur-xl max-h-64 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10"
                                             >
                                                 {services.map((item) => (
                                                     <div 
                                                         key={item}
                                                         onClick={() => selectOption('service', item)}
-                                                        className="px-6 py-4 hover:bg-white/5 cursor-pointer text-white transition-colors"
+                                                        className="px-6 py-4 flex items-center justify-between hover:bg-white/5 cursor-pointer text-white/90 transition-colors border-b border-white/5 last:border-0"
                                                     >
-                                                        {item}
+                                                        <span className="font-medium">{item}</span>
+                                                        {formData.service === item && <CheckCircle2 className="w-4 h-4 text-brand-lavender" />}
                                                     </div>
                                                 ))}
                                             </motion.div>
@@ -465,15 +469,16 @@ export default function ContactPage() {
                                                 initial={{ opacity: 0, y: 10 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 exit={{ opacity: 0, y: 10 }}
-                                                className="absolute top-full left-0 w-full mt-2 bg-[#0F172A] border border-white/10 rounded-xl overflow-hidden z-20 shadow-2xl backdrop-blur-xl"
+                                                className="absolute top-full left-0 w-full mt-2 bg-[#0c0c12] border border-white/10 rounded-2xl overflow-hidden z-20 shadow-2xl backdrop-blur-xl max-h-64 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10"
                                             >
                                                 {budgets.map((item) => (
                                                     <div 
                                                         key={item}
                                                         onClick={() => selectOption('budget', item)}
-                                                        className="px-6 py-4 hover:bg-white/5 cursor-pointer text-white transition-colors"
+                                                        className="px-6 py-4 flex items-center justify-between hover:bg-white/5 cursor-pointer text-white/90 transition-colors border-b border-white/5 last:border-0"
                                                     >
-                                                        {item}
+                                                        <span className="font-medium">{item}</span>
+                                                        {formData.budget === item && <CheckCircle2 className="w-4 h-4 text-brand-lavender" />}
                                                     </div>
                                                 ))}
                                             </motion.div>
