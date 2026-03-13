@@ -297,7 +297,7 @@ export function ServicesSection() {
       {/* Desktop: GSAP horizontal scroll with pinning */}
       {isDesktop && (
         <div ref={containerRef} className="bg-transparent">
-          <div ref={triggerRef} className="overflow-hidden relative min-h-screen py-16">
+          <div ref={triggerRef} className="overflow-hidden relative min-h-screen py-8">
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-linear-to-br from-brand-purple/5 via-transparent to-brand-blue/5 opacity-50" />
             </div>

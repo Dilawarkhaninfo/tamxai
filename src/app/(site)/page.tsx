@@ -19,7 +19,7 @@ export default function Home() {
             id="hero-company"
             className="absolute top-30 left-1/2 -translate-x-1/2 text-[14vw] font-bold text-nowrap text-center opacity-5 pointer-events-none select-none"
           >
-            TAMX AI
+            TAMX.AI &nbsp; TAMX.AI &nbsp; TAMX.AI
           </h2>
 
           <AtomicSphere />
@@ -27,7 +27,7 @@ export default function Home() {
         </div>
 
         <div className="pt-40 sm:pt-60 overflow-x-hidden relative z-20">
-          <div className="relative flex flex-col mb-40 sm:mb-60 gap-40 sm:gap-80 w-main m-auto">
+          <div className="relative flex flex-col mb-40 sm:mb-60 gap-20 sm:gap-32 w-main m-auto">
             <ServicesSection />
             <CaseStudiesSection />
             <TrustedBySection />

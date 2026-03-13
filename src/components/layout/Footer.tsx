@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 import './Footer.css';
 
@@ -59,8 +60,17 @@ const LiveClock = () => {
 
   if (!mounted) {
     return (
-      <h3 className="font-semibold text-5xl sm:text-6xl lg:text-8xl mt-2 opacity-0" aria-hidden="true">
-        00:00:00 <span className="text-xl align-bottom">AM</span>
+      <h3 
+        className="mt-2" 
+        style={{
+          fontFamily: 'var(--font-jakarta)',
+          fontWeight: 'var(--font-weight-semibold)',
+          fontSize: 'var(--text-8xl)',
+          lineHeight: 'var(--tw-leading, var(--text-8xl--line-height))'
+        }}
+        aria-hidden="true"
+      >
+        <span>00:00:00 <span className="text-xl align-bottom">AM</span></span>
       </h3>
     );
   }
@@ -72,19 +82,17 @@ const LiveClock = () => {
   const ss = format(time.getSeconds());
 
   return (
-    <h3 className="font-semibold text-5xl sm:text-6xl lg:text-8xl mt-2" aria-live="polite">
-      <span className="clock-digits">
-        <AnimatedDigit value={hh[0]} />
-        <AnimatedDigit value={hh[1]} />
-        <span className="clock-sep">:</span>
-        <AnimatedDigit value={mm[0]} />
-        <AnimatedDigit value={mm[1]} />
-        <span className="clock-sep">:</span>
-        <AnimatedDigit value={ss[0]} />
-        <AnimatedDigit value={ss[1]} />
-        {' '}
-        <span className="text-xl align-bottom">{ampm}</span>
-      </span>
+    <h3 
+      className="mt-2" 
+      style={{
+        fontFamily: 'var(--font-jakarta)',
+        fontWeight: 'var(--font-weight-semibold)',
+        fontSize: 'var(--text-8xl)',
+        lineHeight: 'var(--tw-leading, var(--text-8xl--line-height))'
+      }}
+      aria-live="polite"
+    >
+      <span>{hh}:{mm}:{ss} <span className="text-xl align-bottom">{ampm}</span></span>
     </h3>
   );
 };
@@ -105,7 +113,7 @@ const columns = [
     title: 'Company',
     links: [
       { label: 'About Us', href: '/about' },
-      { label: 'Portfolio', href: '/portfolio' },
+      { label: 'Product', href: '/product' },
       { label: 'Blog', href: '/blog' },
       { label: 'Careers', href: '/contact' },
     ],
@@ -113,8 +121,8 @@ const columns = [
   {
     title: 'Work',
     links: [
-      { label: 'Case Studies', href: '/portfolio' },
-      { label: 'Projects', href: '/portfolio' },
+      { label: 'Case Studies', href: '/product' },
+      { label: 'Projects', href: '/product' },
       { label: 'Testimonials', href: '/about' },
     ],
   },
@@ -136,6 +144,24 @@ export function Footer() {
 
           {/* Left — Contact & Clock */}
           <div className="flex flex-col font-light text-lg">
+            {/* Logo + Brand */}
+            <Link href="/" className="flex items-center gap-2.5 mb-6">
+              <Image
+                src="/Logo_tamx.png"
+                alt="TAMx Logo"
+                width={36}
+                height={36}
+                className="w-9 h-9"
+              />
+            <Image
+                src="/logo_name.png"
+                alt="TAMx"
+                width={110}
+                height={30}
+                className="h-6 w-auto object-contain"
+              />
+            </Link>
+
             <p className="text-2xl">
               <a
                 href="mailto:info@tamxai.com"
@@ -186,11 +212,17 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom — Copyright */}
-        <div className="flex flex-col md:flex-row mt-20 gap-10 md:gap-5 justify-between font-light">
-          <p className="text-foreground/50 text-center">
-            TAMx AI, &copy; {new Date().getFullYear()}. All rights reserved.
-          </p>
+        {/* Bottom — Divider + Copyright */}
+        <div className="border-t border-foreground/10 mt-20 pt-6">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-5 justify-between items-center font-light">
+            <p className="text-foreground/40 text-sm text-center">
+              &copy; {new Date().getFullYear()} TAMx. All rights reserved.
+            </p>
+            <div className="flex items-center gap-6 text-sm text-foreground/40">
+              <Link href="#" className="hover:text-foreground/70 transition-colors duration-300">Privacy Policy</Link>
+              <Link href="#" className="hover:text-foreground/70 transition-colors duration-300">Terms of Service</Link>
+            </div>
+          </div>
         </div>
       </div>
 
