@@ -1,228 +1,257 @@
 'use client';
 
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { motion } from 'framer-motion';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { PageSection } from '@/components/layout/PageSection';
 import './TrustedBySection.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const LOGOS = [
-  'Toyota', 'OWASP', 'Injazat', 'Lowes', 'Cognizant', 'Trimble',
-  'e2open', 'Devkey Tech', 'TAMx', 'CloudNova', 'NeuralWorks', 'NextBridge AI'
+// ── Company names for Tamx AI ──────────────────────────────────────────────
+const CLIENTS = [
+  { name: 'Devkeytech',    id: 'devkeytech' },
+  { name: 'Ignite',        id: 'ignite' },
+  { name: 'Moit',          id: 'moit' },
+  { name: 'MetaverseDvsr', id: 'metaversedeviser' },
+  { name: 'QuickSilver',   id: 'quicksilver' },
+  { name: 'Nicat',         id: 'nicat' },
+  { name: 'RegionalPlan9', id: 'regionalplan9' },
 ];
 
-export function TrustedBySection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const curveRef = useRef<SVGSVGElement>(null);
+// Triple the list for seamless infinite loop
+const ORBIT_LOGOS = [...CLIENTS, ...CLIENTS, ...CLIENTS];
 
-  // Triple the logos for seamless infinite scroll
-  const displayLogos = useMemo(() => [...LOGOS, ...LOGOS, ...LOGOS], []);
+// Full orbit cycle duration (seconds)
+const ORBIT_DURATION = 35;
+
+// Reference curve path (exact match to Antimatter AI)
+// viewBox: 0 0 1200 400 | rendered at 1500px wide
+const SVG_PATH = 'M0.5 86.5004C471.448 -28.4531 738.829 -27.0502 1221.5 86.5004';
+
+export function TrustedBySection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const scrollWidth = scrollRef.current?.scrollWidth || 0;
-      const singleSetWidth = scrollWidth / 3;
-
-      // Infinite loop animation for horizontal movement (increased speed from 40 to 25)
-      gsap.to(scrollRef.current, {
-        x: -singleSetWidth,
-        duration: 25, 
-        ease: 'none',
-        repeat: -1,
-        onUpdate: function() {
-          const logos = scrollRef.current?.querySelectorAll('.trusted-logo');
-          if (!logos) return;
-
-          const containerWidth = containerRef.current?.offsetWidth || window.innerWidth;
-          const centerX = containerWidth / 2;
-          
-          // Curve Parameters (aligned with SVG: M0 180C350 40 1050 40 1400 180)
-          // Normalizing X to [0, 1] for Bezier calculation
-          // Actually, let's use a simpler but highly precise parabolic approximation for t in [0, 1]
-          // or just calculate the Cubic Bezier directly if we want perfect alignment.
-          
-          // Cubic Bezier Points:
-          const p0 = { x: 0, y: 180 };
-          const p1 = { x: 350, y: 40 };
-          const p2 = { x: 1050, y: 40 };
-          const p3 = { x: 1400, y: 180 };
-
-          logos.forEach((logo) => {
-            const rect = (logo as HTMLElement).getBoundingClientRect();
-            const logoCenterX = rect.left + rect.width / 2;
-            
-            // Map logo position to t (0 to 1) relative to the curve container
-            let t = logoCenterX / containerWidth;
-            
-            // Constrain t to [0, 1]
-            t = Math.max(0, Math.min(1, t));
-
-            // Cubic Bezier Formula
-            const invT = 1 - t;
-            // const x = invT*invT*invT*p0.x + 3*invT*invT*t*p1.x + 3*invT*t*t*p2.x + t*t*t*p3.x;
-            const y = invT*invT*invT*p0.y + 3*invT*invT*t*p1.y + 3*invT*t*t*p2.y + t*t*t*p3.y;
-
-            // Calculate Derivative for Slope (Tangent angle)
-            // B'(t) = 3(1-t)^2(P1-P0) + 6(1-t)t(P2-P1) + 3t^2(P3-P2)
-            const dy = 3*invT*invT*(p1.y - p0.y) + 6*invT*t*(p2.y - p1.y) + 3*t*t*(p3.y - p2.y);
-            const dx = 3*invT*invT*(p1.x - p0.x) + 6*invT*t*(p2.x - p1.x) + 3*t*t*(p3.x - p2.x);
-            
-            const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-            
-            // Offset Y to be exactly on top of the curve
-            const curveVisualY = y - 180; // Adjusted for SVG coordinate space relative to top-0
-
-            gsap.set(logo, { 
-              y: curveVisualY - 12, // 12px above the curve path for tighter alignment
-              rotate: angle,
-              opacity: t > 0.1 && t < 0.9 ? 1 : Math.max(0, 1 - Math.abs(t - 0.5) * 2), 
-              scale: 1 - Math.abs(t - 0.5) * 0.15 
-            });
-          });
+      gsap.fromTo(
+        '.trusted-word',
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.08,
+          duration: 0.7,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 85%' },
         }
-      });
-
-      // Initial fade in
-      gsap.from('.trusted-header', {
-        opacity: 0,
-        y: 40,
-        duration: 1.5,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.trusted-header',
-          start: 'top 85%',
-        }
-      });
-
-    }, containerRef);
+      );
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <PageSection id="trusted-by" fullHeight={true} z={30} className="bg-[#030712]">
-      <div ref={containerRef} className="trusted-by-container w-full relative overflow-hidden flex flex-col justify-center">
-        {/* Background Particles Placeholder */}
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_120%,rgba(139,92,246,0.1),transparent_50%)]" />
-        
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="container mx-auto px-4 relative z-10 text-center mb-20"
-        >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#F2F3FF] mb-6 tracking-tight">
-            Trusted by Industry Leaders
-          </h2>
-          <p className="text-[#AEB4FF] text-lg md:text-xl font-medium opacity-80">
-            Powering Innovation for Companies Worldwide
-          </p>
-        </motion.div>
-
-        {/* Centered Curve & Logos Hub */}
-        <div className="flex-grow flex flex-col justify-center relative min-h-[50vh] mt-10">
-          <div className="relative w-full overflow-visible">
-            {/* The Curved Horizon (Centered) */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] lg:w-[120%] pointer-events-none">
-              <svg 
-                ref={curveRef}
-                viewBox="0 0 1400 200" 
-                fill="none" 
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-full"
+    <div
+      id="clients-section"
+      ref={sectionRef}
+      className="flex flex-col gap-20"
+    >
+      {/* ── Header ── */}
+      <div className="flex flex-col text-center gap-3 items-center justify-center">
+        <h2 className="text-center" style={{ 
+          fontFamily: '"Plus Jakarta Sans", "Plus Jakarta Sans Fallback", sans-serif',
+          fontWeight: 'var(--font-weight-semibold, 600)',
+          fontSize: '2.5rem',
+          lineHeight: 'var(--leading-tight, 1.25)'
+        }}>
+          <span className="inline-flex flex-wrap justify-center gap-x-2 gap-y-1">
+            {['Trusted', 'by', 'Industry', 'Leaders'].map((w) => (
+              <span
+                key={w}
+                data-word="true"
+                className="trusted-word inline-block will-change-transform opacity-0"
               >
-                {/* Outer Glow Path */}
-                <path 
-                  d="M0 180C350 40 1050 40 1400 180" 
-                  stroke="#8B5CF6" 
-                  strokeWidth="20" 
-                  strokeLinecap="round"
-                  className="opacity-10 blur-3xl"
-                />
-                
-                {/* Mid Glow Path */}
-                <path 
-                  d="M0 180C350 40 1050 40 1400 180" 
-                  stroke="url(#midCurveGradient)" 
-                  strokeWidth="8" 
-                  strokeLinecap="round"
-                  className="opacity-30 blur-xl"
-                />
-
-                {/* Core Shine Path */}
-                <path 
-                  d="M0 180C350 40 1050 40 1400 180" 
-                  stroke="url(#curveGradient)" 
-                  strokeWidth="2.5" 
-                  strokeLinecap="round"
-                  className="curve-path"
-                />
-
-                {/* Animated Shine Sparkle */}
-                <path 
-                  d="M0 180C350 40 1050 40 1400 180" 
-                  stroke="url(#sparkleGradient)" 
-                  strokeWidth="3" 
-                  strokeLinecap="round"
-                  className="sparkle-line"
-                />
-
-                <defs>
-                  <linearGradient id="curveGradient" x1="0" y1="0" x2="1400" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0" />
-                    <stop offset="30%" stopColor="#C4B5FD" stopOpacity="0.8" />
-                    <stop offset="50%" stopColor="#FFFFFF" />
-                    <stop offset="70%" stopColor="#C4B5FD" stopOpacity="0.8" />
-                    <stop offset="100%" stopColor="#60A5FA" stopOpacity="0" />
-                  </linearGradient>
-
-                  <linearGradient id="midCurveGradient" x1="0" y1="0" x2="1400" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stopColor="#8B5CF6" stopOpacity="0" />
-                    <stop offset="50%" stopColor="#8B5CF6" />
-                    <stop offset="100%" stopColor="#60A5FA" stopOpacity="0" />
-                  </linearGradient>
-
-                  <linearGradient id="sparkleGradient" x1="0" y1="0" x2="1400" y2="0" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0" />
-                    <stop offset="45%" stopColor="#FFFFFF" stopOpacity="0" />
-                    <stop offset="50%" stopColor="#FFFFFF" />
-                    <stop offset="55%" stopColor="#FFFFFF" stopOpacity="0" />
-                    <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
-                  </linearGradient>
-                </defs>
-              </svg>
-              
-              {/* Ambient Bloom */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[300%] bg-gradient-to-t from-transparent via-brand-purple/10 to-transparent blur-[140px] -z-10 opacity-70" />
-            </div>
-
-            {/* Logos Infinite Container (Shifted up to align with center-y of curve) */}
-            <div className="relative w-full overflow-visible z-10 py-20 -mt-10">
-              <div ref={scrollRef} className="flex whitespace-nowrap gap-16 lg:gap-24 px-12">
-                {displayLogos.map((logo, idx) => (
-                  <div 
-                    key={idx} 
-                    className="trusted-logo text-white/50 hover:text-white text-xl lg:text-3xl font-bold tracking-[0.2em] transition-all duration-300 hover:scale-110 cursor-default flex items-center gap-2 group relative py-4"
-                  >
-                    <span className="group-hover:drop-shadow-[0_0_15px_rgba(186,168,255,0.8)]">
-                      {logo}
-                    </span>
-                    <div className="absolute inset-x-[-20%] inset-y-0 bg-brand-purple/5 blur-xl opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Bottom Vignette */}
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#0B0F1C] to-transparent z-20" />
+                {w}
+              </span>
+            ))}
+          </span>
+        </h2>
+        <p className="font-light relative z-10" style={{
+          fontFamily: '"Plus Jakarta Sans", "Plus Jakarta Sans Fallback", sans-serif'
+        }}>
+          Powering Innovation for Companies Worldwide
+        </p>
       </div>
-    </PageSection>
+
+      {/* ── Curve + Orbiting Logos ── */}
+      <div className="w-full h-[600px] -mb-96 flex flex-col items-center justify-center relative overflow-hidden">
+        <div className="relative w-full h-full">
+
+          {/* ── SVG: Glowing curve (exact reference viewBox + path) ── */}
+          <svg
+            viewBox="0 0 1200 400"
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-[1500px] h-full absolute left-1/2 -translate-x-1/2 top-0 z-10 pointer-events-none"
+          >
+            <defs>
+              {/* Gradient along curve — fades at edges, bright in center */}
+              <linearGradient id="cg" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%"   stopColor="#fff" stopOpacity="0" />
+                <stop offset="12%"  stopColor="#a2a3e9" stopOpacity="0.15" />
+                <stop offset="30%"  stopColor="#6366f1" stopOpacity="0.4" />
+                <stop offset="50%"  stopColor="#fff" stopOpacity="0.75" />
+                <stop offset="70%"  stopColor="#6366f1" stopOpacity="0.4" />
+                <stop offset="88%"  stopColor="#a2a3e9" stopOpacity="0.15" />
+                <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+              </linearGradient>
+
+              {/* Blue/purple atmospheric glow gradient */}
+              <linearGradient id="glowGrad" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%"   stopColor="#3e3f7e" stopOpacity="0" />
+                <stop offset="15%"  stopColor="#3e3f7e" stopOpacity="0.25" />
+                <stop offset="40%"  stopColor="#6366f1" stopOpacity="0.45" />
+                <stop offset="50%"  stopColor="#4f46e5" stopOpacity="0.5" />
+                <stop offset="60%"  stopColor="#6366f1" stopOpacity="0.45" />
+                <stop offset="85%"  stopColor="#3e3f7e" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#3e3f7e" stopOpacity="0" />
+              </linearGradient>
+
+              {/* Sparkle travelling gradient */}
+              <linearGradient id="sg" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%"   stopColor="#fff" stopOpacity="0" />
+                <stop offset="44%"  stopColor="#fff" stopOpacity="0" />
+                <stop offset="50%"  stopColor="#fff" stopOpacity="1" />
+                <stop offset="56%"  stopColor="#fff" stopOpacity="0" />
+                <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+              </linearGradient>
+
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+
+              <filter id="softGlow">
+                <feGaussianBlur stdDeviation="12" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+
+              <filter id="wideGlow">
+                <feGaussianBlur stdDeviation="24" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            {/* Invisible guide path */}
+            <path
+              id="curvePath"
+              d={SVG_PATH}
+              fill="transparent"
+              stroke="transparent"
+            />
+
+            {/* Wide atmospheric glow — the "planet atmosphere" below the horizon */}
+            <path
+              d={SVG_PATH}
+              fill="transparent"
+              stroke="url(#glowGrad)"
+              strokeWidth="50"
+              opacity="0.3"
+              filter="url(#wideGlow)"
+            />
+
+            {/* Medium glow halo */}
+            <path
+              d={SVG_PATH}
+              fill="transparent"
+              stroke="url(#glowGrad)"
+              strokeWidth="20"
+              opacity="0.35"
+              filter="url(#softGlow)"
+            />
+
+            {/* Outer soft halo */}
+            <path
+              d={SVG_PATH}
+              fill="transparent"
+              stroke="url(#cg)"
+              strokeWidth="10"
+              opacity="0.3"
+              filter="url(#softGlow)"
+            />
+
+            {/* Core bright line */}
+            <path
+              d={SVG_PATH}
+              fill="transparent"
+              stroke="url(#cg)"
+              strokeWidth="1.5"
+              opacity="0.9"
+              filter="url(#glow)"
+            />
+
+            {/* Animated sparkle travelling along the curve */}
+            <path
+              d={SVG_PATH}
+              fill="transparent"
+              stroke="url(#sg)"
+              strokeWidth="3"
+              strokeDasharray="600"
+              strokeDashoffset="600"
+              className="curve-sparkle"
+            />
+          </svg>
+
+          {/* ── Orbiting company names (CSS offset-path) ── */}
+          {/* Path is scaled 1.25× from SVG coords + 50px y-offset for vertical centering */}
+          <div className="orbit-container absolute left-1/2 -translate-x-1/2 top-0 z-20">
+            {ORBIT_LOGOS.map((client, i) => {
+              const delay = -(ORBIT_DURATION / CLIENTS.length) * i;
+              const isShort = client.name.length <= 6;
+
+              return (
+                <div
+                  key={`${client.id}-${i}`}
+                  className={`orbit-logo ${isShort ? 'orbit-logo--large' : ''}`}
+                  style={{
+                    '--orbit-duration': `${ORBIT_DURATION}s`,
+                    '--orbit-delay': `${delay}s`,
+                  } as React.CSSProperties}
+                  aria-label={`Client: ${client.name}`}
+                >
+                  {client.name}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Left fade */}
+          <div
+            className="top-0 -left-[130px] h-[200px] w-[300px] absolute z-20 pointer-events-none"
+            style={{
+              transform: 'rotate(-15deg)',
+              background: 'radial-gradient(ellipse at 20% 50%, #020202 30%, transparent 70%)',
+            }}
+          />
+
+          {/* Right fade */}
+          <div
+            className="top-0 -right-[130px] h-[200px] w-[300px] absolute z-20 pointer-events-none"
+            style={{
+              transform: 'rotate(195deg)',
+              background: 'radial-gradient(ellipse at 20% 50%, #020202 30%, transparent 70%)',
+            }}
+          />
+        </div>
+      </div>
+    </div>
   );
 }

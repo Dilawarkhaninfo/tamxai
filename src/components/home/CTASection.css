@@ -61,6 +61,25 @@
     will-change: transform, opacity;
 }
 
+/* Antimatter precise button styles matching the reference */
+.antimatter-button {
+    appearance: button;
+    background: linear-gradient(93.92deg, #8587e3 -13.51%, #4c4dac 40.91%, #696aac 113.69%);
+    box-shadow: 0 0 10px #696aac, inset 0 0 2px rgba(255, 255, 255, 0.61);
+    padding: 10px 40px;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: 0.3s;
+    overflow: hidden;
+    position: relative;
+    border: none;
+}
+
+.antimatter-button:hover {
+    box-shadow: 0 0 15px #696aac, inset 0 0 5px rgba(255, 255, 255, 0.8);
+    transform: scale(1.02);
+}
+
 /* Mobile Adjustments */
 @media (max-width: 1024px) {
     .cta-3d-container {
