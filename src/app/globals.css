@@ -32,14 +32,12 @@
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
+  --color-secondary: #a2a3e9;
+  --color-tertiary: #c7c8f2;
+  --color-accent: #696aac;
+  --color-card-foreground: #f6f6fd;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -181,8 +179,7 @@
   --sidebar-border: rgba(246, 246, 253, 0.1);
   --sidebar-ring: #696aac;
 
-  /* Antimatter-style brand tokens */
-  --am-tertiary: #c7c8f2;
+  --tertiary: #c7c8f2;
   --am-lightaccent: #e3e3f8;
 }
 
