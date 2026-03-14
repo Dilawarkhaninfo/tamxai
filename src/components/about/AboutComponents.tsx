@@ -122,6 +122,9 @@ export const StorySection = () => {
     offset: ["start end", "center center"]
   });
 
+  // Shrink the Overlay (Accent/Purple) to reveal the Base (Atlanta/Gray) from edges to center
+  const mapClip = useTransform(scrollYProgress, [0.3, 0.8], ["circle(120% at 48% 73%)", "circle(0% at 48% 73%)"]);
+
   return (
     <div className="pt-40 mt-40 w-main mx-auto" id="story" ref={containerRef}>
       <motion.div
@@ -137,45 +140,39 @@ export const StorySection = () => {
         progress={scrollYProgress} 
       />
 
-      {/* Map + Founded Section — Exact Replica */}
+      {/* Map + Founded Section — Expert Replica */}
       <div className="flex flex-col md:flex-row justify-between mt-32 sm:mt-40 items-center gap-10 md:gap-0">
         <div className="relative">
-          {/* Base Layer: Accent (Purple Dots) visible first */}
+          {/* Base Layer: Gray Map (Atlanta) - Destination state revealed from edges */}
           <img 
-            alt="World map accent" 
+            alt="World map" 
             loading="lazy" 
             width="639" 
             height="470" 
             decoding="async" 
             data-nimg="1"
             className="max-w-[500px] xl:max-w-[639px] w-full" 
-            src="/images/dotted-world-map-atlanta_accent.svg" 
+            src="/images/dotted-world-map-atlanta.svg" 
             style={{ color: 'transparent' }} 
           />
           
-          {/* Animated Overlay: Full Map (Atlanta) reveals from city coordinates */}
+          {/* Animated Overlay: Purple Map (Accent) - Initially Shows Full then Shrinks on scroll */}
           <motion.div 
-            initial={{ 
-              clipPath: 'circle(0% at 48% 73%)',
-              opacity: 1 
-            }}
-            whileInView={{ 
-              clipPath: 'circle(100% at 48% 73%)',
-              opacity: 1 
-            }}
-            transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            viewport={{ once: true, margin: "200px" }}
-            className="absolute top-0 left-0 w-full h-full"
+            className="absolute top-0 left-0 w-full h-full pointer-events-none"
+            style={{ 
+              clipPath: mapClip,
+              WebkitClipPath: mapClip
+            } as any}
           >
              <img 
-                alt="World map" 
+                alt="World map accent" 
                 loading="lazy" 
                 width="639" 
                 height="470" 
                 decoding="async" 
                 data-nimg="1"
                 className="max-w-[500px] xl:max-w-[639px] w-full" 
-                src="/images/dotted-world-map-atlanta.svg" 
+                src="/images/dotted-world-map-atlanta_accent.svg" 
                 style={{ color: 'transparent' }} 
               />
           </motion.div>
