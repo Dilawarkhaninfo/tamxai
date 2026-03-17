@@ -4,7 +4,6 @@ import React, { useMemo, useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { blogPosts } from '@/data/blogPosts';
 import { PageSection } from '@/components/layout/PageSection';
-import { CTASection } from '@/components/home/CTASection';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Clock, User, Calendar, Share2, Bookmark, ChevronRight, List, X, ChevronDown } from 'lucide-react';
 import Link from 'next/link';
@@ -321,7 +320,11 @@ export default function BlogDetailPage() {
 
       {/* 3. Related Posts */}
       {relatedPosts.length > 0 && (
-        <PageSection id="related-posts" className="bg-[#030712] border-t border-white/10 pb-40">
+        <PageSection 
+          id="related-posts" 
+          fullHeight={false}
+          className="bg-dark-primary border-t border-white/10 pt-32 pb-40"
+        >
             <div className="mb-24 flex flex-col md:flex-row justify-between items-end gap-12">
                 <div>
                     <h2 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter">Explore <span className="gradient-text">Related</span> Insight</h2>
@@ -356,7 +359,7 @@ export default function BlogDetailPage() {
                                     </span>
                                 </div>
                             </div>
-                            <h3 className="text-3xl font-black text-white group-hover:text-brand-lavender transition-all duration-500 leading-tight tracking-tight">
+                            <h3 className="text-2xl font-black text-white group-hover:text-brand-lavender transition-all duration-500 leading-tight tracking-tight mt-6 line-clamp-2">
                                 {relatedPost.title}
                             </h3>
                             <div className="mt-8 flex items-center gap-6 text-text-muted text-xs font-bold uppercase tracking-widest">
@@ -371,8 +374,7 @@ export default function BlogDetailPage() {
         </PageSection>
       )}
 
-      {/* 4. Final CTA */}
-      <CTASection />
+      {/* 4. Final CTA removed as per user request */}
     </main>
   );
 }

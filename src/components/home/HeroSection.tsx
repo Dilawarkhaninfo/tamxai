@@ -27,7 +27,7 @@ export function HeroSection() {
               className="flex justify-center sm:justify-start"
             >
               <div className="overflow-hidden py-3">
-                <span>Building </span>
+                <span>Creating Small </span>
                 <span className="italic font-bold pr-2">Digital</span>
               </div>
             </motion.div>
@@ -40,8 +40,8 @@ export function HeroSection() {
               className="text-right mt-0 flex justify-center sm:justify-end"
             >
               <div className="overflow-hidden">
-                <span className="italic font-bold">Solutions </span>
-                <span>That Matter</span>
+                <span className="italic font-bold">Solution </span>
+                <span>that matters</span>
               </div>
             </motion.div>
           </h1>
@@ -59,15 +59,31 @@ export function HeroSection() {
           >
             <div className="flex max-w-xs lg:max-w-lg flex-col gap-6 md:gap-10 md:items-start items-center text-center md:text-left">
               <p className="text-sm md:text-base">
-                We empower organizations with AI that turns complex challenges into real-world outcomes.
+                We empower organizations with AI to transfrom complex challenges into real world solutions.
               </p>
               <div className="flex text-lg">
                 <a href="/contact">
                   <button
                     type="button"
-                    className="rounded-full bg-brand-purple hover:bg-[#7a7bbd] text-white px-8 py-3.5 text-sm font-medium transition-all duration-300 hover:scale-105"
+                    className="group relative overflow-hidden rounded-full px-10 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:scale-105"
+                    style={{
+                      background: 'linear-gradient(93.92deg, #8587e3 -13.51%, #4c4dac 40.91%, #696aac 113.69%)',
+                      boxShadow: '0 0 10px #696aac, inset 0 0 2px rgba(255, 255, 255, 0.61)',
+                    }}
                   >
-                    Start Your Project
+                    <span className="relative z-10">Start Your Project</span>
+                    <motion.div
+                      className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/40 to-transparent w-[30%] h-full skew-x-[-25deg]"
+                      animate={{
+                        left: ['-100%', '200%'],
+                      }}
+                      transition={{
+                        duration: 2.5,
+                        repeat: Infinity,
+                        ease: 'easeInOut',
+                        repeatDelay: 1,
+                      }}
+                    />
                   </button>
                 </a>
               </div>
@@ -76,7 +92,7 @@ export function HeroSection() {
             <div className="flex text-xs md:text-sm gap-6 mobile:gap-8 lg:gap-16 sm:justify-center md:justify-end justify-between w-full md:w-auto">
               <div className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
                 <h3 className="text-xl sm:text-2xl lg:text-3xl flex items-center font-semibold text-nowrap">
-                  50<span className="text-foreground/40">+</span>
+                  30<span className="text-foreground/40">+</span>
                 </h3>
                 <h3 className="text-xs sm:text-sm leading-tight">
                   Projects <br /> Delivered

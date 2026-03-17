@@ -3,7 +3,8 @@ import { AtomicSphere } from '@/components/home/AtomicSphere';
 import { HeroSection } from '@/components/home/HeroSection';
 import { HeroScrollController } from '@/components/home/HeroScrollController';
 import { ServicesSection } from '@/components/home/ServicesSection';
-import { CaseStudiesSection } from '@/components/home/CaseStudiesSection';
+import { TestimonialsSection } from '@/components/home/TestimonialsSection';
+import { FaqSection } from '@/components/home/FaqSection';
 import { TrustedBySection } from '@/components/home/TrustedBySection';
 import { CTASection } from '@/components/home/CTASection';
 
@@ -29,8 +30,9 @@ export default function Home() {
         <div className="pt-40 sm:pt-60 overflow-x-hidden relative z-20">
           <div className="relative flex flex-col mb-40 sm:mb-60 gap-20 sm:gap-32 w-main m-auto">
             <ServicesSection />
-            <CaseStudiesSection />
+            <TestimonialsSection />
             <TrustedBySection />
+            <FaqSection />
             <CTASection />
           </div>
         </div>
