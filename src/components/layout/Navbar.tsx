@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, ChevronDown } from 'lucide-react'
 import {
   Paintbrush, Code, TrendingUp, Brain, Stethoscope, Cpu,
-  ShoppingCart, GraduationCap
+  ShoppingCart, GraduationCap, LayoutGrid
 } from 'lucide-react'
 import { usePreloader } from '@/context/PreloaderContext'
 
@@ -70,6 +70,12 @@ const products = [
     href: '/product',
     desc: 'Learning management system with courses, assessments, and progress tracking.',
   },
+  {
+    title: 'CRM',
+    icon: LayoutGrid,
+    href: '/product',
+    desc: 'Customer relationship management system to streamline your sales and support.',
+  },
 ]
 
 const navLinks = [
@@ -77,6 +83,8 @@ const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services', hasDropdown: true, dropdownId: 'services' as const },
   { href: '/product', label: 'Product', hasDropdown: true, dropdownId: 'product' as const },
+  { href: '/team', label: 'Our Team' },
+  { href: '/courses', label: 'Courses' },
   { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ]
@@ -205,7 +213,7 @@ export function Navbar() {
                   ) : (
                     <Link
                       href={link.href}
-                      className={`px-4 lg:px-6 py-2 flex transition-colors duration-200 ${
+                      className={`px-4 lg:px-6 py-2 flex whitespace-nowrap transition-colors duration-200 ${
                         pathname === link.href ? 'text-foreground' : 'text-foreground/70 hover:text-foreground'
                       }`}
                     >
@@ -227,10 +235,9 @@ export function Navbar() {
                           <div className="w-[340px] bg-zinc-950 border border-foreground/20 rounded-xl overflow-hidden">
                             <div className="p-3">
                               {products.map((product) => (
-                                <Link
+                                <div
                                   key={product.title}
-                                  href={product.href}
-                                  className="flex items-start gap-3 px-3 py-2.5 rounded-lg border border-transparent transition hover:bg-white/5 hover:border-white/5 cursor-pointer"
+                                  className="flex items-start gap-3 px-3 py-2.5 rounded-lg border border-transparent transition hover:bg-white/5 hover:border-white/5 cursor-default group/item"
                                 >
                                   <div className="mt-0.5 text-white/90">
                                     <product.icon className="w-5 h-5" />
@@ -241,7 +248,7 @@ export function Navbar() {
                                       {product.desc}
                                     </p>
                                   </div>
-                                </Link>
+                                </div>
                               ))}
                             </div>
                           </div>
@@ -262,7 +269,7 @@ export function Navbar() {
           <Link href="/contact" className="hidden md:block">
             <div className="border border-foreground/30 font-medium bg-white/3 backdrop-blur-xl cursor-pointer p-0.5 lg:p-1 h-10 lg:h-12 rounded-full hover:scale-105 hover:border-foreground/50 duration-300 text-sm group">
               <div className="relative pl-3 lg:pl-5 pr-14 lg:pr-16 flex items-center h-full">
-                <span className="text-foreground font-light text-[13px] lg:text-sm">Start Your Project</span>
+                <span className="text-foreground font-light text-[13px] lg:text-sm">Contact</span>
                 <div className="absolute right-0 top-0 bg-foreground w-9 lg:w-10 h-full rounded-full text-background flex items-center justify-center transition-all duration-300 group-hover:bg-brand-purple group-hover:text-foreground">
                   <ArrowUpRight className="w-4 h-4 lg:w-5 lg:h-5" />
                 </div>
@@ -375,7 +382,7 @@ export function Navbar() {
                   className="flex items-center justify-center gap-2 rounded-full border border-foreground/40 bg-background/20 backdrop-blur-xl px-6 py-3 text-sm font-light text-foreground transition-all hover:scale-105 duration-300"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <span>Start Your Project</span>
+                  <span>Contact</span>
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
               </div>

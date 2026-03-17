@@ -3,12 +3,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
 import { usePreloader } from '@/context/PreloaderContext';
-import { Mail, Phone, MapPin, Send, MessageSquare, Globe, ArrowUpRight, ChevronDown, CheckCircle2, Star, Zap, Shield, Users, Clock } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, ArrowUpRight, ChevronDown, CheckCircle2, Star } from 'lucide-react';
 import { AnimatedBackground } from '@/components/home/AnimatedBackground';
 import { PageSection } from '@/components/layout/PageSection';
 import { GlobalNetworkSphere } from '@/components/contact/GlobalNetworkSphere';
-import { BenefitsSection } from '@/components/contact/BenefitsSection';
-import { ProcessSection } from '@/components/contact/ProcessSection';
 import { MeetingModal } from '@/components/contact/MeetingModal';
 import { ConsultationSection } from '@/components/contact/ConsultationSection';
 
@@ -158,7 +156,7 @@ export default function ContactPage() {
                             transition={{ duration: 2, ease: 'anticipate' }}
                             className="flex justify-center sm:justify-start"
                         >
-                            <div className="overflow-hidden py-3">
+                            <div className="overflow-hidden py-2 md:py-3">
                                 <span>Let's </span>
                                 <span className="italic font-bold pr-2">Build Something</span>
                             </div>
@@ -170,7 +168,7 @@ export default function ContactPage() {
                             transition={{ duration: 2, ease: 'anticipate' }}
                             className="text-right mt-0 flex justify-center sm:justify-end"
                         >
-                            <div className="overflow-hidden py-3">
+                            <div className="overflow-hidden py-2 md:py-3">
                                 <span className="italic font-bold gradient-text">Together </span>
                                 <span>With TAMx</span>
                             </div>
@@ -222,18 +220,11 @@ export default function ContactPage() {
         </motion.div>
       </section>
 
-      {/* SECTION 2 — Benefits */}
-      <BenefitsSection />
 
-      {/* SECTION 3 — Process */}
-      <ProcessSection />
 
-      {/* SECTION 3.5 — Consultation Scheduler */}
-      <ConsultationSection onOpenScheduler={() => setIsSchedulerOpen(true)} />
-
-      {/* SECTION 4 — Contact Form + Info */}
-      <PageSection id="contact-content" fullHeight={false} className="bg-transparent py-32 min-h-screen flex items-center">
-         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+      {/* SECTION 4 — Contact Form + Info (Now 2nd) */}
+      <PageSection id="contact-content" fullHeight={false} className="bg-transparent py-20 md:py-32 min-h-screen flex items-center">
+         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Left Side: Text & Info */}
             <motion.div
                 initial={{ opacity: 0, x: -40 }}
@@ -244,7 +235,7 @@ export default function ContactPage() {
                 <div className="p-3 rounded-full bg-brand-purple/10 border border-brand-purple/20 text-brand-lavender w-fit mb-8 font-bold text-sm uppercase tracking-widest">
                     Enterprise Inquiry
                 </div>
-                <h2 className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight tracking-tighter">
+                <h2 className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 md:mb-8 leading-tight tracking-tighter">
                     Ready to <span className="gradient-text">Scale?</span>
                 </h2>
                 <p className="text-xl text-text-secondary leading-relaxed mb-12 max-w-lg opacity-70">
@@ -509,7 +500,7 @@ export default function ContactPage() {
                                 className={`group relative flex items-center gap-4 px-10 py-4 rounded-full overflow-hidden transition-all duration-500 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95 bg-white shadow-glow-lavender'}`}
                             >
                                 <div className="absolute inset-0 bg-brand-lavender translate-y-full group-hover:translate-y-0 transition-transform duration-500 pointer-events-none" />
-                                <span className={`relative z-10 transition-colors duration-500 font-bold text-base ${isSubmitting ? 'text-dark-primary' : 'text-dark-primary group-hover:text-white'}`}>
+                                <span className={`relative z-10 transition-colors duration-500 font-bold text-sm md:text-base ${isSubmitting ? 'text-dark-primary' : 'text-dark-primary group-hover:text-white'}`}>
                                     {isSubmitting ? 'Submitting Request...' : 'Initialize Project →'}
                                 </span>
                                 {isSubmitting ? (
@@ -527,13 +518,16 @@ export default function ContactPage() {
          </div>
       </PageSection>
 
-      {/* SECTION 5 — Global Headquarters (Upgraded) */}
-      <PageSection id="location" fullHeight={false} className="bg-transparent py-32 min-h-screen flex flex-col justify-center">
-        <div className="max-w-7xl mx-auto px-6 mb-16 text-center">
+      {/* SECTION 4 — Consultation Scheduler (Now 3rd) */}
+      <ConsultationSection onOpenScheduler={() => setIsSchedulerOpen(true)} />
+
+      {/* SECTION 5 — Global Headquarters (Map) (Now 4th) */}
+      <PageSection id="location" fullHeight={false} className="bg-transparent py-20 md:py-32 min-h-screen flex flex-col justify-center">
+        <div className="max-w-7xl mx-auto px-6 mb-12 md:mb-16 text-center">
             <motion.p 
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                className="text-brand-lavender font-bold uppercase tracking-widest text-sm mb-4"
+                className="text-brand-lavender font-bold uppercase tracking-widest text-xs mb-4"
             >
                 Global Presence
             </motion.p>
@@ -541,11 +535,11 @@ export default function ContactPage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tighter"
+                className="text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-6 md:mb-8 tracking-tighter"
             >
                 Engineered <span className="gradient-text">Anywhere.</span>
             </motion.h2>
-            <p className="text-text-secondary text-xl max-w-2xl mx-auto opacity-60">Our specialized engineering teams operate across global technical hubs to support enterprise deployments in real-time.</p>
+            <p className="text-text-secondary text-lg md:text-xl max-w-2xl mx-auto opacity-60">Our specialized engineering teams operate across global technical hubs to support enterprise deployments in real-time.</p>
         </div>
 
         <motion.div 
@@ -553,7 +547,7 @@ export default function ContactPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
             viewport={{ once: true }}
-            className="max-w-[1400px] mx-auto w-full aspect-[21/9] bg-white/5 rounded-[4rem] border border-white/5 relative overflow-hidden group shadow-2xl"
+            className="max-w-[1400px] mx-auto w-full aspect-[4/3] sm:aspect-video lg:aspect-[21/9] bg-white/5 rounded-[2rem] md:rounded-[4rem] border border-white/5 relative overflow-hidden group shadow-2xl"
         >
             {/* World Map Background */}
             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=2066&auto=format&fit=crop')] bg-cover bg-center grayscale opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-1000" />
@@ -602,44 +596,6 @@ export default function ContactPage() {
             {/* Global Mesh Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-dark-primary/80 via-transparent to-dark-primary/20 pointer-events-none" />
         </motion.div>
-      </PageSection>
-
-      {/* SECTION 6 — Enterprise Consultation (Enhanced) */}
-      <PageSection id="consultation" fullHeight={false} className="bg-transparent py-40 min-h-screen relative overflow-hidden flex items-center text-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-lavender/5 via-transparent to-transparent opacity-30" />
-        
-        {/* Animated Gradient Waves */}
-        <div className="absolute bottom-0 left-0 w-full h-1/2 pointer-events-none opacity-20">
-            <div className="absolute bottom-0 left-0 w-full h-[600px] bg-[radial-gradient(ellipse_at_bottom,rgba(168,85,247,0.15)_0%,transparent_70%)] animate-pulse" />
-        </div>
-
-        <div className="relative z-20 container mx-auto px-6">
-            <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                className="mb-12"
-            >
-                <div className="size-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-8 shadow-2xl relative">
-                    <div className="absolute inset-0 bg-brand-lavender blur-2xl opacity-20 animate-pulse" />
-                    <Star className="w-10 h-10 text-brand-lavender relative z-10" />
-                </div>
-                <h2 className="text-5xl md:text-8xl font-bold text-white mb-8 tracking-tighter leading-tight">
-                    Ready for a <br /> <span className="gradient-text">Private Consultation?</span>
-                </h2>
-                <p className="text-2xl text-text-secondary max-w-2xl mx-auto mb-16 opacity-60 leading-relaxed">
-                    Join our roster of prestige clients and begin your digital transformation with our senior strategy team today.
-                </p>
-                <button 
-                  onClick={() => document.getElementById('contact-content')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="group relative flex items-center gap-4 px-10 py-5 rounded-full overflow-hidden transition-all duration-500 hover:scale-105 active:scale-95 bg-white mx-auto shadow-glow-lavender"
-                >
-                    <span className="relative z-10 text-dark-primary font-bold text-xl uppercase tracking-tighter">Schedule Your Session</span>
-                    <div className="w-10 h-10 rounded-full bg-dark-primary/5 flex items-center justify-center transition-all duration-500 group-hover:bg-dark-primary group-hover:rotate-45">
-                        <ArrowUpRight className="w-6 h-6 text-dark-primary group-hover:text-white transition-colors" />
-                    </div>
-                </button>
-            </motion.div>
-        </div>
       </PageSection>
 
       <MeetingModal isOpen={isSchedulerOpen} onClose={() => setIsSchedulerOpen(false)} />

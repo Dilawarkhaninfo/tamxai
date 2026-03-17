@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Github, Linkedin, Instagram, Facebook } from 'lucide-react';
 import './Footer.css';
 
 const AnimatedDigit = ({ value }: { value: string }) => {
@@ -83,16 +83,18 @@ const LiveClock = () => {
 
   return (
     <h3 
-      className="mt-2" 
+      className="mt-2 text-[16vw] sm:text-[14vw] md:text-8xl whitespace-nowrap" 
       style={{
         fontFamily: 'var(--font-jakarta)',
         fontWeight: 'var(--font-weight-semibold)',
-        fontSize: 'var(--text-8xl)',
-        lineHeight: 'var(--tw-leading, var(--text-8xl--line-height))'
+        lineHeight: '1'
       }}
       aria-live="polite"
     >
-      <span>{hh}:{mm}:{ss} <span className="text-xl align-bottom">{ampm}</span></span>
+      <span className="inline-flex items-baseline gap-2">
+        {hh}:{mm}:{ss}
+        <span className="text-[0.3em] opacity-70 font-light uppercase tracking-wider">{ampm}</span>
+      </span>
     </h3>
   );
 };
@@ -110,28 +112,20 @@ const columns = [
     ],
   },
   {
-    title: 'Company',
+    title: 'Product',
     links: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Product', href: '/product' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Careers', href: '/contact' },
+      { label: 'Ecommerce', href: '#' },
+      { label: 'LMS', href: '#' },
+      { label: 'CRM', href: '#' },
     ],
   },
   {
-    title: 'Work',
+    title: 'Socials',
     links: [
-      { label: 'Case Studies', href: '/product' },
-      { label: 'Projects', href: '/product' },
-      { label: 'Testimonials', href: '/about' },
-    ],
-  },
-  {
-    title: 'Resources',
-    links: [
-      { label: 'Contact', href: '/contact' },
-      { label: 'Privacy Policy', href: '#' },
-      { label: 'Terms of Service', href: '#' },
+      { label: 'GitHub', href: '#', icon: Github },
+      { label: 'LinkedIn', href: 'https://www.linkedin.com/company/tamxai/', icon: Linkedin },
+      { label: 'Instagram', href: '#', icon: Instagram },
+      { label: 'Facebook', href: '#', icon: Facebook },
     ],
   },
 ];
@@ -143,26 +137,11 @@ export function Footer() {
         <div className="flex flex-col md:flex-row gap-20 md:gap-5 justify-between">
 
           {/* Left — Contact & Clock */}
-          <div className="flex flex-col font-light text-lg">
+          <div className="flex flex-col font-light text-lg items-start text-left">
             {/* Logo + Brand */}
-            <Link href="/" className="flex items-center gap-2.5 mb-6">
-              <Image
-                src="/Logo_tamx.png"
-                alt="TAMx Logo"
-                width={36}
-                height={36}
-                className="w-9 h-9"
-              />
-            <Image
-                src="/logo_name.png"
-                alt="TAMx"
-                width={110}
-                height={30}
-                className="h-6 w-auto object-contain"
-              />
-            </Link>
+            <div className="mb-6 h-9 md:block hidden" />
 
-            <p className="text-2xl">
+            <p className="text-2xl mt-4 md:mt-0">
               <a
                 href="mailto:info@tamxai.com"
                 className="hover:opacity-70 transition-opacity duration-300"
@@ -171,7 +150,7 @@ export function Footer() {
               </a>
             </p>
 
-            <div className="flex gap-4 mt-3">
+            <div className="flex gap-4 mt-3 justify-start">
               <a
                 href="https://www.linkedin.com/company/tamxai/"
                 target="_blank"
@@ -182,28 +161,50 @@ export function Footer() {
               </a>
             </div>
 
-            <div className="flex flex-col mt-10">
-              <div className="flex flex-col lg:flex-row gap-0 lg:gap-4">
+            <div className="flex flex-col mt-8 md:mt-10 items-start w-full">
+              <div className="flex flex-col lg:flex-row gap-2 lg:gap-4 text-left">
                 <p>Based in Islamabad, PK</p>
                 <p className="opacity-50">Serving clients globally</p>
               </div>
-              <LiveClock />
+              <div className="w-full flex md:block justify-end mt-2 md:mt-0">
+                <LiveClock />
+              </div>
             </div>
           </div>
 
           {/* Right — Navigation Columns */}
-          <div className="flex flex-col sm:flex-row flex-wrap justify-between sm:justify-normal gap-10 sm:gap-14 md:gap-16 lg:gap-24">
+          <div className="grid grid-cols-2 lg:flex lg:flex-row flex-wrap justify-start lg:justify-normal gap-10 sm:gap-14 md:gap-16 lg:gap-24 text-left">
             {columns.map((col) => (
-              <div key={col.title}>
-                <h2 className="text-foreground/50 mb-2">{col.title}</h2>
-                <div className="flex flex-col gap-2">
-                  {col.links.map((link) => (
+              <div 
+                key={col.title} 
+                className={`
+                  flex flex-col items-start
+                  ${col.title === 'Services' ? 'order-1 col-span-1' : ''}
+                  ${col.title === 'Product' ? 'order-2 col-span-1' : ''}
+                  ${col.title === 'Socials' ? 'order-3 col-span-2 lg:order-3 mt-8 lg:mt-0' : ''}
+                `}
+              >
+                <h2 className="text-foreground/50 mb-3 text-sm uppercase tracking-widest">{col.title}</h2>
+                <div className={`${col.title === 'Socials' ? 'flex flex-row items-start gap-5 mt-2' : 'flex flex-col gap-3 font-light'}`}>
+                  {col.links.map((link: any) => (
                     <Link
                       key={link.label}
                       href={link.href}
-                      className="hover:opacity-70 transition-opacity duration-300"
+                      target={link.label === 'LinkedIn' ? '_blank' : undefined}
+                      className={`
+                        group/link flex items-center transition-all duration-300
+                        ${col.title === 'Socials' 
+                          ? 'p-3 rounded-full hover:bg-white/10 bg-white/[0.03] border border-white/5 hover:border-brand-purple/50 active:scale-95 shadow-sm' 
+                          : 'gap-2 hover:text-white justify-start'}
+                      `}
+                      title={col.title === 'Socials' ? link.label : undefined}
                     >
-                      {link.label}
+                      {link.icon && <link.icon size={col.title === 'Socials' ? 22 : 16} className="text-foreground/40 group-hover/link:text-white transition-colors duration-300" />}
+                      {col.title !== 'Socials' && (
+                        <span className="opacity-70 group-hover/link:opacity-100 group-hover/link:translate-x-1 transition-all duration-300">
+                          {link.label}
+                        </span>
+                      )}
                     </Link>
                   ))}
                 </div>
@@ -215,7 +216,7 @@ export function Footer() {
         {/* Bottom — Divider + Copyright */}
         <div className="border-t border-foreground/10 mt-20 pt-6">
           <div className="flex flex-col md:flex-row gap-4 md:gap-5 justify-between items-center font-light">
-            <p className="text-foreground/40 text-sm text-center">
+            <p className="text-foreground/40 text-sm text-left">
               &copy; {new Date().getFullYear()} TAMx. All rights reserved.
             </p>
             <div className="flex items-center gap-6 text-sm text-foreground/40">
