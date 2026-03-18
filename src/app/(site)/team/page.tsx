@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function TeamPage() {
   return (
     <PageTransition>
-      <main className="relative min-h-screen bg-[#0B0F1C]">
+      <main className="relative min-h-screen bg-black">
         <TeamHero />
         <TeamSection />
         <TeamVision />

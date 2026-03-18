@@ -5,47 +5,75 @@ export interface TeamMember {
   company: string;
   description: string;
   image: string;
+  category: string;
+  isFounder?: boolean;
+  quote?: string;
 }
 
 export const teamData: TeamMember[] = [
   {
     id: 1,
-    name: 'Hunain Ahmed',
-    role: 'Founder & Lead Engineer',
+    name: 'Ahmed Abdullah',
+    role: 'Founder and CEO',
     company: 'TAMx',
-    description: 'Visionary architect specializing in scalable AI infrastructure and end-to-end system design.',
-    image: '/team/hunain.jpg'
+    description: 'Visionary leader driving the future of enterprise AI with a focus on scalable intelligence.',
+    image: '/images/AhmedAbdullah.png',
+    category: 'Leadership',
+    isFounder: true,
+    quote: "At TAMx, we don't just build AI; we architect the intelligence that empowers the next generation of human potential. Our mission is to make advanced technology as intuitive as thought itself."
   },
   {
     id: 2,
-    name: 'AI Engineer',
-    role: 'Principal AI Scientist',
+    name: 'Talha Yaseen',
+    role: 'CTO',
     company: 'TAMx',
-    description: 'Expert in large language models and neural network optimization for enterprise-grade solutions.',
-    image: '/team/ai-engineer.jpg'
+    description: 'Technical architect specializing in high-performance neural networks and distributed systems.',
+    image: '/images/talha.png',
+    category: 'Engineering'
   },
   {
     id: 3,
-    name: 'Frontend Architect',
-    role: 'Design & UX Lead',
+    name: 'Taha Kashif',
+    role: 'CMO',
     company: 'TAMx',
-    description: 'Crafting immersive digital experiences with high-performance animations and modern UI systems.',
-    image: '/team/frontend.jpg'
+    description: 'Strategic marketer connecting advanced AI capabilities with global enterprise needs.',
+    image: '/images/Taha.png',
+    category: 'Leadership'
   },
   {
     id: 4,
-    name: 'Backend Engineer',
-    role: 'Distributed Systems Lead',
+    name: 'Hunain Ahmed',
+    role: 'Software Engineer',
     company: 'TAMx',
-    description: 'Building robust, secure API ecosystems and managing global-scale microservices.',
-    image: '/team/backend.jpg'
+    description: 'Full-stack specialist building the core infrastructure for next-gen digital workflows.',
+    image: '/images/HunainAhmed.png',
+    category: 'Engineering'
   },
   {
     id: 5,
-    name: 'Product Designer',
-    role: 'Product Strategy',
+    name: 'Julia Tidbill',
+    role: 'Developer',
     company: 'TAMx',
-    description: 'Bridging technical capabilities with market needs to build intuitive, successful products.',
-    image: '/team/designer.jpg'
+    description: 'Front-end expert crafting immersive, data-driven interfaces for complex AI systems.',
+    image: '/team/julia.jpg',
+    category: 'Design'
+  },
+  {
+    id: 6,
+    name: 'Allison Pick',
+    role: 'COO',
+    company: 'neurolyze Inc',
+    description: 'Operational lead focused on scaling AI research and integrating intelligent systems into healthcare.',
+    image: '/team/allison.jpg',
+    category: 'Leadership'
+  },
+  {
+    id: 7,
+    name: 'Sarah Chen',
+    role: 'Senior Product Designer',
+    company: 'TAMx',
+    description: 'Translating complex AI workflows into elegant, intuitive user experiences.',
+    image: '/team/sarah.jpg',
+    category: 'Design'
   }
 ];
