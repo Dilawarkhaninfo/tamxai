@@ -1,21 +1,33 @@
-'use client';
-
-import { AboutHero, StorySection, BeliefsSection, AboutCTA } from '@/components/about/AboutComponents';
+import React from 'react';
+import TeamHero from '@/components/team/TeamHero';
+import TeamSection from '@/components/team/TeamSection';
+import TeamVision from '@/components/team/TeamVision';
+import { StorySection, AboutCTA } from '@/components/about/AboutComponents';
+import { VideoShowcase } from '@/components/about/VideoShowcase';
+import { PageTransition } from '@/components/layout/PageTransition';
 
 export default function AboutPage() {
   return (
-    <main className="bg-background min-h-screen">
-      {/* Section 1 — Hero */}
-      <AboutHero />
+    <PageTransition>
+      <main className="relative min-h-screen bg-black">
+        {/* About Hero */}
+        <TeamHero />
+        
+        {/* Our Vision */}
+        <TeamVision />
 
-      {/* Section 2 — Story & Grid */}
-      <StorySection />
+        {/* Team Section */}
+        <TeamSection />
 
-      {/* Section 3 — Beliefs */}
-      <BeliefsSection />
+        {/* Video Showcase Section */}
+        <VideoShowcase />
 
-      {/* Section 4 — CTA */}
-      <AboutCTA />
-    </main>
+        {/* Story Section at the end */}
+        <StorySection />
+
+        {/* CTA */}
+        <AboutCTA />
+      </main>
+    </PageTransition>
   );
 }

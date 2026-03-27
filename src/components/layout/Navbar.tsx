@@ -83,7 +83,6 @@ const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services', hasDropdown: true, dropdownId: 'services' as const },
   { href: '/product', label: 'Product', hasDropdown: true, dropdownId: 'product' as const },
-  { href: '/team', label: 'Our Team' },
   { href: '/courses', label: 'Courses' },
   { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },

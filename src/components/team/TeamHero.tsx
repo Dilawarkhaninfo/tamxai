@@ -23,37 +23,41 @@ export default function TeamHero() {
            transition={{ duration: 0.8 }}
         >
           <div className="flex flex-col items-center">
+            {/* Brand Logo Icon */}
             <motion.div
-              initial={{ x: 100, opacity: 0 }}
-              animate={finished ? { x: 0, opacity: 1 } : { x: 100, opacity: 0 }}
-              transition={{ duration: 1.5, ease: 'anticipate' }}
-              className="py-2"
+              initial={{ y: -20, opacity: 0 }}
+              animate={finished ? { y: 0, opacity: 1 } : { y: -20, opacity: 0 }}
+              transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
+              className="mb-8"
             >
-               <h1 className="text-4xl md:text-7xl lg:text-8xl font-light tracking-tight text-white mb-2">
-                Meet the <span className="italic font-bold">Minds</span>
-              </h1>
+              <img 
+                src="/Logo_tamx.png" 
+                alt="TAMx Logo" 
+                className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 object-contain"
+              />
             </motion.div>
 
             <motion.div
-              initial={{ x: -100, opacity: 0 }}
-              animate={finished ? { x: 0, opacity: 1 } : { x: -100, opacity: 0 }}
-              transition={{ duration: 1.5, ease: 'anticipate', delay: 0.1 }}
+              initial={{ y: 20, opacity: 0 }}
+              animate={finished ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+              transition={{ duration: 1.5, ease: 'anticipate', delay: 0.4 }}
               className="py-2"
             >
-               <h1 className="text-4xl md:text-7xl lg:text-8xl font-light tracking-tight text-white mb-6">
-                Behind <span className="bg-gradient-to-r from-brand-purple to-blue-400 bg-clip-text text-transparent italic font-bold">TAMx</span>
+               <h1 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-6">
+                Welcome to <span className="bg-gradient-to-r from-brand-purple to-blue-400 bg-clip-text text-transparent italic font-bold">TAMx Technologies</span>
               </h1>
             </motion.div>
           </div>
           
           <motion.p 
-            initial={{ y: 30, opacity: 0 }}
-            animate={finished ? { y: 0, opacity: 1 } : { y: 30, opacity: 0 }}
-            transition={{ delay: 0.6, duration: 1, ease: 'anticipate' }}
-            className="text-base md:text-lg text-foreground/60 max-w-xl mx-auto font-light leading-relaxed mt-4"
+            initial={{ y: 20, opacity: 0 }}
+            animate={finished ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+            transition={{ delay: 0.7, duration: 1, ease: 'easeOut' }}
+            className="text-base md:text-lg lg:text-xl text-foreground/70 max-w-3xl mx-auto font-light leading-relaxed mt-4"
           >
-            A team of engineers, designers, and AI specialists building 
-            intelligent digital systems for the future.
+            At TAMx Technologies, we are dedicated to empowering businesses and individuals through innovative technology solutions. 
+            Our mission is to bridge the gap between cutting-edge technology and practical applications, making it accessible for everyone. 
+            We are not just a technology provider; we are your partners in success.
           </motion.p>
         </motion.div>
 

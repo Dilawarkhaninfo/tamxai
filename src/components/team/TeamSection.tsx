@@ -47,10 +47,20 @@ export default function TeamSection() {
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-5xl md:text-7xl font-bold text-white mb-10 leading-[1.05] tracking-tight"
+            className="text-5xl md:text-7xl font-bold text-white mb-8 leading-[1.05] tracking-tight"
           >
             Meet Our<br />Team
           </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="text-lg text-foreground/70 font-light leading-relaxed mb-10 max-w-sm"
+          >
+            Meet the passionate individuals behind TAMx Technologies. Our diverse team brings together a wealth of experience in technology, business strategy, and creative problem-solving. Each member is committed to driving innovation and ensuring our clients achieve their goals.
+          </motion.p>
 
           {/* Static Badges (Not Clickable) */}
           <div className="flex flex-wrap lg:flex-row gap-3 w-full overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 scrollbar-hide">
@@ -177,60 +187,6 @@ export default function TeamSection() {
 
       </div>
 
-      {/* FOUNDER VISION MESSAGE SECTION */}
-      <div className="max-w-[1440px] mx-auto px-6 md:px-20 mt-20 md:mt-32">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative group"
-        >
-          {/* Background Glow */}
-          <div className="absolute -inset-4 bg-brand-purple/5 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-          
-          <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-8 md:p-16 flex flex-col items-center text-center">
-            {/* Unique Style: Glowing Left/Top Accent */}
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-purple/50 to-transparent" />
-            <div className="absolute top-0 left-0 w-[1px] h-full bg-gradient-to-b from-transparent via-brand-purple/50 to-transparent" />
-
-            {/* Quote Icon or Decorative Element */}
-            <motion.div 
-              animate={{ 
-                boxShadow: ["0 0 20px rgba(167,139,250,0.2)", "0 0 40px rgba(167,139,250,0.4)", "0 0 20px rgba(167,139,250,0.2)"] 
-              }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="size-16 rounded-full bg-brand-purple/20 flex items-center justify-center mb-10 border border-brand-purple/30"
-            >
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-brand-purple">
-                <path d="M10 11L8 17H5L7 11H5V7H11V11H10ZM18 11L16 17H13L15 11H13V7H19V11H18Z" fill="currentColor"/>
-              </svg>
-            </motion.div>
-
-            {/* Visionary Quote */}
-            <blockquote className="max-w-4xl">
-              <p className="text-2xl md:text-4xl font-medium text-white italic leading-relaxed md:leading-tight tracking-tight mb-10">
-                "{founder.quote}"
-              </p>
-              
-              <footer className="flex flex-col items-center">
-                <div className="h-[1px] w-20 bg-gradient-to-r from-transparent via-white/20 to-transparent mb-6" />
-                <cite className="not-italic">
-                  <span className="block text-xl font-bold text-white mb-1 uppercase tracking-widest leading-none">
-                    {founder.name}
-                  </span>
-                  <span className="block text-sm font-medium text-brand-purple/80 uppercase tracking-[0.2em]">
-                    {founder.role}
-                  </span>
-                </cite>
-              </footer>
-            </blockquote>
-
-            {/* Interactive Glow Corners */}
-            <div className="absolute bottom-0 right-0 size-32 bg-brand-purple/10 blur-[60px] rounded-full pointer-events-none" />
-          </div>
-        </motion.div>
-      </div>
 
     </section>
   );

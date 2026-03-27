@@ -1,8 +1,11 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+import { Story3DBackground } from './Story3DBackground';
+import { CTAFloating3D } from './CTAFloating3D';
 
 // --- Hero Section ---
 const AnimatedLine = ({ text, delay = 0 }: { text: string; delay?: number }) => (
@@ -80,209 +83,138 @@ export const AboutHero = () => {
   );
 };
 
-// --- Story Section (Narrative + Map) ---
-const StoryWordReveal = ({ progress }: { progress: any }) => {
-  // We split the text into two lines as per the reference HTML
-  const lines = [
-    "Antimatter AI operates at the intersection of cutting-edge",
-    "technology and transformative design."
-  ];
-
-  return (
-    <div className="relative mt-10" id="story-container">
-       <div className="text-[32px] sm:text-[42px] xl:text-[52px] font-semibold leading-tight tracking-tight">
-          {/* Foreground (Revealing) text */}
-          <div id="story-text" className="absolute inset-0 pointer-events-none z-10">
-              {lines.map((line, i) => (
-                <div key={i} className="overflow-hidden" aria-hidden="true" style={{ position: 'relative', display: 'block', textAlign: 'start' }}>
-                  <motion.div 
-                    style={{ 
-                      maxWidth: useTransform(progress, [0.1 + i * 0.3, 0.4 + i * 0.3], ["0%", "100%"]),
-                    }}
-                    className="overflow-hidden whitespace-nowrap text-foreground"
-                  >
-                    {line}
-                  </motion.div>
-                </div>
-              ))}
-          </div>
-          {/* Ghost (Background) text */}
-          <div className="text-foreground/10 relative z-0">
-              {lines.map((line, i) => <span key={i} className="block">{line}</span>)}
-          </div>
-       </div>
-    </div>
-  );
-};
-
 export const StorySection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "center center"]
-  });
+  const storyText = "Founded by Ahmed Malik, TAMx Technologies began with a single goal: to solve real-world problems using innovative technology. With years of experience in AI, software development, and startup growth, Ahmed envisioned a company that blends cutting-edge solutions with real business impact.";
+  const words = storyText.split(" ");
+  const highlightedWords = ['solve', 'innovative', 'cutting-edge', 'business', 'impact'];
 
-  // Shrink the Overlay (Accent/Purple) to reveal the Base (Atlanta/Gray) from edges to center
-  const mapClip = useTransform(scrollYProgress, [0.3, 0.8], ["circle(120% at 48% 73%)", "circle(0% at 48% 73%)"]);
+  const lineReveal = {
+    hidden: { clipPath: 'inset(0 100% 0 0)', opacity: 0, x: -20 },
+    visible: { 
+      clipPath: 'inset(0 0% 0 0)', 
+      opacity: 1, 
+      x: 0,
+      transition: { duration: 1, ease: [0.16, 1, 0.3, 1] as any } 
+    }
+  };
+
+  const wordReveal = {
+    hidden: { opacity: 0, y: 15, filter: 'blur(10px)' },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: { 
+        duration: 0.7, 
+        delay: 0.5 + (i * 0.02),
+        ease: [0.215, 0.61, 0.355, 1.0] as any 
+      }
+    })
+  };
 
   return (
-    <div className="pt-40 mt-40 w-main mx-auto" id="story" ref={containerRef}>
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
+    <section className="relative min-h-screen py-32 w-full flex items-center justify-center overflow-hidden bg-black px-6 md:px-0" id="story">
+      {/* Unique 3D Background */}
+      <Story3DBackground />
+
+      {/* Cinematic Overlays */}
+      <div className="absolute inset-0 z-10 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-95" />
+      </div>
+
+      <motion.div 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-10%" }}
+        className="relative z-20 w-main mx-auto"
       >
-        <h2 className="text-2xl text-foreground/65 uppercase tracking-wider">OUR STORY</h2>
+        <div className="grid grid-cols-12 gap-y-16">
+          
+          {/* Top Left: Mask Reveal Title */}
+          <div className="col-start-1 col-end-13 lg:col-start-1 lg:col-end-8 self-start">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="flex items-center gap-6 text-brand-purple text-xs md:text-sm font-black uppercase mb-12"
+            >
+              <motion.div 
+                initial={{ width: 0 }}
+                whileInView={{ width: 64 }}
+                transition={{ duration: 1, ease: "circOut" }}
+                className="h-[2px] bg-brand-purple" 
+              />
+              Our Journey
+            </motion.div>
+            
+            <div className="space-y-4">
+              <div className="overflow-hidden">
+                 <motion.h3 
+                  variants={lineReveal}
+                  className="text-5xl md:text-6xl lg:text-8xl font-black leading-none tracking-tighter text-white"
+                >
+                  Our <span className="text-brand-purple italic">Story</span>
+                </motion.h3>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom Right: Choreographed Text Reveal */}
+          <div className="col-start-1 lg:col-start-6 col-end-13 relative lg:-mt-20 z-10">
+            <div className="flex flex-wrap text-left lg:pl-10">
+              {words.map((word, i) => (
+                <motion.span
+                  key={i}
+                  custom={i}
+                  variants={wordReveal}
+                  className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed mr-3 mb-3 tracking-tight ${
+                    highlightedWords.includes(word.toLowerCase().replace(/[.,]/g, "")) 
+                      ? "text-white font-semibold shimmer-text" 
+                      : "text-white/60"
+                  }`}
+                >
+                  {word}
+                </motion.span>
+              ))}
+            </div>
+
+            {/* Decorative expanding stroke */}
+            <motion.div 
+               initial={{ scaleX: 0, opacity: 0 }}
+               whileInView={{ scaleX: 1, opacity: 1 }}
+               transition={{ duration: 1.5, delay: 1.5, ease: "circInOut" }}
+               className="mt-14 h-[1px] w-full bg-gradient-to-r from-brand-purple/50 via-brand-purple to-transparent origin-left"
+            />
+          </div>
+        </div>
       </motion.div>
 
-      <StoryWordReveal 
-        progress={scrollYProgress} 
-      />
+      <style jsx>{`
+        .shimmer-text {
+          background: linear-gradient(
+            to right,
+            #fff 20%,
+            #a78bfa 40%,
+            #a78bfa 60%,
+            #fff 80%
+          );
+          background-size: 200% auto;
+          color: #fff;
+          background-clip: text;
+          text-fill-color: transparent;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shine 4s linear infinite;
+        }
 
-      {/* Map + Founded Section — Expert Replica */}
-      <div className="flex flex-col md:flex-row justify-between mt-32 sm:mt-40 items-center gap-10 md:gap-0">
-        <div className="relative">
-          {/* Base Layer: Gray Map (Atlanta) - Destination state revealed from edges */}
-          <img 
-            alt="World map" 
-            loading="lazy" 
-            width="639" 
-            height="470" 
-            decoding="async" 
-            data-nimg="1"
-            className="max-w-[500px] xl:max-w-[639px] w-full" 
-            src="/images/dotted-world-map-atlanta.svg" 
-            style={{ color: 'transparent' }} 
-          />
-          
-          {/* Animated Overlay: Purple Map (Accent) - Initially Shows Full then Shrinks on scroll */}
-          <motion.div 
-            className="absolute top-0 left-0 w-full h-full pointer-events-none"
-            style={{ 
-              clipPath: mapClip,
-              WebkitClipPath: mapClip
-            } as any}
-          >
-             <img 
-                alt="World map accent" 
-                loading="lazy" 
-                width="639" 
-                height="470" 
-                decoding="async" 
-                data-nimg="1"
-                className="max-w-[500px] xl:max-w-[639px] w-full" 
-                src="/images/dotted-world-map-atlanta_accent.svg" 
-                style={{ color: 'transparent' }} 
-              />
-          </motion.div>
-        </div>
-
-        <div 
-          className="text-2xl xl:text-3xl font-semibold max-w-md xl:max-w-xl" 
-          id="story-paragraph"
-          aria-label="Founded in Atlanta by marketers, designers, and engineers, we set out to make AI accessible, human, and visually inspiring."
-        >
-          <div aria-hidden="true" style={{ position: 'relative', display: 'block', textAlign: 'start', overflow: 'clip' }}>
-            <motion.div
-              initial={{ transform: "translate(0px, 100%)" }}
-              whileInView={{ transform: "translate(0px, 0px)" }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true }}
-              style={{ position: 'relative', display: 'block', textAlign: 'start' }}
-            >
-              Founded in Atlanta by <span className="text-tertiary">marketers, </span>
-            </motion.div>
-          </div>
-          <div aria-hidden="true" style={{ position: 'relative', display: 'block', textAlign: 'start', overflow: 'clip' }}>
-            <motion.div
-              initial={{ transform: "translate(0px, 100%)" }}
-              whileInView={{ transform: "translate(0px, 0px)" }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true }}
-              style={{ position: 'relative', display: 'block', textAlign: 'start' }}
-            >
-              <span className="text-tertiary">designers, and engineers</span>, we set out to 
-            </motion.div>
-          </div>
-          <div aria-hidden="true" style={{ position: 'relative', display: 'block', textAlign: 'start', overflow: 'clip' }}>
-            <motion.div
-              initial={{ transform: "translate(0px, 100%)" }}
-              whileInView={{ transform: "translate(0px, 0px)" }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true }}
-              style={{ position: 'relative', display: 'block', textAlign: 'start' }}
-            >
-              make AI accessible, human, and visually 
-            </motion.div>
-          </div>
-          <div aria-hidden="true" style={{ position: 'relative', display: 'block', textAlign: 'start', overflow: 'clip' }}>
-            <motion.div
-              initial={{ transform: "translate(0px, 100%)" }}
-              whileInView={{ transform: "translate(0px, 0px)" }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              viewport={{ once: true }}
-              style={{ position: 'relative', display: 'block', textAlign: 'start' }}
-            >
-              inspiring.
-            </motion.div>
-          </div>
-        </div>
-      </div>
-
-      {/* Grid Section: Things that matter — Exact Replica */}
-      <div className="py-20 sm:py-40">
-        <motion.div
-           initial={{ opacity: 0 }}
-           whileInView={{ opacity: 1 }}
-           transition={{ duration: 1 }}
-           viewport={{ once: true }}
-        >
-          <h2 className="text-center text-3xl md:text-4xl font-bold">
-            Things that <span className="text-tertiary">matter.</span>
-          </h2>
-        </motion.div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 xl:gap-5 w-full mt-20 flex-wrap">
-          <motion.div
-             initial={{ opacity: 0 }}
-             whileInView={{ opacity: 1 }}
-             transition={{ duration: 0.8 }}
-             viewport={{ once: true }}
-          >
-            <div className="p-8 2xl:p-18 flex flex-col gap-5 pt-32 lg:pt-54 2xl:pt-60 rounded-xl border border-foreground/19 h-full">
-              <h3 className="font-semibold text-3xl md:text-4xl xl:text-5xl max-w-xs">Design-First Innovation</h3>
-              <p className="max-w-xs">Award-winning UI/UX and 3D web experiences</p>
-            </div>
-          </motion.div>
-
-          <motion.div
-             initial={{ opacity: 0 }}
-             whileInView={{ opacity: 1 }}
-             transition={{ duration: 0.8, delay: 0.1 }}
-             viewport={{ once: true }}
-          >
-            <div className="p-8 2xl:p-18 flex flex-col gap-5 pt-32 lg:pt-54 2xl:pt-60 rounded-xl border border-foreground/19 h-full">
-              <h3 className="font-semibold text-3xl md:text-4xl xl:text-5xl max-w-xs">Engineering Excellence</h3>
-              <p className="max-w-xs">Next.js, GSAP, Three.js, and scalable AI architectures</p>
-            </div>
-          </motion.div>
-
-          <motion.div
-             className="sm:col-span-2 lg:col-span-1"
-             initial={{ opacity: 0 }}
-             whileInView={{ opacity: 1 }}
-             transition={{ duration: 0.8, delay: 0.2 }}
-             viewport={{ once: true }}
-          >
-            <div className="p-8 2xl:p-18 flex flex-col gap-5 pt-32 lg:pt-54 2xl:pt-60 rounded-xl border border-foreground/19 h-full">
-              <h3 className="font-semibold text-3xl md:text-4xl xl:text-5xl max-w-3xs md:max-w-xs">Real-World Impact</h3>
-              <p className="max-w-xs">From healthcare to enterprise AI, our work drives measurable outcomes</p>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </div>
+        @keyframes shine {
+          to {
+            background-position: 200% center;
+          }
+        }
+      `}</style>
+    </section>
   );
 };
 
@@ -374,55 +306,80 @@ const ReflexButton = ({ text, href }: { text: string; href: string }) => {
   );
 };
 
-// --- Final CTA Section — Exact Replica ---
+// --- Final CTA Section ---
 export const AboutCTA = () => {
   return (
-    <div className="mobile:h-[900px] md:h-[800px] xl:h-[950px] relative overflow-hidden">
-      <div className="w-main mx-auto relative z-10 py-20">
-        <div className="flex flex-col md:flex-row gap-10 justify-between items-start">
-          <div>
-            <h2 className="text-xl mobile:text-2xl lg:text-3xl xl:text-4xl text-foreground">Let&apos;s Create Something</h2>
-            <h3 className="italic text-4xl mobile:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground">That Matters</h3>
-          </div>
-          <div className="flex flex-col items-end text-right md:pt-4">
-            <p className="max-w-[320px] sm:max-w-md text-foreground text-sm mobile:text-lg leading-snug">
-              We&apos;ve built AI for good, for growth, and for the <br className="hidden md:block" />
-              greater impact. What will we build with you?
-            </p>
-          </div>
-        </div>
+    <div className="relative min-h-screen lg:h-[850px] flex items-start justify-center overflow-hidden bg-black pb-32 pt-32">
+      
+      {/* Full-Section 3D Neural AI Core Atmosphere */}
+      <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none opacity-90">
+        <CTAFloating3D />
+      </div>
 
-        <div className="mt-14 md:mt-24 flex flex-row gap-8 capitalize items-center">
-          <ReflexButton text="Start a Project" href="/contact" />
+      <div className="w-main mx-auto relative z-10 px-6 md:px-0">
+        <div className="flex flex-col gap-8 max-w-3xl h-full justify-start translate-y-[-15%]">
           
-          <Link 
-            className="lg:text-xl flex items-center gap-2 border-b border-white/20 hover:border-accent transition-all duration-300" 
-            href="/work"
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="flex items-center gap-6 text-brand-purple text-xs md:text-sm font-black uppercase mb-2"
           >
-            Explore Our Work 
-            <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 20 20" aria-hidden="true" className="size-7" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" d="M2 10a.75.75 0 0 1 .75-.75h12.59l-2.1-1.95a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.1-1.95H2.75A.75.75 0 0 1 2 10Z" clipRule="evenodd"></path>
-            </svg>
-          </Link>
+            <motion.div 
+               initial={{ width: 0 }}
+               whileInView={{ width: 64 }}
+               transition={{ duration: 1, ease: "circOut" }}
+               className="h-[2px] bg-brand-purple" 
+            />
+            Your Next Chapter
+          </motion.div>
+
+          <div className="space-y-6">
+            <motion.h2 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tighter"
+            >
+              Join Us on <br />
+              This <span className="text-brand-purple italic">Journey</span>
+            </motion.h2>
+
+            <motion.p 
+               initial={{ opacity: 0, y: 20 }}
+               whileInView={{ opacity: 1, y: 0 }}
+               transition={{ duration: 1, delay: 0.5 }}
+               className="max-w-xl text-lg sm:text-lg lg:text-xl text-white/50 leading-relaxed font-light"
+            >
+              We invite you to explore our team’s dedication to excellence and how TAMx Technologies can transform your business. 
+              Together, let’s build a smarter, more connected future.
+            </motion.p>
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.7 }}
+            className="mt-4 flex flex-wrap gap-8 items-center"
+          >
+            <ReflexButton text="Start a Project" href="/contact" />
+            
+            <Link 
+              className="lg:text-lg flex items-center gap-2 border-b border-white/20 hover:border-brand-purple transition-all duration-300 group font-medium" 
+              href="/work"
+            >
+              Explore Our Work 
+              <motion.span
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                <ArrowUpRight className="size-5 text-brand-purple" />
+              </motion.span>
+            </Link>
+          </motion.div>
         </div>
       </div>
 
-      <div className="relative mb-20 mobile:absolute wide:pl-20 wide:left-1/2 mobile:top-64 overflow-hidden md:top-44 lg:top-28 xl:top-20 right-0 mobile:-right-24 md:right-0 mt-10">
-        <div className="relative w-full mobile:w-4xl lg:w-[950px] xl:w-[1480px] flex justify-end ml-[35%] mobile:ml-0">
-          <div className="w-[200%] mobile:w-full grow shrink-0">
-            <video 
-              src="/Antimatter-astronaut-loop-1.mp4" 
-              autoPlay 
-              loop 
-              muted 
-              playsInline 
-              poster="/Antimatter-astronaut-fallback.webp" 
-              className="rotate-12 lg:rotate-0 w-full opacity-40 grayscale"
-            />
-          </div>
-          <div className="w-20 absolute right-0 h-full from-20% bg-gradient-to-l top-0 from-background to-transparent"></div>
-        </div>
-      </div>
     </div>
   );
 };
