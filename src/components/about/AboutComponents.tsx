@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { Story3DBackground } from './Story3DBackground';
@@ -61,7 +61,7 @@ export const AboutHero = () => {
             <AnimatedLine text="TAMx Creates Impact." delay={0.2} />
           </h1>
           <div className="max-w-3xl 2xl:max-w-[920px]">
-            <div className="text-4xl/tight sm:text-5xl/tight 2xl:text-6xl/tight font-semibold">
+            <div className="text-3xl sm:text-5xl/tight 2xl:text-6xl/tight font-semibold">
               <AnimatedLine text="We're a design-led AI studio" delay={0.3} />
               <AnimatedLine text="turning complex challenges into" delay={0.4} />
               <AnimatedLine text="measurable results." delay={0.5} />
@@ -99,14 +99,14 @@ export const StorySection = () => {
   };
 
   const wordReveal = {
-    hidden: { opacity: 0, y: 15, filter: 'blur(10px)' },
+    hidden: { opacity: 0, y: 30, filter: 'blur(12px)' },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
       transition: { 
-        duration: 0.7, 
-        delay: 0.5 + (i * 0.02),
+        duration: 1.2, 
+        delay: 0.3 + (i * 0.015),
         ease: [0.215, 0.61, 0.355, 1.0] as any 
       }
     })
@@ -131,7 +131,7 @@ export const StorySection = () => {
         <div className="grid grid-cols-12 gap-y-16">
           
           {/* Top Left: Mask Reveal Title */}
-          <div className="col-start-1 col-end-13 lg:col-start-1 lg:col-end-8 self-start">
+          <div className="col-start-1 col-end-13 lg:col-start-1 lg:col-end-6 self-start">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -152,7 +152,7 @@ export const StorySection = () => {
               <div className="overflow-hidden">
                  <motion.h3 
                   variants={lineReveal}
-                  className="text-5xl md:text-6xl lg:text-8xl font-black leading-none tracking-tighter text-white"
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-none tracking-tighter text-white"
                 >
                   Our <span className="text-brand-purple italic">Story</span>
                 </motion.h3>
@@ -160,9 +160,9 @@ export const StorySection = () => {
             </div>
           </div>
 
-          {/* Bottom Right: Choreographed Text Reveal */}
-          <div className="col-start-1 lg:col-start-6 col-end-13 relative lg:-mt-20 z-10">
-            <div className="flex flex-wrap text-left lg:pl-10">
+          {/* Bottom Right: Choreographed Text Reveal - Aligned to "Blue Box" */}
+          <div className="col-start-1 lg:col-start-5 col-end-13 relative lg:-mt-24 z-10">
+            <div className="flex flex-wrap text-left lg:pl-12 border-l border-brand-purple/20">
               {words.map((word, i) => (
                 <motion.span
                   key={i}
@@ -254,10 +254,14 @@ export const BeliefsSection = () => {
         {beliefs.map((belief, idx) => (
           <motion.div 
             key={idx}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 + idx * 0.1 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ 
+                duration: 0.8, 
+                delay: 0.2 + idx * 0.1,
+                ease: [0.215, 0.61, 0.355, 1.0] as any 
+            }}
+            viewport={{ once: true, margin: "-10%" }}
             className="py-4 sm:py-8 border-b last:border-b-0 border-foreground/40"
           >
             <div className="relative pl-10">
@@ -308,13 +312,28 @@ const ReflexButton = ({ text, href }: { text: string; href: string }) => {
 
 // --- Final CTA Section ---
 export const AboutCTA = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const atmosOpacity = useTransform(scrollYProgress, [0, 0.4, 0.8, 1], [0, 0.9, 0.9, 0]);
+  const atmosY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+
   return (
-    <div className="relative min-h-screen lg:h-[850px] flex items-start justify-center overflow-hidden bg-black pb-32 pt-32">
+    <div 
+      ref={containerRef}
+      className="relative min-h-screen lg:h-[850px] flex items-start justify-center overflow-hidden bg-black pb-32 pt-32"
+    >
       
       {/* Full-Section 3D Neural AI Core Atmosphere */}
-      <div className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none opacity-90">
+      <motion.div 
+        style={{ opacity: atmosOpacity, y: atmosY }}
+        className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"
+      >
         <CTAFloating3D />
-      </div>
+      </motion.div>
 
       <div className="w-main mx-auto relative z-10 px-6 md:px-0">
         <div className="flex flex-col gap-8 max-w-3xl h-full justify-start translate-y-[-15%]">
@@ -349,7 +368,7 @@ export const AboutCTA = () => {
                initial={{ opacity: 0, y: 20 }}
                whileInView={{ opacity: 1, y: 0 }}
                transition={{ duration: 1, delay: 0.5 }}
-               className="max-w-xl text-lg sm:text-lg lg:text-xl text-white/50 leading-relaxed font-light"
+               className="max-w-xl text-base sm:text-lg lg:text-xl text-white/50 leading-relaxed font-light"
             >
               We invite you to explore our team’s dedication to excellence and how TAMx Technologies can transform your business. 
               Together, let’s build a smarter, more connected future.

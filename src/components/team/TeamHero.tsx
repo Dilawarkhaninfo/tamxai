@@ -1,22 +1,42 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import { Team3DNetwork } from './Team3DNetwork';
 import { usePreloader } from '@/context/PreloaderContext';
 
 export default function TeamHero() {
   const { finished } = usePreloader();
+  const containerRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-[#0B0F1C]">
-      <Team3DNetwork />
+    <section 
+      ref={containerRef}
+      className="relative w-full h-screen overflow-hidden bg-[#0B0F1C]"
+    >
+      <motion.div 
+        style={{ scale, opacity }}
+        className="absolute inset-0 z-0"
+      >
+        <Team3DNetwork />
+      </motion.div>
       
       {/* Background radial glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(105,106,172,0.05)_0%,transparent_70%)] pointer-events-none" />
 
-      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 w-main mx-auto">
+      <motion.div 
+        style={{ scale }}
+        className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 w-main mx-auto"
+      >
         <motion.div
            initial={{ opacity: 0 }}
            animate={finished ? { opacity: 1 } : { opacity: 0 }}
@@ -84,7 +104,7 @@ export default function TeamHero() {
             </motion.div>
           </div>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 }

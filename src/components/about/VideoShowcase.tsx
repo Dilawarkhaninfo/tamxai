@@ -38,8 +38,10 @@ export const VideoShowcase = () => {
     offset: ["start end", "end start"]
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [30, -30]);
+  const y = useTransform(scrollYProgress, [0, 1], [50, -50]);
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.8, 1, 1, 0.8]);
+  const glowOpacity = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [0, 0.3, 0]);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -112,14 +114,20 @@ export const VideoShowcase = () => {
 
         {/* Video Card Container */}
         <motion.div
-           initial={{ opacity: 0, scale: 0.98 }}
+           style={{ scale }}
+           initial={{ opacity: 0, scale: 0.9 }}
            whileInView={{ opacity: 1, scale: 1 }}
            viewport={{ once: true }}
-           transition={{ duration: 1 }}
-           className="relative max-w-3xl mx-auto"
+           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] as any }}
+           className="relative max-w-3xl mx-auto group"
            onMouseEnter={() => setIsHovered(true)}
            onMouseLeave={() => setIsHovered(false)}
         >
+          {/* Scroll-synced Focal Glow */}
+          <motion.div 
+            style={{ opacity: glowOpacity }}
+            className="absolute -inset-20 bg-brand-purple/20 rounded-full blur-[120px] z-0 pointer-events-none"
+          />
           <div 
             onClick={togglePlay}
             className="relative aspect-video rounded-[2rem] overflow-hidden border border-white/5 shadow-[0_0_50px_rgba(0,0,0,0.5)] cursor-pointer bg-black"
@@ -127,14 +135,21 @@ export const VideoShowcase = () => {
             {/* Main Video */}
             <video 
               ref={videoRef}
-              src="/video/tamx_video.mp4"
               className="absolute inset-0 w-full h-full object-cover z-10"
               autoPlay
               loop
               muted
               playsInline
               preload="auto"
-            />
+              poster="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=1280"
+              onError={(e) => console.error("Video Error:", e)}
+            >
+              <source 
+                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" 
+                type="video/mp4" 
+              />
+              Your browser does not support the video tag.
+            </video>
 
             {/* Play/Pause Minimal Overlay - Themed & Professional */}
             <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">

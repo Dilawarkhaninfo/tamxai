@@ -16,14 +16,14 @@ export default function AboutPage() {
         {/* Our Vision */}
         <TeamVision />
 
+        {/* Story Section */}
+        <StorySection />
+
         {/* Team Section */}
         <TeamSection />
 
         {/* Video Showcase Section */}
         <VideoShowcase />
-
-        {/* Story Section at the end */}
-        <StorySection />
 
         {/* CTA */}
         <AboutCTA />

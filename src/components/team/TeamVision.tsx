@@ -1,32 +1,48 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import { Team3DNetwork } from './Team3DNetwork';
 
 export default function TeamVision() {
-  const visionText = "We envision a world where technology enhances everyday life and empowers individuals and businesses to achieve their full potential. At TAMx Technologies, we are committed to continuous improvement and innovation, ensuring that we stay at the forefront of the tech industry.";
-  const words = visionText.split(" ");
-  
-  // Highlighted words for the new content
-  const highlightedWords = ['technology', 'empowers', 'potential', 'innovation', 'forefront'];
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  const titleX = useTransform(scrollYProgress, [0, 0.5], ["-50px", "0px"]);
+  const contentY = useTransform(scrollYProgress, [0.2, 0.7], ["50px", "0px"]);
 
   const lineReveal = {
-    hidden: { clipPath: 'inset(0 100% 0 0)', opacity: 0, x: -20 },
+    hidden: { clipPath: 'inset(0 100% 0 0)', opacity: 0, x: -30 },
     visible: { 
       clipPath: 'inset(0 0% 0 0)', 
       opacity: 1, 
       x: 0,
-      transition: { duration: 1, ease: [0.16, 1, 0.3, 1] as any } 
+      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] as any } 
     }
   };
 
+  const visionText = "We envision a world where technology enhances everyday life and empowers individuals and businesses to achieve their full potential. At TAMx Technologies, we are committed to continuous improvement and innovation, ensuring that we stay at the forefront of the tech industry.";
+  const words = visionText.split(" ");
+  const highlightedWords = ['technology', 'empowers', 'potential', 'innovation', 'forefront'];
+
   return (
-    <section className="relative min-h-screen py-32 w-full flex items-center justify-center overflow-hidden bg-black px-6 md:px-0">
-      {/* 3D NEURAL NETWORK BACKGROUND */}
-      <Team3DNetwork />
+    <section 
+      ref={containerRef}
+      className="relative min-h-screen py-32 w-full flex items-center justify-center overflow-hidden bg-black px-6 md:px-0"
+    >
+      {/* 3D NEURAL NETWORK BACKGROUND WITH PARALLAX */}
+      <motion.div 
+        style={{ y: backgroundY }}
+        className="absolute inset-0 z-0"
+      >
+        <Team3DNetwork />
+      </motion.div>
 
       {/* Cinematic Overlays */}
       <div className="absolute inset-0 z-10 pointer-events-none">
@@ -38,10 +54,11 @@ export default function TeamVision() {
           
           {/* Top Left: Typography Title (No Box Background) */}
           <motion.div 
+            style={{ x: titleX }}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-10%" }}
-            className="col-start-1 col-end-13 lg:col-start-1 lg:col-end-7 self-start"
+            className="col-start-1 col-end-13 lg:col-start-1 lg:col-end-6 self-start"
           >
             <motion.div
               initial={{ opacity: 0, letterSpacing: '0.3em' }}
@@ -58,7 +75,7 @@ export default function TeamVision() {
               <div className="overflow-hidden">
                  <motion.h3 
                   variants={lineReveal}
-                  className="text-5xl md:text-6xl lg:text-8xl font-black leading-none tracking-tighter text-white"
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-none tracking-tighter text-white"
                 >
                   Our <span className="text-brand-purple italic">Vision</span>
                 </motion.h3>
@@ -66,15 +83,16 @@ export default function TeamVision() {
             </div>
           </motion.div>
 
-          {/* Bottom Right: Content (No Box Background) */}
+          {/* Bottom Right: Content (No Box Background) - Aligned to "Blue Box" */}
           <motion.div 
+            style={{ y: contentY }}
             initial={{ opacity: 0, x: 60, y: 30 }}
             whileInView={{ opacity: 1, x: 0, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
-            className="col-start-1 lg:col-start-6 col-end-13 relative lg:-mt-12 z-10"
+            className="col-start-1 lg:col-start-5 col-end-13 relative lg:-mt-16 z-10"
           >
-            <div className="flex flex-wrap text-left lg:pl-10">
+            <div className="flex flex-wrap text-left lg:pl-12 border-l border-brand-purple/20">
               {words.map((word, i) => (
                 <motion.span
                   key={i}
