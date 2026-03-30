@@ -67,7 +67,7 @@ const products = [
   {
     title: 'LMS',
     icon: GraduationCap,
-    href: '/product',
+    href: '/lms',
     desc: 'Learning management system with courses, assessments, and progress tracking.',
   },
   {
@@ -234,9 +234,11 @@ export function Navbar() {
                           <div className="w-[340px] bg-zinc-950 border border-foreground/20 rounded-xl overflow-hidden">
                             <div className="p-3">
                               {products.map((product) => (
-                                <div
+                                <Link
                                   key={product.title}
-                                  className="flex items-start gap-3 px-3 py-2.5 rounded-lg border border-transparent transition hover:bg-white/5 hover:border-white/5 cursor-default group/item"
+                                  href={product.href}
+                                  className="flex items-start gap-3 px-3 py-2.5 rounded-lg border border-transparent transition hover:bg-white/5 hover:border-white/5 cursor-pointer group/item text-foreground no-underline"
+                                  onClick={() => setIsProductOpen(false)}
                                 >
                                   <div className="mt-0.5 text-white/90">
                                     <product.icon className="w-5 h-5" />
@@ -247,7 +249,7 @@ export function Navbar() {
                                       {product.desc}
                                     </p>
                                   </div>
-                                </div>
+                                </Link>
                               ))}
                             </div>
                           </div>

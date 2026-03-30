@@ -15,7 +15,7 @@ const benefits = [
 
 export function ConsultationSection({ onOpenScheduler }: { onOpenScheduler: () => void }) {
   return (
-    <section className="py-16 md:py-24 relative overflow-hidden bg-dark-secondary border-t border-white/5">
+    <section id="meeting" className="py-16 md:py-24 relative overflow-hidden bg-dark-secondary border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           
