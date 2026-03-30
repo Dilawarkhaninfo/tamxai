@@ -83,18 +83,17 @@ export function LMSHero() {
             
             <motion.div
               animate={{ 
-                y: [0, -25, 0],
-                rotateZ: [0, 2, -2, 0]
+                y: [0, -20, 0]
               }}
               transition={{ 
-                duration: 10, 
+                duration: 8, 
                 repeat: Infinity, 
                 ease: 'easeInOut' 
               }}
               className="relative z-20"
             >
               <Image 
-                src="/images/lms/dashboard_mockup.png"
+                src="/images/lms/tamx_lms_dash.png"
                 alt="TAMx LMS Premium Dashboard"
                 width={1138}
                 height={669}
@@ -103,51 +102,7 @@ export function LMSHero() {
               />
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 50, scale: 0.8 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ duration: 1.2, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute -top-16 -right-6 md:-right-12 md:top-0 w-32 sm:w-40 md:w-56 lg:w-72 z-30 pointer-events-none"
-            >
-              <motion.div
-                animate={{ 
-                  y: [0, -20, 0],
-                  scale: [1, 1.05, 1],
-                  filter: [
-                    'drop-shadow(0 0 20px rgba(168, 85, 247, 0.4))',
-                    'drop-shadow(0 0 40px rgba(168, 85, 247, 0.7))',
-                    'drop-shadow(0 0 20px rgba(168, 85, 247, 0.4))'
-                  ]
-                }}
-                transition={{ 
-                  duration: 4, 
-                  repeat: Infinity, 
-                  ease: 'easeInOut' 
-                }}
-              >
-                <Image 
-                  src="/images/lms/assistant_orb.png" 
-                  alt="TAMx AI Assistant Orb"
-                  width={400}
-                  height={400}
-                  className="w-full h-auto"
-                />
-              </motion.div>
-              
-              {/* Orb Glow Ring */}
-              <motion.div
-                animate={{ 
-                  scale: [0.8, 1.2, 0.8],
-                  opacity: [0.2, 0.5, 0.2]
-                }}
-                transition={{ 
-                  duration: 3, 
-                  repeat: Infinity, 
-                  ease: 'easeInOut' 
-                }}
-                className="absolute inset-0 bg-brand-purple/30 blur-3xl rounded-full -z-10"
-              />
-            </motion.div>
+
           </motion.div>
         </div>
       </div>
