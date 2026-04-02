@@ -132,8 +132,8 @@ const columns = [
 
 export function Footer() {
   return (
-    <footer className="w-full relative overflow-hidden bg-background">
-      <div className="w-main mx-auto pb-5 md:pb-10 relative z-20">
+    <footer className="w-full relative overflow-hidden bg-background border-t border-white/5">
+      <div className="w-main mx-auto pt-24 md:pt-40 pb-5 md:pb-10 relative z-20">
         <div className="flex flex-col md:flex-row gap-20 md:gap-5 justify-between">
 
           {/* Left — Contact & Clock */}

@@ -61,14 +61,14 @@ const products = [
   {
     title: 'Ecommerce',
     icon: ShoppingCart,
-    href: '/product',
+    href: '/product/ecommerce',
     desc: 'Full-featured ecommerce platform with inventory management, payments, and analytics.',
   },
   {
     title: 'LMS',
     icon: GraduationCap,
     href: '/lms',
-    desc: 'Learning management system with courses, assessments, and progress tracking.',
+    desc: 'Learning management system with E-Courses, assessments, and progress tracking.',
   },
   {
     title: 'CRM',
@@ -83,9 +83,9 @@ const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services', hasDropdown: true, dropdownId: 'services' as const },
   { href: '/product', label: 'Product', hasDropdown: true, dropdownId: 'product' as const },
-  { href: '/courses', label: 'Courses' },
+  { href: '/courses', label: 'E-Courses' },
   { href: '/blog', label: 'Blog' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/pricing', label: 'Pricing' },
 ]
 
 export function Navbar() {

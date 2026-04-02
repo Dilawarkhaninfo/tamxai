@@ -81,6 +81,11 @@
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-glow: pulseGlow 2s ease-in-out infinite;
   --animate-flowing-line: flowingLine 3s linear infinite;
+  --radius-none: 0px;
+  --radius-xs: 0.125rem;
+  --radius-default: 0.375rem;
+  --radius-full: 9999px;
+  --color-button-ripple-color: var(----button-ripple-color);
 }
 
 @keyframes flowingLine {
@@ -201,6 +206,7 @@
 
   --tertiary: #c7c8f2;
   --am-lightaccent: #e3e3f8;
+  --button-ripple-color: oklch(0.145 0 0 / 0.3);
 }
 
 @layer base {
@@ -354,3 +360,26 @@
     pointer-events: auto;
   }
 }
+
+.dark {
+  --button-ripple-color: oklch(0.985 0 0 / 0.5);
+  --background: oklch(0.10 0 0);
+}
+
+@keyframes border-beam {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes border-beam-v {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.animate-border-beam {
+  animation: border-beam 4s linear infinite;
+}
+
+.animate-border-beam-v {
+  animation: border-beam-v 4s linear infinite;
+}

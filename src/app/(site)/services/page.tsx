@@ -6,6 +6,7 @@ import { PageSection } from '@/components/layout/PageSection';
 import { CTASection } from '@/components/home/CTASection';
 import { motion } from 'framer-motion';
 import { Layout, Code2, Rocket, Brain, Stethoscope, Cpu, Search, PencilRuler, PlayCircle, BarChart3 } from 'lucide-react';
+import RadialOrbitalTimeline from '@/components/ui/radial-orbital-timeline';
 
 const servicesImages = [
   'https://images.unsplash.com/photo-1551288049-bbbda5366991?q=80&w=2070&auto=format&fit=crop', // Data dashboard
@@ -42,7 +43,7 @@ export default function ServicesPage() {
       />
 
       {/* Section 2 — Service Cards Grid */}
-      <PageSection id="services-grid" className="bg-[#030712]">
+      <PageSection id="services-grid" className="bg-[#030712]" fullHeight={false}>
         <div className="text-center mb-24">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Elite <span className="gradient-text">Capabilities</span>
@@ -79,8 +80,8 @@ export default function ServicesPage() {
       </PageSection>
 
       {/* Section 3 — Workflow Process */}
-      <PageSection id="workflow" className="bg-black">
-        <div className="text-center mb-20">
+      <PageSection id="workflow" className="bg-black overflow-hidden" fullHeight={false}>
+        <div className="text-center mb-10">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Our <span className="gradient-text">Workflow</span>
           </h2>
@@ -89,117 +90,102 @@ export default function ServicesPage() {
           </p>
         </div>
 
-        <div className="relative max-w-6xl mx-auto">
-          {/* Animated Gradient Line for timeline */}
-          <div className="absolute left-[39px] md:left-1/2 top-4 bottom-4 w-[2px] bg-white/5 md:-translate-x-1/2 hidden sm:block">
-            <motion.div 
-               className="h-full w-full bg-gradient-to-b from-brand-lavender via-brand-blue to-transparent origin-top"
-               initial={{ scaleY: 0 }}
-               whileInView={{ scaleY: 1 }}
-               transition={{ duration: 1.5, ease: "linear" }}
-               viewport={{ once: true }}
-            />
-          </div>
-
-          <div className="space-y-24">
-            {workflowSteps.map((step, idx) => (
-              <motion.div
-                key={step.title}
-                initial={{ opacity: 0, x: idx % 2 === 0 ? -60 : 60, filter: 'blur(10px)' }}
-                whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-                transition={{ duration: 1, delay: idx * 0.15, ease: [0.22, 1, 0.36, 1] }}
-                viewport={{ once: true }}
-                className={`flex flex-col md:flex-row items-center gap-12 ${idx % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'}`}
-              >
-                <div className={`flex-1 flex ${idx % 2 === 0 ? 'md:justify-end' : 'md:justify-start'}`}>
-                  <div className={`p-10 md:p-14 rounded-[3.5rem] bg-[#0F172A] border border-white/5 max-w-lg w-full hover:border-brand-lavender/30 transition-all duration-500 shadow-22xl group/step`}>
-                    <div className="flex items-center gap-6 mb-8 text-brand-lavender">
-                        <step.icon className="w-8 h-8 group-hover/step:scale-110 transition-transform" />
-                        <span className="text-sm font-black uppercase tracking-[0.4em] opacity-40">Step 0{idx + 1}</span>
-                    </div>
-                    <h3 className="text-3xl font-bold text-white mb-6 leading-tight">{step.title}</h3>
-                    <p className="text-text-secondary text-lg leading-relaxed opacity-80">{step.desc}</p>
-                  </div>
-                </div>
-
-                <div className="relative z-10 p-5 rounded-full bg-dark-primary border-4 border-white/5 group hover:border-brand-lavender/40 transition-all duration-500 shadow-glow-lavender">
-                  <div className="p-4 rounded-full bg-brand-lavender/10 text-brand-lavender group-hover:bg-brand-lavender/20 transition-colors">
-                    <step.icon className="w-8 h-8" />
-                  </div>
-                </div>
-
-                <div className="flex-1 hidden md:block" />
-              </motion.div>
-            ))}
-          </div>
+        <div className="h-[800px] w-full relative">
+          <RadialOrbitalTimeline 
+            timelineData={workflowSteps.map((step, idx) => ({
+              id: idx + 1,
+              title: step.title,
+              date: `Phase 0${idx + 1}`,
+              content: step.desc,
+              category: "Process",
+              icon: step.icon,
+              relatedIds: [
+                idx > 0 ? idx : null,
+                idx < workflowSteps.length - 1 ? idx + 2 : null
+              ].filter((id): id is number => id !== null),
+              status: idx === 0 ? "completed" : idx === 1 ? "in-progress" : "pending",
+              energy: 100 - (idx * 15)
+            }))} 
+          />
         </div>
       </PageSection>
 
       {/* Section 4 — Technology Platform */}
-      <PageSection id="platform" className="bg-[#030712]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+      <PageSection id="platform" className="bg-[#030712]" fullHeight={false}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center p-12 md:p-20 rounded-[3.5rem] bg-[#0F172A]/50 border border-white/5 backdrop-blur-sm relative overflow-hidden group">
+            {/* Subtle Gradient Background */}
+            <div className="absolute -top-24 -right-24 w-96 h-96 bg-brand-blue/5 blur-[100px] rounded-full group-hover:bg-brand-blue/10 transition-colors duration-700" />
+            
             <motion.div
                initial={{ opacity: 0, x: -40 }}
                whileInView={{ opacity: 1, x: 0 }}
                transition={{ duration: 0.8 }}
                viewport={{ once: true }}
+               className="relative z-10"
             >
                 <div className="p-3 rounded-full bg-brand-blue/10 border border-brand-blue/20 text-brand-blue-light w-fit mb-6 text-sm font-bold uppercase tracking-widest">
                     Enterprise Grade
                 </div>
-                <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 leading-tight">
+                <h2 className="text-4xl md:text-[56px] font-extralight text-white mb-8 leading-tight font-display">
                     Optimized for <br />
-                    <span className="gradient-text">Scale & Speed</span>
+                    <span className="gradient-text font-normal">Scale & Speed</span>
                 </h2>
-                <p className="text-xl text-text-secondary leading-relaxed mb-10">
+                <p className="text-xl text-text-secondary leading-relaxed mb-10 font-sans opacity-80">
                     Our platform integrates modern DevOps practices, automated testing, and cloud-native architecture to deliver robust solutions that grow with your business.
                 </p>
-                <div className="grid grid-cols-2 gap-8">
-                    <div>
-                        <p className="text-3xl font-bold text-white mb-1">99.9%</p>
-                        <p className="text-sm text-text-secondary uppercase tracking-wider">Uptime SLA</p>
+                <div className="grid grid-cols-2 gap-12">
+                    <div className="group/stat">
+                        <p className="text-4xl font-bold text-white mb-2 group-hover/stat:text-brand-blue transition-colors duration-300">99.9%</p>
+                        <p className="text-xs text-text-secondary uppercase tracking-[0.2em]">Uptime SLA</p>
                     </div>
-                    <div>
-                        <p className="text-3xl font-bold text-white mb-1">&lt;200ms</p>
-                        <p className="text-sm text-text-secondary uppercase tracking-wider">Edge Latency</p>
+                    <div className="group/stat">
+                        <p className="text-4xl font-bold text-white mb-2 group-hover/stat:text-brand-purple transition-colors duration-300">&lt;200ms</p>
+                        <p className="text-xs text-text-secondary uppercase tracking-[0.2em]">Edge Latency</p>
                     </div>
                 </div>
             </motion.div>
 
             <motion.div
-                initial={{ opacity: 0, rotateY: 20 }}
-                whileInView={{ opacity: 1, rotateY: 0 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1 }}
                 viewport={{ once: true }}
-                className="aspect-square glass-effect rounded-[3rem] p-12 flex flex-col justify-center items-center relative overflow-hidden group"
+                className="aspect-square glass-effect rounded-[3rem] p-12 flex flex-col justify-center items-center relative overflow-hidden group/viz border border-white/10 bg-white/5 shadow-2xl"
             >
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-purple/10 to-transparent pointer-events-none" />
-                <div className="relative z-10 grid grid-cols-3 gap-6">
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-purple/10 via-transparent to-brand-blue/10 pointer-events-none" />
+                <div className="relative z-10 grid grid-cols-3 gap-8 md:gap-10">
                     {[...Array(9)].map((_, i) => (
                         <motion.div
                             key={i}
                             animate={{ 
                                 y: [0, -10, 0],
-                                rotateZ: [0, 5, 0]
+                                rotateZ: [0, 5, 0],
+                                opacity: [0.3, 1, 0.3]
                             }}
                             transition={{ 
-                                duration: 3 + i, 
+                                duration: 3 + i * 0.5, 
                                 repeat: Infinity, 
-                                ease: "easeInOut" 
+                                ease: "easeInOut",
+                                delay: i * 0.2
                             }}
-                            className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors"
+                            className="w-14 h-14 md:w-20 md:h-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center group-hover/viz:bg-white/10 transition-colors shadow-inner"
                         >
-                            <div className={`w-3 h-3 rounded-full ${i % 2 === 0 ? 'bg-brand-purple' : 'bg-brand-blue'} shadow-[0_0_15px_rgba(147,51,234,0.5)]`} />
+                            <div className={`w-3 h-3 md:w-5 md:h-5 rounded-full ${i % 2 === 0 ? 'bg-brand-purple' : 'bg-brand-blue'} shadow-[0_0_20px_rgba(147,51,234,0.6)]`} />
                         </motion.div>
                     ))}
                 </div>
-                <p className="mt-12 text-sm font-medium text-brand-lavender uppercase tracking-widest animate-pulse">Platform Active</p>
+                <div className="mt-16 flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.8)]" />
+                  <p className="text-xs font-bold text-brand-lavender uppercase tracking-[0.3em]">Platform Active</p>
+                </div>
             </motion.div>
         </div>
       </PageSection>
 
       {/* Section 5 — CTA */}
-      <CTASection />
+      <div className="relative w-main m-auto mb-40 sm:mb-60 mt-20 sm:mt-32 z-20">
+        <CTASection />
+      </div>
     </main>
   );
 }
