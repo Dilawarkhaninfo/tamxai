@@ -11,25 +11,35 @@ import { MeetingModal } from '@/components/contact/MeetingModal';
 import { ConsultationSection } from '@/components/contact/ConsultationSection';
 
 const contactInfo = [
-  { icon: Mail, label: 'Email', value: 'hello@tamx.ai', href: 'mailto:hello@tamx.ai' },
-  { icon: Phone, label: 'Phone', value: '+1 (555) 000-TAMX', href: 'tel:+15550008269' },
-  { icon: MapPin, label: 'HQ', value: 'Silicon Valley, CA', href: '#' },
+  { icon: Mail, label: 'Email', value: 'info@tamxai.com', href: 'mailto:info@tamxai.com' },
+  { icon: Phone, label: 'Phone', value: '+92 3353898844', href: 'tel:+923353898844' },
+  { icon: MapPin, label: 'HQ', value: 'Silicon Valley, Islamabad', href: '#' },
 ];
 
 const socials = [
   { name: 'LinkedIn', icon: Globe },
-  { name: 'X', icon: Globe },
   { name: 'GitHub', icon: Globe },
 ];
 
-const services = [
-  'AI Integration',
-  'Custom LLM Development',
-  'Enterprise Software',
-  'Product Strategy',
-  'Data Engineering',
-  'Cloud Infrastructure',
-];
+const technicalFocusOptions = {
+  services: [
+    'AI Development',
+    'Product Design',
+    'Development',
+    'GTM Strategy',
+    'Healthcare Apps',
+    'IoT Development',
+    'Custom LLM Development',
+    'Data Engineering',
+    'Cloud Infrastructure'
+  ],
+  products: [
+    'Automation Engine',
+    'Ecommerce Platform',
+    'LMS (Learning Management System)',
+    'CRM System'
+  ]
+};
 
 const budgets = [
   '<$25k',
@@ -70,6 +80,7 @@ export default function ContactPage() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSchedulerOpen, setIsSchedulerOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<'service' | 'budget' | 'country' | null>(null);
+  const [hoveredCategory, setHoveredCategory] = useState<'services' | 'products' | null>(null);
   
   const dropdownRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
@@ -424,18 +435,47 @@ export default function ContactPage() {
                                                 initial={{ opacity: 0, y: 10 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 exit={{ opacity: 0, y: 10 }}
-                                                className="absolute top-full left-0 w-full mt-2 bg-[#0c0c12] border border-white/10 rounded-2xl overflow-hidden z-20 shadow-2xl backdrop-blur-xl max-h-64 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10"
+                                                onMouseLeave={() => setHoveredCategory(null)}
+                                                className="absolute top-full left-0 mt-2 flex gap-2 z-20"
                                             >
-                                                {services.map((item) => (
-                                                    <div 
-                                                        key={item}
-                                                        onClick={() => selectOption('service', item)}
-                                                        className="px-6 py-4 flex items-center justify-between hover:bg-white/5 cursor-pointer text-white/90 transition-colors border-b border-white/5 last:border-0"
-                                                    >
-                                                        <span className="font-medium">{item}</span>
-                                                        {formData.service === item && <CheckCircle2 className="w-4 h-4 text-brand-lavender" />}
-                                                    </div>
-                                                ))}
+                                                {/* Main Categories Menu */}
+                                                <div className="w-48 bg-[#0c0c12] border border-white/10 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-xl">
+                                                    {(['services', 'products'] as const).map((cat) => (
+                                                        <div 
+                                                            key={cat}
+                                                            onMouseEnter={() => setHoveredCategory(cat)}
+                                                            className={`px-6 py-4 flex items-center justify-between cursor-pointer transition-colors border-b border-white/5 last:border-0 ${hoveredCategory === cat ? 'bg-white/10 text-brand-lavender' : 'text-white/70 hover:bg-white/5'}`}
+                                                        >
+                                                            <span className="font-bold capitalize">{cat}</span>
+                                                            <ArrowUpRight className={`w-4 h-4 transition-transform ${hoveredCategory === cat ? 'translate-x-1 -translate-y-1' : 'opacity-30'}`} />
+                                                        </div>
+                                                    ))}
+                                                </div>
+
+                                                {/* Sub-menu (Hover Reveal) */}
+                                                <AnimatePresence>
+                                                    {hoveredCategory && (
+                                                        <motion.div 
+                                                            initial={{ opacity: 0, x: -10 }}
+                                                            animate={{ opacity: 1, x: 0 }}
+                                                            exit={{ opacity: 0, x: -10 }}
+                                                            className="w-64 bg-[#0c0c12] border border-white/10 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-xl"
+                                                        >
+                                                            <div className="max-h-64 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 py-2">
+                                                                {technicalFocusOptions[hoveredCategory].map((item) => (
+                                                                    <div 
+                                                                        key={item}
+                                                                        onClick={() => selectOption('service', item)}
+                                                                        className="px-6 py-3 flex items-center justify-between hover:bg-white/5 cursor-pointer text-white/90 transition-colors group/item"
+                                                                    >
+                                                                        <span className="text-sm font-medium group-hover/item:text-brand-lavender">{item}</span>
+                                                                        {formData.service === item && <CheckCircle2 className="w-4 h-4 text-brand-lavender" />}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </motion.div>
+                                                    )}
+                                                </AnimatePresence>
                                             </motion.div>
                                         )}
                                     </AnimatePresence>
@@ -493,7 +533,7 @@ export default function ContactPage() {
                             />
                         </div>
 
-                        <div className="flex pt-6">
+                        <div className="flex flex-wrap gap-6 pt-6">
                             <button 
                                 type="submit" 
                                 disabled={isSubmitting}
@@ -510,6 +550,15 @@ export default function ContactPage() {
                                         <ArrowUpRight className="w-5 h-5 text-dark-primary group-hover:text-white transition-all duration-500 group-hover:translate-x-1 group-hover:-translate-y-1" />
                                     </div>
                                 )}
+                            </button>
+
+                            <button 
+                                type="button"
+                                onClick={() => document.getElementById('meeting')?.scrollIntoView({ behavior: 'smooth' })}
+                                className="group relative flex items-center gap-4 px-10 py-4 rounded-full border border-brand-lavender/30 text-white font-bold text-sm md:text-base hover:bg-white/5 transition-all duration-500 hover:border-brand-lavender/60 active:scale-95"
+                            >
+                                <span>Schedule Meeting</span>
+                                <ArrowUpRight className="w-5 h-5 text-brand-lavender group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                             </button>
                         </div>
                     </form>

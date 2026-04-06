@@ -169,10 +169,10 @@ export const PricingCard = ({
   planName, description, price, features, buttonText, isPopular = false, buttonVariant = 'primary'
 }: PricingCardProps) => {
   const cardClasses = `
-    backdrop-blur-[14px] bg-gradient-to-br rounded-2xl shadow-xl flex-1 w-full max-w-[400px] px-8 py-6 flex flex-col transition-all duration-300
+    backdrop-blur-[14px] bg-gradient-to-br rounded-2xl shadow-xl flex-1 w-full max-w-[400px] px-6 py-8 md:px-8 md:py-10 flex flex-col transition-all duration-500
     from-black/5 to-black/0 border border-black/10
     dark:from-white/10 dark:to-white/5 dark:border-white/10 dark:backdrop-brightness-[0.91]
-    ${isPopular ? 'scale-105 relative ring-2 ring-cyan-400/20 dark:from-white/20 dark:to-white/10 dark:border-cyan-400/30 shadow-2xl' : ''}
+    ${isPopular ? 'lg:scale-105 relative ring-2 ring-cyan-400/20 dark:from-white/20 dark:to-white/10 dark:border-cyan-400/30 shadow-2xl z-10' : 'z-0'}
   `;
   const buttonClasses = `
     mt-auto w-full py-2.5 rounded-xl font-semibold text-[14px] transition font-sans
@@ -190,15 +190,15 @@ export const PricingCard = ({
         </div>
       )}
       <div className="mb-3">
-        <h2 className="text-[48px] font-extralight tracking-[-0.03em] text-foreground font-display">{planName}</h2>
-        <p className="text-[16px] text-foreground/70 mt-1 font-sans">{description}</p>
+        <h2 className="text-[32px] md:text-[40px] lg:text-[48px] font-extralight tracking-[-0.03em] text-foreground font-display leading-tight">{planName}</h2>
+        <p className="text-[14px] md:text-[16px] text-foreground/70 mt-2 font-sans leading-relaxed">{description}</p>
       </div>
       <div className="my-6 flex items-baseline gap-2">
         {price.toLowerCase() === 'custom' ? (
-          <span className="text-[36px] font-extralight text-foreground font-display">Custom Pricing</span>
+          <span className="text-[32px] md:text-[36px] font-extralight text-foreground font-display">Custom Pricing</span>
         ) : (
           <>
-            <span className="text-[48px] font-extralight text-foreground font-display">${price}</span>
+            <span className="text-[40px] md:text-[48px] font-extralight text-foreground font-display leading-none">${price}</span>
             <span className="text-[14px] text-foreground/70 font-sans">/mo</span>
           </>
         )}
@@ -240,7 +240,7 @@ export const FeaturedStartupPlan = ({
     <div 
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="w-full max-w-7xl mt-24 p-12 md:p-20 rounded-[3rem] backdrop-blur-3xl bg-white/[0.03] border border-white/10 relative overflow-hidden group shadow-[0_0_50px_rgba(122,92,255,0.1)] transition-all duration-500 hover:shadow-[0_0_80px_rgba(122,92,255,0.2)]"
+      className="w-full max-w-7xl mt-12 md:mt-24 p-6 sm:p-10 md:p-20 rounded-3xl md:rounded-[3rem] backdrop-blur-3xl bg-white/[0.03] border border-white/10 relative overflow-hidden group shadow-[0_0_50px_rgba(122,92,255,0.1)] transition-all duration-500 hover:shadow-[0_0_80px_rgba(122,92,255,0.2)]"
     >
       {/* Moving Border Beam Effect */}
       <div className="absolute inset-0 opacity-40 mix-blend-screen pointer-events-none z-0">
@@ -273,13 +273,13 @@ export const FeaturedStartupPlan = ({
             Premium Founder Edition
           </div>
           
-          <h2 className="text-[56px] md:text-[84px] font-extralight tracking-[-0.04em] text-white leading-[0.9] font-display mb-8">
+          <h2 className="text-[40px] sm:text-[56px] md:text-[72px] lg:text-[84px] font-extralight tracking-[-0.04em] text-white leading-[1] md:leading-[0.9] font-display mb-6 md:mb-8">
             {planName.split(' ').map((word, i) => (
               <span key={i} className="block last:text-cyan-400 last:font-normal">{word}</span>
             ))}
           </h2>
           
-          <p className="text-[20px] md:text-[24px] text-foreground/70 font-sans font-light leading-relaxed mb-10 border-l-2 border-[#7A5CFF]/30 pl-6">
+          <p className="text-[18px] md:text-[22px] lg:text-[24px] text-foreground/70 font-sans font-light leading-relaxed mb-8 md:mb-10 border-l-2 border-[#7A5CFF]/30 pl-6">
             {description}
           </p>
           
@@ -298,7 +298,7 @@ export const FeaturedStartupPlan = ({
             >
               <div className="absolute top-0 right-0 w-24 h-24 bg-cyan-400/5 blur-3xl group-hover/tile:bg-cyan-400/10 transition-all" />
               <div className="flex items-start gap-4">
-                <div className="mt-1 flex items-center justify-center w-6 h-6 rounded-full bg-cyan-400/10 text-cyan-400 border border-cyan-400/20">
+                <div className="mt-1 flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-cyan-400/10 text-cyan-400 border border-cyan-400/20">
                   <CheckIcon className="w-3.5 h-3.5" />
                 </div>
                 <div className="flex flex-col gap-1">
@@ -358,18 +358,22 @@ export const ModernPricingPage = ({
     <div className="dark bg-background text-foreground min-h-screen w-full overflow-x-hidden pb-20">
       {showAnimatedBackground && <ShaderCanvas />}
       <main className="relative w-full min-h-screen flex flex-col items-center justify-center px-4 pt-32">
-        <div className="w-full max-w-5xl mx-auto text-center mb-14">
-          <h1 className="text-[48px] md:text-[64px] font-extralight leading-tight tracking-[-0.03em] bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-cyan-500 to-blue-600 dark:from-white dark:via-cyan-300 dark:to-blue-400 font-display">
+        <div className="w-full max-w-5xl mx-auto text-center mb-10 md:mb-16">
+          <h1 className="text-[36px] sm:text-[48px] md:text-[64px] lg:text-[72px] font-extralight leading-[1.1] tracking-[-0.03em] bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-cyan-500 to-blue-600 dark:from-white dark:via-cyan-300 dark:to-blue-400 font-display">
             {title}
           </h1>
-          <p className="mt-3 text-[16px] md:text-[20px] text-foreground/80 max-w-2xl mx-auto font-sans">
+          <p className="mt-4 text-[15px] sm:text-[18px] md:text-[20px] text-foreground/80 max-w-3xl mx-auto font-sans leading-relaxed">
             {subtitle}
           </p>
         </div>
         
         {/* Main Plans Grid */}
-        <div className="flex flex-col md:flex-row gap-8 md:gap-8 justify-center items-stretch w-full max-w-7xl">
-          {plans.map((plan) => <PricingCard key={plan.planName} {...plan} />)}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center items-stretch w-full max-w-7xl px-2 sm:px-4">
+          {plans.map((plan) => (
+            <div key={plan.planName} className="flex h-full">
+              <PricingCard {...plan} />
+            </div>
+          ))}
         </div>
 
         {/* Featured Section (Startup Builder) */}

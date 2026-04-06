@@ -145,6 +145,55 @@ export function LMSAgents() {
         </motion.div>
       </div>
 
+      {/* Personalized Learning Subsection */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-32 items-center mt-40 px-4">
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="order-2 lg:order-1"
+        >
+          <motion.h2 
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 leading-[1.1] tracking-tight"
+          >
+            Personalized Learning Through <span className="gradient-text">AI-Powered</span> Question Answering
+          </motion.h2>
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mb-8"
+          >
+            <img 
+              src="https://edeviser.com/wp-content/uploads/2025/02/Group-11.png" 
+              alt="AI Analytics Badge" 
+              className="w-32 h-auto opacity-80 hover:opacity-100 transition-opacity"
+            />
+          </motion.div>
+
+          <p className="text-xl text-text-secondary leading-relaxed max-w-xl opacity-70">
+            Our AI-driven question-answering system understands intent, verifies information, and delivers precise, personalized responses to enhance student learning.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9, x: 50 }}
+          whileInView={{ opacity: 1, scale: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+          className="order-1 lg:order-2 relative group"
+        >
+          <div className="absolute -inset-4 bg-brand-purple/20 blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+          <img 
+            src="https://edeviser.com/wp-content/uploads/2025/02/ChartPoints.svg" 
+            alt="Analytics Chart" 
+            className="w-full h-auto relative z-10 drop-shadow-[0_0_50px_rgba(168,85,247,0.15)] group-hover:drop-shadow-[0_0_80px_rgba(168,85,247,0.3)] transition-all duration-700"
+          />
+        </motion.div>
+      </div>
+
       {/* Ask Questions Subtitle */}
       <motion.div 
         initial={{ opacity: 0, y: 30 }}

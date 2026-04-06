@@ -9,6 +9,9 @@ import { LMSGrowth } from '@/components/lms/LMSGrowth'
 import { LMSRewards } from '@/components/lms/LMSRewards'
 import { LMSProfessor } from '@/components/lms/LMSProfessor'
 import { LMSAgents } from '@/components/lms/LMSAgents'
+import { LMSMetaverse } from '@/components/lms/LMSMetaverse'
+import { LMSMediaCarousel } from '@/components/lms/LMSMediaCarousel'
+import { LMSPillars } from '@/components/lms/LMSPillars'
 import { CTASection } from '@/components/home/CTASection'
 import { AnimatedBackground } from '@/components/home/AnimatedBackground'
 
@@ -30,6 +33,9 @@ export default function LMSPage() {
           <LMSRewards />
           <LMSProfessor />
           <LMSAgents />
+          <LMSMetaverse />
+          <LMSMediaCarousel />
+          <LMSPillars />
         </div>
 
         {/* Final CTA Section */}

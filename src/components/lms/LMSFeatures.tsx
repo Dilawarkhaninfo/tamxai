@@ -31,26 +31,27 @@ const features = [
 
 export function LMSFeatures() {
   return (
-    <PageSection id="lms-features" fullHeight={false} className="bg-dark-secondary relative z-20">
-      <div className="text-center mb-20">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6"
-        >
-          Supercharge <span className="gradient-text">Your Learning</span> <br />
-          with E-learning
-        </motion.h2>
-        <motion.div 
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="h-1 w-24 bg-brand-purple mx-auto rounded-full"
-        />
-      </div>
+    <PageSection id="lms-features" fullHeight={false} className="bg-dark-secondary relative z-20 py-16 md:py-32 scroll-mt-32">
+      <div className="container-padding w-full max-w-7xl mx-auto px-4">
+        <div className="text-center mb-12 md:mb-20">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 leading-tight"
+          >
+            Supercharge <span className="gradient-text">Your Learning</span> <br className="hidden sm:block" />
+            with E-learning
+          </motion.h2>
+          <motion.div 
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="h-1 w-24 bg-brand-purple mx-auto rounded-full"
+          />
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
         {features.map((feature, idx) => (
           <motion.div
             key={feature.title}
@@ -80,6 +81,7 @@ export function LMSFeatures() {
             <div className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r ${feature.gradient} w-0 group-hover:w-full transition-all duration-700`} />
           </motion.div>
         ))}
+        </div>
       </div>
     </PageSection>
   )
