@@ -7,7 +7,7 @@ const pricingPlans: PricingCardProps[] = [
   {
     planName: "Starter Plan",
     description: "Best for startups, personal brands, and small businesses",
-    price: "49",
+    price: "129",
     features: [
       "Website Development (Basic)",
       "AI Chatbot Integration",
@@ -23,7 +23,7 @@ const pricingPlans: PricingCardProps[] = [
   {
     planName: "Business Plan",
     description: "Perfect for growing startups and companies",
-    price: "149",
+    price: "350",
     features: [
       "Full Website / Web App Development",
       "AI Chatbot + LLM Integration",
