@@ -222,8 +222,8 @@ export const PricingCard = ({
  * This version is highly interactive with mouse-tracking glows and feature tiles.
  */
 export const FeaturedStartupPlan = ({
-  planName, description, features
-}: Omit<PricingCardProps, 'price' | 'buttonVariant' | 'isPopular' | 'buttonText'>) => {
+  planName, description, features, buttonText
+}: Omit<PricingCardProps, 'price' | 'buttonVariant' | 'isPopular'>) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -285,7 +285,7 @@ export const FeaturedStartupPlan = ({
           
           <div className="group/link flex items-center gap-4 text-white hover:text-cyan-400 transition-colors cursor-pointer mt-auto">
             <div className="w-12 h-px bg-white/20 group-hover/link:w-20 group-hover/link:bg-cyan-400/50 transition-all duration-500" />
-            <span className="text-sm font-semibold tracking-widest uppercase">Consult with TAMx Experts</span>
+            <span className="text-sm font-semibold tracking-widest uppercase">{buttonText}</span>
           </div>
         </div>
 

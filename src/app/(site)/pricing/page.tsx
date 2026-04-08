@@ -61,6 +61,7 @@ const pricingPlans: PricingCardProps[] = [
 const startupBuilderPlan = {
   planName: "Startup Builder",
   description: "For founders who want to launch a startup. We turn your vision into a market-ready reality with complete end-to-end support.",
+  buttonText: "Consult with TAMx Experts",
   features: [
     "Idea Validation",
     "Product Development",

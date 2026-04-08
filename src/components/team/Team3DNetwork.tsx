@@ -32,7 +32,7 @@ export function Team3DNetwork() {
     const nodesCount = 120;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(nodesCount * 3);
-    const velocities = [];
+    const velocities: THREE.Vector3[] = [];
 
     for (let i = 0; i < nodesCount; i++) {
       positions[i * 3] = (Math.random() - 0.5) * 800;
