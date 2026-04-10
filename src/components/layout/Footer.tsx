@@ -104,25 +104,25 @@ const columns = [
     title: 'Services',
     links: [
       { label: 'Product Design', href: '/services' },
-      { label: 'Development', href: '/services' },
-      { label: 'GTM Strategy', href: '/services' },
-      { label: 'Healthcare Apps', href: '/services' },
-      { label: 'AI Development', href: '/services' },
-      { label: 'IoT Development', href: '/services' },
+      { label: 'AI Software Development', href: '/services' },
+      { label: 'Digital Marketing', href: '/services' },
+      { label: 'SEO', href: '/services' },
+      { label: 'Research & Development', href: '/services' },
+      { label: 'Solutions', href: '/services' },
     ],
   },
   {
     title: 'Product',
     links: [
       { label: 'Ecommerce', href: '#' },
-      { label: 'LMS', href: '#' },
+      { label: 'LMS', href: '/lms' },
       { label: 'CRM', href: '#' },
+      { label: 'E-Courses', href: '/e-courses' },
     ],
   },
   {
     title: 'Socials',
     links: [
-      { label: 'GitHub', href: '#', icon: Github },
       { label: 'LinkedIn', href: 'https://www.linkedin.com/company/tamxai/', icon: Linkedin },
       { label: 'Instagram', href: '#', icon: Instagram },
       { label: 'Facebook', href: '#', icon: Facebook },

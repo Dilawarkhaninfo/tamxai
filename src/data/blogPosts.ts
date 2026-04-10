@@ -19,7 +19,7 @@ export const blogPosts: BlogPost[] = [
     category: "AI",
     image:
       "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2070&auto=format&fit=crop",
-    author: "Dilawar Khan",
+    author: "Ahmed Malik",
     date: "Mar 15, 2026",
     readTime: "8 min read",
     excerpt:
@@ -83,7 +83,7 @@ export const blogPosts: BlogPost[] = [
     category: "AI",
     image:
       "https://images.unsplash.com/photo-1509228468518-180dd4864904?q=80&w=2070&auto=format&fit=crop",
-    author: "Ayesha Ray",
+    author: "Ahmed Malik",
     date: "Mar 12, 2026",
     readTime: "10 min read",
     excerpt:
@@ -130,7 +130,7 @@ export const blogPosts: BlogPost[] = [
     category: "AI",
     image:
       "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1965&auto=format&fit=crop",
-    author: "Dilawar Khan",
+    author: "Ahmed Malik",
     date: "Feb 20, 2026",
     readTime: "7 min read",
     excerpt:
@@ -185,7 +185,7 @@ export const blogPosts: BlogPost[] = [
     category: "Engineering",
     image:
       "https://images.unsplash.com/photo-1558494949-ef0109583a84?q=80&w=2070&auto=format&fit=crop",
-    author: "Zain Malik",
+    author: "Ahmed Malik",
     date: "Mar 05, 2026",
     readTime: "10 min read",
     excerpt:
@@ -243,7 +243,7 @@ export const blogPosts: BlogPost[] = [
     category: "Engineering",
     image:
       "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=2070&auto=format&fit=crop",
-    author: "Omar Siddiqui",
+    author: "Ahmed Malik",
     date: "Feb 15, 2026",
     readTime: "9 min read",
     excerpt:
@@ -558,7 +558,7 @@ export const blogPosts: BlogPost[] = [
     title: 'The Real ROI of AI Integration',
     category: 'Strategy',
     image: 'https://images.unsplash.com/photo-1551288049-bbbda5366991?q=80&w=2070&auto=format&fit=crop',
-    author: 'Dilawar Khan',
+    author: 'Ahmed Malik',
     date: 'Feb 12, 2026',
     readTime: '11 min read',
     excerpt: 'How to move beyond the hype and measure the actual productivity gains from enterprise AI deployments.',

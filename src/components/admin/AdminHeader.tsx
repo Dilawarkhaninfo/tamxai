@@ -54,7 +54,7 @@ export function AdminHeader({ onMenuClick }: AdminHeaderProps) {
         {/* User Profile */}
         <div className="flex items-center gap-3 p-1.5 hover:bg-white/5 rounded-xl transition-all group relative">
           <div className="text-right hidden sm:block">
-            <p className="text-sm font-semibold text-white">Dilawar Khan</p>
+            <p className="text-sm font-semibold text-white">Ahmed Malik</p>
             <p className="text-[10px] text-purple-400 font-medium uppercase tracking-wider">Super Admin</p>
           </div>
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 p-[1px] shadow-lg shadow-purple-500/10">

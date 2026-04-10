@@ -3,9 +3,9 @@
 import React, { useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Star, Rocket, Compass, Target, Sparkles } from 'lucide-react';
 import { Story3DBackground } from './Story3DBackground';
-import { CTAFloating3D } from './CTAFloating3D';
+import RadialOrbitalTimeline from '@/components/ui/radial-orbital-timeline';
 
 // --- Hero Section ---
 const AnimatedLine = ({ text, delay = 0 }: { text: string; delay?: number }) => (
@@ -113,7 +113,7 @@ export const StorySection = () => {
   };
 
   return (
-    <section className="relative min-h-screen py-32 w-full flex items-center justify-center overflow-hidden bg-black px-6 md:px-0" id="story">
+    <section className="relative min-h-[80vh] py-24 w-full flex items-center justify-center overflow-hidden bg-black px-6 md:px-0" id="story">
       {/* Unique 3D Background */}
       <Story3DBackground />
 
@@ -128,22 +128,22 @@ export const StorySection = () => {
         viewport={{ once: true, margin: "-10%" }}
         className="relative z-20 w-main mx-auto"
       >
-        <div className="grid grid-cols-12 gap-y-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-x-12">
           
           {/* Top Left: Mask Reveal Title */}
-          <div className="col-start-1 col-end-13 lg:col-start-1 lg:col-end-6 self-start">
+          <div className="lg:col-span-12 xl:col-span-5 self-start">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 1, delay: 0.2 }}
-              className="flex items-center gap-6 text-brand-purple text-xs md:text-sm font-black uppercase mb-12"
+              className="flex items-center gap-4 text-brand-purple text-[10px] md:text-xs font-black uppercase mb-8"
             >
               <motion.div 
                 initial={{ width: 0 }}
-                whileInView={{ width: 64 }}
+                whileInView={{ width: 48 }}
                 transition={{ duration: 1, ease: "circOut" }}
-                className="h-[2px] bg-brand-purple" 
+                className="h-[1px] bg-brand-purple/50" 
               />
               Our Journey
             </motion.div>
@@ -152,7 +152,7 @@ export const StorySection = () => {
               <div className="overflow-hidden">
                  <motion.h3 
                   variants={lineReveal}
-                  className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-none tracking-tighter text-white"
+                  className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tighter text-white"
                 >
                   Our <span className="text-brand-purple italic">Story</span>
                 </motion.h3>
@@ -160,18 +160,18 @@ export const StorySection = () => {
             </div>
           </div>
 
-          {/* Bottom Right: Choreographed Text Reveal - Aligned to "Blue Box" */}
-          <div className="col-start-1 lg:col-start-5 col-end-13 relative lg:-mt-24 z-10">
-            <div className="flex flex-wrap text-left lg:pl-12 border-l border-brand-purple/20">
+          {/* Bottom Right: Choreographed Text Reveal */}
+          <div className="lg:col-span-12 xl:col-start-6 xl:col-span-7 relative z-10 lg:mt-0">
+            <div className="flex flex-wrap text-left lg:pl-12 lg:border-l border-brand-purple/10">
               {words.map((word, i) => (
                 <motion.span
                   key={i}
                   custom={i}
                   variants={wordReveal}
-                  className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed mr-3 mb-3 tracking-tight ${
+                  className={`text-lg sm:text-xl lg:text-2xl font-light leading-relaxed mr-3 mb-3 tracking-tight ${
                     highlightedWords.includes(word.toLowerCase().replace(/[.,]/g, "")) 
                       ? "text-white font-semibold shimmer-text" 
-                      : "text-white/60"
+                      : "text-white/50"
                   }`}
                 >
                   {word}
@@ -184,11 +184,12 @@ export const StorySection = () => {
                initial={{ scaleX: 0, opacity: 0 }}
                whileInView={{ scaleX: 1, opacity: 1 }}
                transition={{ duration: 1.5, delay: 1.5, ease: "circInOut" }}
-               className="mt-14 h-[1px] w-full bg-gradient-to-r from-brand-purple/50 via-brand-purple to-transparent origin-left"
+               className="mt-10 h-[1px] w-full bg-gradient-to-r from-brand-purple/30 via-brand-purple/60 to-transparent origin-left"
             />
           </div>
         </div>
       </motion.div>
+
 
       <style jsx>{`
         .shimmer-text {
@@ -313,89 +314,130 @@ const ReflexButton = ({ text, href }: { text: string; href: string }) => {
 // --- Final CTA Section ---
 export const AboutCTA = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const atmosOpacity = useTransform(scrollYProgress, [0, 0.4, 0.8, 1], [0, 0.9, 0.9, 0]);
-  const atmosY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  
+  const journeyData = [
+    {
+      id: 1,
+      title: "The Vision",
+      date: "2024",
+      content: "Founding TAMx with a commitment to design-led AI innovation.",
+      category: "Milestone",
+      icon: Star,
+      relatedIds: [2],
+      status: "completed" as const,
+      energy: 90
+    },
+    {
+      id: 2,
+      title: "Core Engineering",
+      date: "Current",
+      content: "Building high-performance neural networks and distributed systems.",
+      category: "Engineering",
+      icon: Compass,
+      relatedIds: [1, 3],
+      status: "in-progress" as const,
+      energy: 100
+    },
+    {
+      id: 3,
+      title: "Global Impact",
+      date: "Future",
+      content: "Scaling intelligent digital solutions across enterprise industries.",
+      category: "Growth",
+      icon: Target,
+      relatedIds: [2, 4],
+      status: "pending" as const,
+      energy: 85
+    },
+    {
+      id: 4,
+      title: "The Next Era",
+      date: "Future",
+      content: "Pioneering the next generation of autonomous digital intelligence.",
+      category: "Innovation",
+      icon: Rocket,
+      relatedIds: [3],
+      status: "pending" as const,
+      energy: 70
+    }
+  ];
 
   return (
     <div 
       ref={containerRef}
-      className="relative min-h-screen lg:h-[850px] flex items-start justify-center overflow-hidden bg-black pb-32 pt-32"
+      className="relative min-h-screen lg:min-h-[900px] flex items-center justify-center overflow-hidden bg-black py-20 md:py-32"
     >
       
-      {/* Full-Section 3D Neural AI Core Atmosphere */}
-      <motion.div 
-        style={{ opacity: atmosOpacity, y: atmosY }}
-        className="absolute top-0 left-0 w-full h-full z-0 pointer-events-none"
-      >
-        <CTAFloating3D />
-      </motion.div>
-
       <div className="w-main mx-auto relative z-10 px-6 md:px-0">
-        <div className="flex flex-col gap-8 max-w-3xl h-full justify-start translate-y-[-15%]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="flex items-center gap-6 text-brand-purple text-xs md:text-sm font-black uppercase mb-2"
-          >
+          {/* Left Side: Text Content */}
+          <div className="flex flex-col gap-8">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="flex items-center gap-6 text-brand-purple text-xs md:text-sm font-black uppercase mb-2"
+            >
+              <motion.div 
+                 initial={{ width: 0 }}
+                 whileInView={{ width: 64 }}
+                 transition={{ duration: 1, ease: "circOut" }}
+                 className="h-[2px] bg-brand-purple" 
+              />
+              Your Next Chapter
+            </motion.div>
+
+            <div className="space-y-6">
+              <motion.h2 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.3 }}
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight tracking-tighter"
+              >
+                Join Us on <br />
+                This <span className="text-brand-purple italic">Journey</span>
+              </motion.h2>
+
+              <motion.p 
+                 initial={{ opacity: 0, y: 20 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 transition={{ duration: 1, delay: 0.5 }}
+                 className="max-w-xl text-lg sm:text-xl text-white/50 leading-relaxed font-light"
+              >
+                We invite you to explore our team’s dedication to excellence and how TAMx Technologies can transform your business. 
+                Together, let’s build a smarter, more connected future.
+              </motion.p>
+            </div>
+
             <motion.div 
-               initial={{ width: 0 }}
-               whileInView={{ width: 64 }}
-               transition={{ duration: 1, ease: "circOut" }}
-               className="h-[2px] bg-brand-purple" 
-            />
-            Your Next Chapter
-          </motion.div>
-
-          <div className="space-y-6">
-            <motion.h2 
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.3 }}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tighter"
+              transition={{ duration: 1, delay: 0.7 }}
+              className="mt-4 flex flex-wrap gap-8 items-center"
             >
-              Join Us on <br />
-              This <span className="text-brand-purple italic">Journey</span>
-            </motion.h2>
-
-            <motion.p 
-               initial={{ opacity: 0, y: 20 }}
-               whileInView={{ opacity: 1, y: 0 }}
-               transition={{ duration: 1, delay: 0.5 }}
-               className="max-w-xl text-base sm:text-lg lg:text-xl text-white/50 leading-relaxed font-light"
-            >
-              We invite you to explore our team’s dedication to excellence and how TAMx Technologies can transform your business. 
-              Together, let’s build a smarter, more connected future.
-            </motion.p>
+              <ReflexButton text="Start a Project" href="/contact" />
+              
+              <Link 
+                className="lg:text-lg flex items-center gap-2 border-b border-white/20 hover:border-brand-purple transition-all duration-300 group font-medium text-white" 
+                href="/work"
+              >
+                Explore Our Work 
+                <motion.span
+                  animate={{ x: [0, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  <ArrowUpRight className="size-5 text-brand-purple" />
+                </motion.span>
+              </Link>
+            </motion.div>
           </div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.7 }}
-            className="mt-4 flex flex-wrap gap-8 items-center"
-          >
-            <ReflexButton text="Start a Project" href="/contact" />
-            
-            <Link 
-              className="lg:text-lg flex items-center gap-2 border-b border-white/20 hover:border-brand-purple transition-all duration-300 group font-medium" 
-              href="/work"
-            >
-              Explore Our Work 
-              <motion.span
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                <ArrowUpRight className="size-5 text-brand-purple" />
-              </motion.span>
-            </Link>
-          </motion.div>
+          {/* Right Side: Timeline Animation */}
+          <div className="relative h-[500px] sm:h-[600px] lg:h-[800px] w-full mt-12 lg:mt-0 overflow-hidden">
+            <RadialOrbitalTimeline timelineData={journeyData} />
+          </div>
+
         </div>
       </div>
 

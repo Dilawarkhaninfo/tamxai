@@ -31,11 +31,11 @@ interface BlogPost {
 }
 
 const mockBlogs: BlogPost[] = [
-  { id: '1', title: 'The Future of AI in B2B', author: 'Dilawar Khan', category: 'Technology', status: 'published', date: '2024-03-10' },
+  { id: '1', title: 'The Future of AI in B2B', author: 'Ahmed Malik', category: 'Technology', status: 'published', date: '2024-03-10' },
   { id: '2', title: 'Optimizing Cloud Performance', author: 'Sarah Wilson', category: 'Cloud', status: 'published', date: '2024-03-08' },
   { id: '3', title: 'UX Design Systems for 2024', author: 'Alex Chen', category: 'Design', status: 'draft', date: '2024-03-05' },
-  { id: '4', title: 'Scaling Your SaaS Business', author: 'Dilawar Khan', category: 'Business', status: 'archived', date: '2024-03-02' },
-  { id: '5', title: 'Modern DevSecOps Practices', author: 'Dilawar Khan', category: 'Security', status: 'scheduled', date: '2024-03-15' },
+  { id: '4', title: 'Scaling Your SaaS Business', author: 'Ahmed Malik', category: 'Business', status: 'archived', date: '2024-03-02' },
+  { id: '5', title: 'Modern DevSecOps Practices', author: 'Ahmed Malik', category: 'Security', status: 'scheduled', date: '2024-03-15' },
 ];
 
 export default function BlogPage() {
@@ -70,7 +70,7 @@ export default function BlogPage() {
       const newBlog: BlogPost = {
         id: (blogs.length + 1).toString(),
         title: data.title || 'Untitled Article',
-        author: data.author || 'Dilawar Khan',
+        author: data.author || 'Ahmed Malik',
         category: data.category || 'Uncategorized',
         status: data.status || 'draft',
         date: new Date().toISOString().split('T')[0],

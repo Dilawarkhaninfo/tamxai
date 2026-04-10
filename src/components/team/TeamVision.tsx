@@ -34,7 +34,7 @@ export default function TeamVision() {
   return (
     <section 
       ref={containerRef}
-      className="relative min-h-screen py-32 w-full flex items-center justify-center overflow-hidden bg-black px-6 md:px-0"
+      className="relative min-h-[80vh] py-24 w-full flex items-center justify-center overflow-hidden bg-black px-6 md:px-0"
     >
       {/* 3D NEURAL NETWORK BACKGROUND WITH PARALLAX */}
       <motion.div 
@@ -50,24 +50,24 @@ export default function TeamVision() {
       </div>
 
       <div className="relative z-20 w-main mx-auto">
-        <div className="grid grid-cols-12 gap-y-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-x-12">
           
-          {/* Top Left: Typography Title (No Box Background) */}
+          {/* Top Left: Typography Title */}
           <motion.div 
             style={{ x: titleX }}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-10%" }}
-            className="col-start-1 col-end-13 lg:col-start-1 lg:col-end-6 self-start"
+            className="lg:col-span-12 xl:col-span-5 self-start"
           >
             <motion.div
               initial={{ opacity: 0, letterSpacing: '0.3em' }}
-              whileInView={{ opacity: 1, letterSpacing: '0.5em' }}
+              whileInView={{ opacity: 1, letterSpacing: '0.4em' }}
               viewport={{ once: true }}
               transition={{ duration: 1.2, delay: 0.4 }}
-              className="flex items-center gap-6 text-brand-purple text-xs md:text-sm font-black uppercase mb-10"
+              className="flex items-center gap-4 text-brand-purple text-[10px] md:text-xs font-black uppercase mb-8"
             >
-              <div className="w-16 h-[2px] bg-brand-purple" />
+              <div className="w-12 h-[1px] bg-brand-purple/50" />
               Strategic Vision
             </motion.div>
             
@@ -75,7 +75,7 @@ export default function TeamVision() {
               <div className="overflow-hidden">
                  <motion.h3 
                   variants={lineReveal}
-                  className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black leading-none tracking-tighter text-white"
+                  className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tighter text-white"
                 >
                   Our <span className="text-brand-purple italic">Vision</span>
                 </motion.h3>
@@ -83,16 +83,16 @@ export default function TeamVision() {
             </div>
           </motion.div>
 
-          {/* Bottom Right: Content (No Box Background) - Aligned to "Blue Box" */}
+          {/* Bottom Right: Content */}
           <motion.div 
             style={{ y: contentY }}
-            initial={{ opacity: 0, x: 60, y: 30 }}
+            initial={{ opacity: 0, x: 40, y: 20 }}
             whileInView={{ opacity: 1, x: 0, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
-            className="col-start-1 lg:col-start-5 col-end-13 relative lg:-mt-16 z-10"
+            className="lg:col-span-12 xl:col-start-6 xl:col-span-7 relative z-10 lg:mt-0"
           >
-            <div className="flex flex-wrap text-left lg:pl-12 border-l border-brand-purple/20">
+            <div className="flex flex-wrap text-left lg:pl-12 lg:border-l border-brand-purple/10">
               {words.map((word, i) => (
                 <motion.span
                   key={i}
@@ -104,10 +104,10 @@ export default function TeamVision() {
                     delay: 0.6 + (i * 0.02),
                     ease: "easeOut"
                   }}
-                  className={`text-xl sm:text-2xl md:text-3xl lg:text-4xl font-light leading-relaxed mr-2.5 mb-2.5 tracking-tight ${
+                  className={`text-lg sm:text-xl lg:text-2xl font-light leading-relaxed mr-2.5 mb-2.5 tracking-tight ${
                     highlightedWords.includes(word.toLowerCase().replace(/[.,]/g, "")) 
                       ? "text-white font-semibold shimmer-text" 
-                      : "text-white/60"
+                      : "text-white/50"
                   }`}
                 >
                   {word}
@@ -120,12 +120,13 @@ export default function TeamVision() {
                initial={{ scaleX: 0 }}
                whileInView={{ scaleX: 1 }}
                transition={{ duration: 1.5, delay: 1 }}
-               className="mt-12 h-[1px] w-full bg-gradient-to-r from-brand-purple/50 via-brand-purple to-transparent origin-left"
+               className="mt-10 h-[1px] w-full bg-gradient-to-r from-brand-purple/30 via-brand-purple/60 to-transparent origin-left"
             />
           </motion.div>
           
         </div>
       </div>
+
 
       <style jsx>{`
         .shimmer-text {

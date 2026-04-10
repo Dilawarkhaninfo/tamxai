@@ -89,28 +89,19 @@ export const VideoShowcase = () => {
         {/* Header Section */}
         <motion.div 
           style={{ y, opacity }}
-          className="text-center max-w-4xl mx-auto mb-16 md:mb-20"
+          className="text-center max-w-2xl mx-auto mb-12 md:mb-16"
         >
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-xl md:text-2xl text-brand-purple uppercase tracking-[0.4em] font-bold mb-8"
-          >
-            Experience Our Vision
-          </motion.h2>
-          
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg md:text-xl text-white/70 leading-relaxed font-light tracking-wide px-4"
+            className="text-base sm:text-lg lg:text-xl text-white/60 leading-relaxed font-light tracking-wide px-4"
           >
-            Watch our introductory video to learn more about TAMx Technologies and our vision for transforming the future through technology. In this video, you will see our core values, the innovative solutions we provide, and how we can support your business journey.
+            Watch our introductory video to learn more about TAMx Technologies and our vision for transforming the future through technology. We explore our core values, innovative solutions, and commitment to your business journey.
           </motion.p>
         </motion.div>
+
 
         {/* Video Card Container */}
         <motion.div

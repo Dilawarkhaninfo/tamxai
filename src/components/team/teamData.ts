@@ -33,7 +33,7 @@ export const teamData: TeamMember[] = [
   },
   {
     id: 3,
-    name: 'Taha Kashif',
+    name: 'Taha Khan',
     role: 'CMO',
     company: 'TAMx',
     description: 'Strategic marketer connecting advanced AI capabilities with global enterprise needs.',

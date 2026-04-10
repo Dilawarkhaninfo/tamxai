@@ -17,43 +17,43 @@ const services = [
     title: 'Product Design',
     icon: Paintbrush,
     href: '/services',
-    desc: 'End-to-end product design — from research to polished UI systems.',
-    items: ['User Research & Strategy', 'UX Flows & Wireframes', 'UI Systems & Prototypes', 'Design Ops & Dev Handoff']
+    desc: 'Crafting premium, user-centric experiences that define modern digital products.',
+    items: ['User Research & Design Strategy', 'UX Architecture & Wireframing', 'High-Fidelity UI Design', 'Design Systems & Dev-Handoff']
   },
   {
-    title: 'Development',
+    title: 'AI Software Development',
     icon: Code,
     href: '/services',
-    desc: 'Robust, scalable products across web and mobile platforms.',
-    items: ['Frontend Platforms (React / Next)', 'Backend APIs & Microservices', 'Mobile & Cross-platform (Flutter)', 'CI/CD & Cloud Ops (Docker)']
+    desc: 'Building intelligent, scalable AI-powered applications for web and mobile.',
+    items: ['WEB DEVELOPMENT', 'APP DEVELOPMENT', 'Cloud-Native AI Architecture', 'Scalable Microservices']
   },
   {
-    title: 'GTM Strategy',
+    title: 'Digital Marketing',
     icon: TrendingUp,
     href: '/services',
-    desc: 'Go-to-market plans that drive growth and market fit.',
-    items: ['ICP & Segmentation', 'Positioning & Messaging', 'Pricing & Packaging', 'Demand Gen & Content Engine']
+    desc: 'Driving exponential growth with performance-led digital marketing strategies.',
+    items: ['Growth Hacking & Performance Marketing', 'Social Media Branding & Strategy', 'Content Strategy & Lifecycle Marketing', 'Conversion Rate Optimization (CRO)']
   },
   {
-    title: 'AI Development',
+    title: 'Research & Development',
     icon: Brain,
     href: '/services',
-    desc: 'Intelligent solutions powered by cutting-edge AI & ML.',
-    items: ['LLM Apps & Agents (RAG / Tools)', 'Fine-tuning & Prompt Optimization', 'Model Evals & Guardrails', 'Vision, NLP & Speech Pipelines']
+    desc: 'Pioneering frontier technologies through deep AI research and R&D.',
+    items: ['Neural Network Research', 'Generative AI Prototyping', 'Predictive Modeling & Data Science', 'Proof-of-Concept Development']
   },
   {
-    title: 'Healthcare Apps',
+    title: 'SEO',
     icon: Stethoscope,
     href: '/services',
-    desc: 'Secure, compliant healthcare technology solutions.',
-    items: ['HIPAA & PHI Compliance', 'Telehealth & Patient Portals', 'EHR Integrations (FHIR / HL7)', 'Audit Logging & Access Controls']
+    desc: 'Dominating search rankings with professional, performance-driven SEO.',
+    items: ['Technical SEO & Performance Audit', 'Competitive Keyword Strategy', 'Semantic Content Optimization', 'Authority & Link Building Building']
   },
   {
-    title: 'IoT Development',
+    title: 'Solutions',
     icon: Cpu,
     href: '/services',
-    desc: 'Connected device ecosystems from firmware to cloud.',
-    items: ['Embedded Firmware & Drivers', 'BLE / Zigbee / LoRa', 'MQTT & Stream Processing', 'Edge AI & OTA Pipelines']
+    desc: 'Comprehensive enterprise solutions tailored for digital transformation.',
+    items: ['Enterprise AI Implementation', 'Operational Tech Consulting', 'Digital Transformation Strategy', 'Modernization & Infrastructure Scale']
   }
 ]
 
@@ -83,7 +83,7 @@ const navLinks = [
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services', hasDropdown: true, dropdownId: 'services' as const },
   { href: '/product', label: 'Product', hasDropdown: true, dropdownId: 'product' as const },
-  { href: '/courses', label: 'E-Courses' },
+  { href: '/e-courses', label: 'E-Courses' },
   { href: '/blog', label: 'Blog' },
   { href: '/pricing', label: 'Pricing' },
 ]

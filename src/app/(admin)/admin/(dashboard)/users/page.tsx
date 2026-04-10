@@ -27,7 +27,7 @@ import { useToast } from '@/components/admin/Toast';
 import { DeleteConfirmModal } from '@/components/admin/DeleteConfirmModal';
 
 const mockUsers = [
-  { id: '1', name: 'Dilawar Khan', email: 'admin@tamx.ai', role: 'Admin', status: 'active', lastLogin: '2 mins ago' },
+  { id: '1', name: 'Ahmed Malik', email: 'admin@tamx.ai', role: 'Admin', status: 'active', lastLogin: '2 mins ago' },
   { id: '2', name: 'Sarah Wilson', email: 'sarah@tamx.ai', role: 'Editor', status: 'active', lastLogin: '5 hours ago' },
   { id: '3', name: 'Alex Chen', email: 'alex@tamx.ai', role: 'Viewer', status: 'inactive', lastLogin: '3 days ago' },
   { id: '4', name: 'Michael Scott', email: 'm.scott@tamx.ai', role: 'Editor', status: 'suspended', lastLogin: '1 week ago' },

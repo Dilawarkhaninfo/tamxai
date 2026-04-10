@@ -15,12 +15,12 @@ const servicesImages = [
 ];
 
 const expandedServices = [
-  { icon: Layout, title: 'Product Design', desc: 'Crafting intuitive, user-centric experiences that define premium digital products.' },
-  { icon: Code2, title: 'Development', desc: 'Building scalable, high-performance applications with modern tech stacks.' },
-  { icon: Brain, title: 'AI Engineering', desc: 'Integrating advanced LLMs and predictive models to automate complex workflows.' },
-  { icon: Rocket, title: 'GTM Strategy', desc: 'Accelerating product-market fit through data-driven growth frameworks.' },
-  { icon: Stethoscope, title: 'Healthcare Solutions', desc: 'Secure, compliant digital health platforms designed for patient impact.' },
-  { icon: Cpu, title: 'IoT & Edge AI', desc: 'Real-time telemetry and edge intelligence for smart infrastructure.' },
+  { icon: Layout, title: 'Product Design', desc: 'Crafting premium, user-centric experiences that define modern digital products.' },
+  { icon: Code2, title: 'AI Software Development', desc: 'Developing intelligent, high-performance applications. (WEB & APP Development)' },
+  { icon: Brain, title: 'Research & Development', desc: 'Pioneering frontier technologies through deep AI research, experimental prototyping, and technical feasibility studies.' },
+  { icon: Rocket, title: 'Digital Marketing', desc: 'Driving exponential growth through data-driven performance marketing, global scaling, and strategic positioning.' },
+  { icon: Stethoscope, title: 'SEO', desc: 'Dominating search landscapes with professional technical SEO, content authority, and organic growth strategies.' },
+  { icon: Cpu, title: 'Solutions', desc: 'Comprehensive enterprise-grade solutions designed to streamline operations and accelerate digital transformation.' },
 ];
 
 const workflowSteps = [

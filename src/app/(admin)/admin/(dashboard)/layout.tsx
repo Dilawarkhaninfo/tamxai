@@ -34,7 +34,7 @@ export default function AdminDashboardLayout({
   useEffect(() => {
     if (isAuthorized === true) {
       setTimeout(() => {
-        showToast('Welcome back, Dilawar! Dashboard synchronized.', 'success');
+        showToast('Welcome back, Ahmed Malik! Dashboard synchronized.', 'success');
       }, 1000);
     }
   }, [isAuthorized]);

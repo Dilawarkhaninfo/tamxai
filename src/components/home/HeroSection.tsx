@@ -1,10 +1,25 @@
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { usePreloader } from '@/context/PreloaderContext';
+import AnimatedTextCycle from '@/components/ui/animated-text-cycle';
 
 export function HeroSection() {
   const { finished } = usePreloader();
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const prefixWords = ["Artificial", "Data", "Product", "Growth"];
+  const suffixWords = ["Intelligence", "Intelligence", "Innovation", "Strategies"];
+  const interval = 4000;
+
+  useEffect(() => {
+    if (!finished) return;
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % prefixWords.length);
+    }, interval);
+    return () => clearInterval(timer);
+  }, [finished, prefixWords.length]);
 
   return (
     <div className="relative z-20 h-full">
@@ -17,32 +32,56 @@ export function HeroSection() {
         <div className="flex justify-center items-center flex-1 min-h-0">
           <h1
             id="hero-title"
-            className="text-3xl/[1.7rem] sm:text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-light text-center sm:text-left sm:w-[500px] md:w-[660px] xl:w-[830px] 2xl:w-[1000px]"
+            className="grid grid-cols-1 md:grid-cols-[auto_auto_auto] gap-y-2 md:gap-y-4 md:gap-x-4 items-center justify-center text-center md:text-left w-fit mx-auto"
           >
+            {/* Row 1: Building Business (Col 1) + Prefix Cycle (Col 2) */}
             <motion.div
-              id="title1"
-              initial={{ x: 150, opacity: 0 }}
-              animate={finished ? { x: 0, opacity: 1 } : { x: 150, opacity: 0 }}
-              transition={{ duration: 2, ease: 'anticipate' }}
-              className="flex justify-center sm:justify-start"
+              initial={{ x: -20, opacity: 0 }}
+              animate={finished ? { x: 0, opacity: 1 } : { x: -20, opacity: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="md:col-start-1 md:col-span-1 flex items-center justify-center md:justify-end gap-x-3 md:gap-x-5"
             >
-              <div className="overflow-hidden py-3">
-                <span>Creating Small </span>
-                <span className="italic font-bold pr-2">Digital</span>
-              </div>
+              <span className="text-xl sm:text-2xl md:text-4xl lg:text-6xl font-extralight tracking-tight text-white/90 whitespace-nowrap">
+                Building Business
+              </span>
             </motion.div>
 
             <motion.div
-              id="title2"
-              initial={{ x: -150, opacity: 0 }}
-              animate={finished ? { x: 0, opacity: 1 } : { x: -150, opacity: 0 }}
-              transition={{ duration: 2, ease: 'anticipate' }}
-              className="text-right mt-0 flex justify-center sm:justify-end"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={finished ? { scale: 1, opacity: 1 } : { scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="md:col-start-2 md:col-span-1 flex justify-center md:justify-start"
             >
-              <div className="overflow-hidden">
-                <span className="italic font-bold">Solution </span>
-                <span>that matters</span>
-              </div>
+              <AnimatedTextCycle 
+                words={prefixWords} 
+                externalIndex={currentIndex}
+                className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl italic font-bold text-brand-purple drop-shadow-2xl translate-y-[-2px]"
+              />
+            </motion.div>
+
+            {/* Row 2: Suffix Cycle (Col 2) + that matters (Col 3) */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={finished ? { scale: 1, opacity: 1 } : { scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="md:col-start-2 md:col-span-1 flex justify-center md:justify-start"
+            >
+              <AnimatedTextCycle 
+                words={suffixWords} 
+                externalIndex={currentIndex}
+                className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl italic font-bold text-brand-purple drop-shadow-2xl translate-y-[2px]"
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ x: 20, opacity: 0 }}
+              animate={finished ? { x: 0, opacity: 1 } : { x: 20, opacity: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="md:col-start-3 md:col-span-1 flex items-center justify-center md:justify-start"
+            >
+              <span className="text-xl sm:text-2xl md:text-4xl lg:text-6xl font-extralight tracking-tight text-white/70 whitespace-nowrap">
+              that matters
+              </span>
             </motion.div>
           </h1>
         </div>

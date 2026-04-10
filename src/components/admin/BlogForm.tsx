@@ -94,8 +94,8 @@ export function BlogForm({ initialData, onSubmit, onCancel }: {
               <input 
                 type="text" 
                 className="w-full bg-[#010205] border border-white/5 rounded-2xl pl-12 pr-4 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all text-white font-bold" 
-                placeholder="DILAWAR KHAN"
-                defaultValue={initialData?.author || "Dilawar Khan"}
+                placeholder="AHMED MALIK"
+                defaultValue={initialData?.author || "Ahmed Malik"}
               />
            </div>
         </div>

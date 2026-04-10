@@ -36,6 +36,7 @@ export default function RadialOrbitalTimeline({
     y: 0,
   });
   const [activeNodeId, setActiveNodeId] = useState<number | null>(null);
+  const [targetAngle, setTargetAngle] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
@@ -88,23 +89,41 @@ export default function RadialOrbitalTimeline({
   };
 
   useEffect(() => {
-    let rotationTimer: NodeJS.Timeout;
+    let requestRef: number;
+    let lastTime: number;
 
-    if (autoRotate && viewMode === "orbital") {
-      rotationTimer = setInterval(() => {
-        setRotationAngle((prev) => {
-          const newAngle = (prev + 0.3) % 360;
-          return Number(newAngle.toFixed(3));
-        });
-      }, 50);
-    }
+    const animate = (time: number) => {
+      if (lastTime !== undefined) {
+        const deltaTime = time - lastTime;
+        
+        if (autoRotate && viewMode === "orbital") {
+          setRotationAngle((prev) => (prev + 0.02 * deltaTime) % 360);
+          setTargetAngle(null);
+        } else if (!autoRotate && targetAngle !== null) {
+          // Smooth interpolation towards target angle
+          setRotationAngle((prev) => {
+            const diff = targetAngle - prev;
+            // Shortest path interpolation
+            const normalizedDiff = ((diff + 540) % 360) - 180;
+            if (Math.abs(normalizedDiff) < 0.1) {
+              return targetAngle;
+            }
+            return (prev + normalizedDiff * 0.1) % 360;
+          });
+        }
+      }
+      lastTime = time;
+      requestRef = requestAnimationFrame(animate);
+    };
+
+    requestRef = requestAnimationFrame(animate);
 
     return () => {
-      if (rotationTimer) {
-        clearInterval(rotationTimer);
+      if (requestRef) {
+        cancelAnimationFrame(requestRef);
       }
     };
-  }, [autoRotate, viewMode]);
+  }, [autoRotate, viewMode, targetAngle]);
 
   const centerViewOnNode = (nodeId: number) => {
     if (viewMode !== "orbital" || !nodeRefs.current[nodeId]) return;
@@ -113,7 +132,8 @@ export default function RadialOrbitalTimeline({
     const totalNodes = timelineData.length;
     const targetAngle = (nodeIndex / totalNodes) * 360;
 
-    setRotationAngle(270 - targetAngle);
+    const targetPos = 270 - targetAngle;
+    setTargetAngle(targetPos);
   };
 
   const calculateNodePosition = (index: number, total: number) => {
@@ -159,7 +179,7 @@ export default function RadialOrbitalTimeline({
 
   return (
     <div
-      className="w-full h-screen flex flex-col items-center justify-center bg-black overflow-hidden"
+      className="w-full h-full flex flex-col items-center justify-center bg-black overflow-hidden"
       ref={containerRef}
       onClick={handleContainerClick}
     >
@@ -200,7 +220,7 @@ export default function RadialOrbitalTimeline({
               <div
                 key={item.id}
                 ref={(el) => { nodeRefs.current[item.id] = el; }}
-                className="absolute transition-all duration-700 cursor-pointer"
+                className="absolute cursor-pointer transition-[opacity,scale] duration-500"
                 style={nodeStyle}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -239,7 +259,7 @@ export default function RadialOrbitalTimeline({
                       : "border-white/40"
                   }
                   transition-all duration-300 transform
-                  ${isExpanded ? "scale-150" : ""}
+                  ${isExpanded ? "scale-150" : "scale-100 hover:scale-110"}
                 `}
                 >
                   <Icon size={16} />

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
 import { usePreloader } from '@/context/PreloaderContext';
-import { Mail, Phone, MapPin, Globe, ArrowUpRight, ChevronDown, CheckCircle2, Star } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, ArrowUpRight, ChevronDown, CheckCircle2, Star, Linkedin, Facebook, Instagram } from 'lucide-react';
 import { AnimatedBackground } from '@/components/home/AnimatedBackground';
 import { PageSection } from '@/components/layout/PageSection';
 import { GlobalNetworkSphere } from '@/components/contact/GlobalNetworkSphere';
@@ -13,12 +13,13 @@ import { ConsultationSection } from '@/components/contact/ConsultationSection';
 const contactInfo = [
   { icon: Mail, label: 'Email', value: 'info@tamxai.com', href: 'mailto:info@tamxai.com' },
   { icon: Phone, label: 'Phone', value: '+92 3353898844', href: 'tel:+923353898844' },
-  { icon: MapPin, label: 'HQ', value: 'Silicon Valley, Islamabad', href: '#' },
+  { icon: MapPin, label: 'HQ', value: 'Regional Plan 9, NASTP', href: '#' },
 ];
 
 const socials = [
-  { name: 'LinkedIn', icon: Globe },
-  { name: 'GitHub', icon: Globe },
+  { name: 'LinkedIn', icon: Linkedin },
+  { name: 'Facebook', icon: Facebook },
+  { name: 'Instagram', icon: Instagram },
 ];
 
 const technicalFocusOptions = {

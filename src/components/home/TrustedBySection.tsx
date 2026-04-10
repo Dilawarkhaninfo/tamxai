@@ -11,10 +11,10 @@ gsap.registerPlugin(ScrollTrigger);
 const CLIENTS = [
   { name: 'Devkeytech',    id: 'devkeytech' },
   { name: 'Ignite',        id: 'ignite' },
-  { name: 'Moit',          id: 'moit' },
-  { name: 'MetaverseDvsr', id: 'metaversedeviser' },
+  { name: 'MOIT',          id: 'moit' },
+  { name: 'MetaverseDeviser', id: 'metaversedeviser' },
   { name: 'QuickSilver',   id: 'quicksilver' },
-  { name: 'Nicat',         id: 'nicat' },
+  { name: 'NICAT',         id: 'nicat' },
   { name: 'RegionalPlan9', id: 'regionalplan9' },
 ];
 
