@@ -5,13 +5,13 @@ import { motion } from 'framer-motion';
 import { usePreloader } from '@/context/PreloaderContext';
 import AnimatedTextCycle from '@/components/ui/animated-text-cycle';
 
+const prefixWords = ["Artificial", "Data", "Product", "Growth"];
+const suffixWords = ["Intelligence", "Intelligence", "Innovation", "Strategies"];
+const interval = 4000;
+
 export function HeroSection() {
   const { finished } = usePreloader();
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const prefixWords = ["Artificial", "Data", "Product", "Growth"];
-  const suffixWords = ["Intelligence", "Intelligence", "Innovation", "Strategies"];
-  const interval = 4000;
 
   useEffect(() => {
     if (!finished) return;
@@ -19,7 +19,7 @@ export function HeroSection() {
       setCurrentIndex((prev) => (prev + 1) % prefixWords.length);
     }, interval);
     return () => clearInterval(timer);
-  }, [finished, prefixWords.length]);
+  }, [finished]);
 
   return (
     <div className="relative z-20 h-full">
@@ -32,14 +32,14 @@ export function HeroSection() {
         <div className="flex justify-center items-center flex-1 min-h-0">
           <h1
             id="hero-title"
-            className="grid grid-cols-1 md:grid-cols-[auto_auto_auto] gap-y-2 md:gap-y-4 md:gap-x-4 items-center justify-center text-center md:text-left w-fit mx-auto"
+            className="grid grid-cols-1 md:grid-cols-[auto_auto_auto] gap-y-3 md:gap-y-2 md:gap-x-4 items-center justify-center text-center md:text-left w-fit mx-auto"
           >
             {/* Row 1: Building Business (Col 1) + Prefix Cycle (Col 2) */}
             <motion.div
               initial={{ x: -20, opacity: 0 }}
               animate={finished ? { x: 0, opacity: 1 } : { x: -20, opacity: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="md:col-start-1 md:col-span-1 flex items-center justify-center md:justify-end gap-x-3 md:gap-x-5"
+              className="md:col-start-1 md:col-span-1 flex items-center justify-center md:justify-end gap-x-1 md:gap-x-5"
             >
               <span className="text-xl sm:text-2xl md:text-4xl lg:text-6xl font-extralight tracking-tight text-white/90 whitespace-nowrap">
                 Building Business

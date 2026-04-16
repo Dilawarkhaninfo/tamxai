@@ -51,9 +51,9 @@ export default function TeamHero() {
               className="mb-8"
             >
               <img 
-                src="/Logo_tamx.png" 
+                src="/Tamx_logo.png" 
                 alt="TAMx Logo" 
-                className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 object-contain"
+                className="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-[0_0_15px_rgba(133,135,227,0.5)]" 
               />
             </motion.div>
 

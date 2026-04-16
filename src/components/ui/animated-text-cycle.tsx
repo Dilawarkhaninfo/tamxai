@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface AnimatedTextCycleProps {
@@ -9,6 +9,13 @@ interface AnimatedTextCycleProps {
   externalIndex?: number;
 }
 
+/**
+ * Ultimate Stable AnimatedTextCycle
+ * Uses an "Invisible Mirror" technique to drive layout width via CSS,
+ * combined with a safe AnimatePresence implementation for the slide effect.
+ * This ensures the container width is always controlled by the DOM (not Framer),
+ * prevent 'removeChild' crashes during rapid resizing.
+ */
 export default function AnimatedTextCycle({
   words,
   interval = 5000,
@@ -16,74 +23,73 @@ export default function AnimatedTextCycle({
   externalIndex,
 }: AnimatedTextCycleProps) {
   const [internalIndex, setInternalIndex] = useState(0);
-  const [width, setWidth] = useState<number | "auto">("auto");
-  const wordsRef = useRef<(HTMLSpanElement | null)[]>([]);
+  const [mounted, setMounted] = useState(false);
+  
+  // Hydration guard to ensure stable initial render
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  // Use external index if provided, otherwise fallback to internal state
   const currentIndex = externalIndex !== undefined ? externalIndex : internalIndex;
 
-  // Smooth width transition based on current word measurement
+  // Internal timer if not controlled externally
   useEffect(() => {
-    const currentWordElement = wordsRef.current[currentIndex];
-    if (currentWordElement) {
-      // Add a small buffer (12px) to prevent italic character clipping
-      setWidth(currentWordElement.offsetWidth + 12);
-    }
-  }, [currentIndex, words]);
-
-  // Handle word cycling (only if not controlled externally)
-  useEffect(() => {
-    if (externalIndex !== undefined) return;
+    if (!mounted || externalIndex !== undefined) return;
 
     const timer = setInterval(() => {
-      setInternalIndex((prevIndex) => (prevIndex + 1) % words.length);
+      setInternalIndex((prev) => (prev + 1) % words.length);
     }, interval);
 
     return () => clearInterval(timer);
-  }, [interval, words.length, externalIndex]);
+  }, [interval, words.length, externalIndex, mounted]);
+
+  const activeWord = words[currentIndex] || words[0] || "";
+
+  if (!mounted) {
+    return (
+      <span className="inline-block relative py-2 -my-2 overflow-hidden">
+        <span className={`whitespace-nowrap inline-block py-1 ${className}`}>
+          {words[0]}
+        </span>
+      </span>
+    );
+  }
 
   return (
-    <span className="relative inline-flex items-center align-baseline">
-      {/* Hidden measurement area - Always rendered to ensure stable DOM */}
+    <span className="relative inline-flex items-center align-baseline select-none">
+      {/* 
+        The "Invisible Mirror": 
+        Always present and drives the width of the container via standard CSS.
+        This ensures the surrounding text doesn't jitter and the layout is 100% stable.
+      */}
       <span 
         aria-hidden="true" 
-        className="absolute top-0 left-0 flex flex-col opacity-0 pointer-events-none whitespace-nowrap"
+        className={`${className} invisible pointer-events-none whitespace-nowrap`}
       >
-        {words.map((word, i) => (
-          <span 
-            key={`${word}-${i}`} 
-            ref={(el) => { wordsRef.current[i] = el; }}
-            className={className}
-          >
-            {word}
-          </span>
-        ))}
+        {activeWord}
+        <span className="inline-block w-[12px]" />
       </span>
 
-      {/* Animated container */}
-      <motion.span 
-        className="inline-block overflow-hidden relative py-2 -my-2"
-        animate={{ width: width === "auto" ? "auto" : width }}
-        transition={{ 
-          type: "spring",
-          stiffness: 180,
-          damping: 20,
-          mass: 1
-        }}
-      >
-        <AnimatePresence mode="wait">
+      {/* 
+        The Animated Layer:
+        Positioned absolutely to overlay the mirror. 
+        Note: We use py-6/-my-6 to ensure deep descenders like 'g' have perfect clearance,
+        especially for large italic font sizes.
+      */}
+      <span className="absolute inset-0 flex items-center overflow-hidden py-6 -my-6">
+        <AnimatePresence mode="popLayout" initial={false}>
           <motion.span
-            key={currentIndex}
-            initial={{ y: 20, opacity: 0, filter: "blur(4px)" }}
+            key={`cycle-${currentIndex}`}
+            initial={{ y: 22, opacity: 0, filter: "blur(4px)" }}
             animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
-            exit={{ y: -20, opacity: 0, filter: "blur(4px)" }}
-            transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-            className={`whitespace-nowrap inline-block py-1 ${className}`}
+            exit={{ y: -22, opacity: 0, filter: "blur(4px)" }}
+            transition={{ duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
+            className={`whitespace-nowrap inline-block py-2 ${className}`}
           >
-            {words[currentIndex]}
+            {activeWord}
           </motion.span>
         </AnimatePresence>
-      </motion.span>
+      </span>
     </span>
   );
-}
+} 

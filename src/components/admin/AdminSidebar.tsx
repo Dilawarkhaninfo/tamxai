@@ -87,7 +87,7 @@ export function AdminSidebar({ isCollapsed, setIsCollapsed, isMobileOpen, onMobi
                 className="flex items-center gap-3"
               >
                 <div className="w-12 h-12 rounded-xl bg-black border border-white/10 flex items-center justify-center p-2 shadow-[0_0_20px_rgba(0,0,0,0.8)] ring-1 ring-purple-500/20">
-                  <img src="/Logo_tamx.png" alt="TAMx" className="w-full h-auto object-contain" />
+                  <img src="/Tamx_logo.png" alt="TAMx" className="w-full h-auto object-contain" />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent uppercase">
@@ -107,7 +107,7 @@ export function AdminSidebar({ isCollapsed, setIsCollapsed, isMobileOpen, onMobi
                 className="mx-auto"
               >
                 <div className="w-12 h-12 rounded-xl bg-black border border-white/10 flex items-center justify-center p-2 shadow-lg ring-1 ring-purple-500/20">
-                  <img src="/Logo_tamx.png" alt="TAMx" className="w-full h-auto object-contain" />
+                  <img src="/Tamx_logo.png" alt="TAMx" className="w-full h-auto object-contain" />
                 </div>
               </motion.div>
             )}

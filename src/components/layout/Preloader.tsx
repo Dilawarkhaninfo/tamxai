@@ -117,7 +117,7 @@ export const Preloader = () => {
       <div ref={contentRef} className="preloader-content">
         <div ref={logoRef} className="preloader-logo-container">
           <Image
-            src="/Logo_tamx.png"
+            src="/Tamx_logo.png"
             alt="TAMx Logo"
             width={120}
             height={120}

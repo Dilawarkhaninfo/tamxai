@@ -112,7 +112,7 @@ export default function LoginPage() {
                 className="w-24 h-24 rounded-2xl bg-gradient-to-br from-purple-600 to-blue-600 p-0.5 flex items-center justify-center"
                >
                  <div className="w-full h-full bg-[#030712] rounded-2xl flex items-center justify-center p-4">
-                    <img src="/Logo_tamx.png" alt="TAMx Logo" className="w-full h-auto" />
+                    <img src="/Tamx_logo.png" alt="TAMx Logo" className="w-full h-auto" />
                  </div>
                </motion.div>
             </div>
@@ -154,7 +154,7 @@ export default function LoginPage() {
               <div className="flex flex-col items-center lg:items-start mb-10">
                 <div className="lg:hidden w-16 h-16 mb-6 rounded-2xl bg-gradient-to-br from-purple-600 to-blue-600 p-[1px]">
                   <div className="w-full h-full bg-[#030712] rounded-2xl flex items-center justify-center p-3">
-                    <img src="/Logo_tamx.png" alt="TAMx" className="w-full h-auto object-contain" />
+                    <img src="/Tamx_logo.png" alt="TAMx" className="w-full h-auto object-contain" />
                   </div>
                 </div>
                 <h2 className="text-3xl sm:text-4xl font-black mb-3 tracking-tight text-center lg:text-left">Welcome Back</h2>

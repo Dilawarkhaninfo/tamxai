@@ -168,11 +168,11 @@ export function Navbar() {
         <div className="flex justify-between items-center relative">
           <Link href="/" className="shrink-0 flex items-center gap-2">
             <Image
-              src="/Logo_tamx.png"
+              src="/Tamx_logo.png"
               alt="TAMx Logo"
-              width={32}
-              height={32}
-              className="w-7 h-7 lg:w-8 lg:h-8"
+              width={40}
+              height={40}
+              className="w-10 h-10 object-contain"
               priority
             />
             <Image
