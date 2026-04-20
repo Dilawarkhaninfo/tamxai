@@ -80,9 +80,9 @@ export function LMSProfessor() {
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
             >
               <img 
-                src="https://edeviser.com/wp-content/uploads/2025/03/man-with-bg.svg" 
-                alt="AI Professor Illustration"
-                className="w-full h-auto drop-shadow-2xl"
+                src="/images/lms/ai_professor.png" 
+                alt="Realistic AI Professor Avatar"
+                className="w-full h-auto drop-shadow-2xl rounded-3xl"
               />
             </motion.div>
             

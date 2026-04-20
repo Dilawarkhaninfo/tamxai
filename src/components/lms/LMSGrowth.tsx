@@ -16,8 +16,8 @@ export function LMSGrowth() {
             viewport={{ once: true }}
             className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-8 leading-tight"
           >
-            Gamified Growth <br />
-            <span className="gradient-text">Conquer</span> Each Level
+            Cognitive Skill Evolution <br />
+            <span className="gradient-text">Precision</span> Navigator
           </motion.h2>
           
           <motion.p 
@@ -26,7 +26,7 @@ export function LMSGrowth() {
             transition={{ delay: 0.2 }}
             className="text-text-secondary text-xl leading-relaxed mb-10 opacity-80"
           >
-            Embark on a structured journey where every achievement unlocks new possibilities. Our interactive growth system ensures that you stay motivated and on track to master your skills.
+            TAMX AI analyzes your unique learning signature to craft a personalized roadmap. Experience a dynamic curriculum that evolves in real-time, ensuring mastery through data-driven insights and adaptive challenges.
           </motion.p>
           
           <motion.div 
@@ -67,9 +67,9 @@ export function LMSGrowth() {
               className="relative overflow-hidden rounded-2xl"
             >
               <img 
-                src="https://edeviser.com/wp-content/uploads/2025/03/Map-1024x745.png" 
-                alt="Gamified Growth Map"
-                className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700"
+                src="/images/lms/growth_path.png" 
+                alt="AI Cognitive Growth Dashboard"
+                className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 transition-all duration-700 shadow-2xl"
               />
             </motion.div>
           </motion.div>

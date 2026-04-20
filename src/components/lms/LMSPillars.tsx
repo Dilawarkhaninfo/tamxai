@@ -66,7 +66,7 @@ const pillars = [
     id: 'conation',
     title: 'Conation',
     subtitle: '(Action-Driven Mastery)',
-    description: 'Metaverse classrooms and hands-on simulations provide immersive experiences, enabling learners to apply knowledge in real-world contexts.',
+    description: 'Immersive AI simulations and hands-on environments provide deep learning experiences, enabling learners to apply knowledge in real-world contexts.',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 44 44" fill="none">
         <rect width="44" height="44" rx="22" fill="url(#pill_grad_4)"></rect>

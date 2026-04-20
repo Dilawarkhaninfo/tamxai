@@ -10,11 +10,6 @@ const agents = [
   { name: 'Dr. Physics', image: 'https://edeviser.com/wp-content/uploads/2025/03/dr-phy.jpg', color: 'from-[#F59E0B] to-[#EF4444]' }
 ]
 
-const stats = [
-  { name: 'Physics', progress: 100 },
-  { name: 'Chemistry', progress: 100 },
-  { name: 'Math', progress: 30 }
-]
 
 export function LMSAgents() {
   return (
@@ -71,79 +66,6 @@ export function LMSAgents() {
         </div>
       </div>
 
-      {/* Statistics & Quizzes Subsection */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center px-4">
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="max-w-xl w-full"
-        >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-10 leading-tight">
-            Personalized <span className="gradient-text">Quizzes</span> According To Your Subject Statistics
-          </h2>
-          
-          <div className="space-y-10 p-6 sm:p-10 rounded-[2rem] sm:rounded-[2.5rem] bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl">
-            <h3 className="text-xl font-bold text-white/90 mb-6 flex items-center gap-4">
-               <img src="https://edeviser.com/wp-content/uploads/2025/02/Rectangle-168.png" className="w-10 h-10 rounded-lg" alt="User Profile" />
-               John’s Subjects Statistics
-            </h3>
-            
-            <div className="space-y-8">
-              {stats.map((stat) => (
-                <div key={stat.name} className="space-y-3">
-                  <div className="flex justify-between items-center text-sm font-bold uppercase tracking-widest text-text-secondary">
-                    <span>{stat.name}</span>
-                    <span className="text-brand-lavender">{stat.progress}%</span>
-                  </div>
-                  <div className="h-2.5 w-full bg-white/10 rounded-full overflow-hidden p-0.5 border border-white/5">
-                    <motion.div 
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${stat.progress}%` }}
-                      transition={{ duration: 1.5, ease: "easeOut" }}
-                      className={`h-full rounded-full bg-gradient-to-r ${stat.progress === 100 ? 'from-green-500 to-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.5)]' : 'from-brand-purple to-brand-lavender shadow-glow-purple'}`}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 50, scale: 0.9 }}
-          whileInView={{ opacity: 1, x: 0, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="relative group"
-        >
-          <div className="absolute inset-0 bg-brand-purple/20 blur-[100px] rounded-full pointer-events-none group-hover:bg-brand-purple/30 transition-all duration-1000 -z-10" />
-          
-          <div className="grid grid-cols-2 gap-6 relative z-10">
-             <motion.div
-                animate={{ y: [0, -15, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-                className="pt-12"
-             >
-                <img 
-                  src="https://edeviser.com/wp-content/uploads/2025/03/statistics-850x1024.png" 
-                  alt="Statistics Dashboard" 
-                  className="w-full h-auto rounded-3xl border border-white/10 shadow-2xl group-hover:scale-105 transition-transform duration-700" 
-                />
-             </motion.div>
-             <motion.div
-                animate={{ y: [0, 15, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-             >
-                <img 
-                  src="https://edeviser.com/wp-content/uploads/2025/02/Mockup2.png" 
-                  alt="Mobile Quiz Mockup" 
-                  className="w-full h-auto rounded-3xl border border-white/10 shadow-2xl group-hover:scale-110 transition-transform duration-700" 
-                />
-             </motion.div>
-          </div>
-        </motion.div>
-      </div>
 
       {/* Personalized Learning Subsection */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-32 items-center mt-40 px-4">
@@ -157,7 +79,7 @@ export function LMSAgents() {
           <motion.h2 
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 leading-[1.1] tracking-tight"
           >
-            Personalized Learning Through <span className="gradient-text">AI-Powered</span> Question Answering
+            Intelligent Inquiry & <br /> <span className="gradient-text">Cognitive</span> Answering
           </motion.h2>
           
           <motion.div
@@ -166,15 +88,15 @@ export function LMSAgents() {
             transition={{ delay: 0.3 }}
             className="mb-8"
           >
-            <img 
-              src="https://edeviser.com/wp-content/uploads/2025/02/Group-11.png" 
-              alt="AI Analytics Badge" 
-              className="w-32 h-auto opacity-80 hover:opacity-100 transition-opacity"
-            />
+             <img 
+               src="https://edeviser.com/wp-content/uploads/2025/03/mic-and-star-circles.svg" 
+               alt="AI Intelligence Badge" 
+               className="w-24 h-auto opacity-50 invert hover:opacity-80 transition-opacity"
+             />
           </motion.div>
 
           <p className="text-xl text-text-secondary leading-relaxed max-w-xl opacity-70">
-            Our AI-driven question-answering system understands intent, verifies information, and delivers precise, personalized responses to enhance student learning.
+            Our advanced AI inquiry engine deciphers intent with surgical precision, delivering authoritative and contextually aware responses. Experience a seamless knowledge exchange that accelerates comprehension and empowers research.
           </p>
         </motion.div>
 
@@ -187,9 +109,9 @@ export function LMSAgents() {
         >
           <div className="absolute -inset-4 bg-brand-purple/20 blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
           <img 
-            src="https://edeviser.com/wp-content/uploads/2025/02/ChartPoints.svg" 
-            alt="Analytics Chart" 
-            className="w-full h-auto relative z-10 drop-shadow-[0_0_50px_rgba(168,85,247,0.15)] group-hover:drop-shadow-[0_0_80px_rgba(168,85,247,0.3)] transition-all duration-700"
+            src="/images/lms/ai_qa_process.png" 
+            alt="Intelligent Response Ecosystem" 
+            className="w-full h-auto relative z-10 drop-shadow-[0_0_50px_rgba(168,85,247,0.15)] group-hover:drop-shadow-[0_0_80px_rgba(168,85,247,0.3)] transition-all duration-700 rounded-3xl"
           />
         </motion.div>
       </div>
