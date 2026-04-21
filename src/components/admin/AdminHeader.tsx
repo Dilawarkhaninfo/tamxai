@@ -72,7 +72,7 @@ export function AdminHeader({ onMenuClick }: AdminHeaderProps) {
             className="flex items-center gap-2 px-3 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition-all text-[10px] font-bold uppercase tracking-widest ml-2"
           >
             <LogOut size={12} />
-            Exit
+            Logout
           </button>
         </div>
       </div>

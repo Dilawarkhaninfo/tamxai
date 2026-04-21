@@ -117,10 +117,10 @@ export default function LoginPage() {
                </motion.div>
             </div>
             <h1 className="text-5xl font-bold tracking-tight mb-4 bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-              TAMx Systems
+              Admin Portal
             </h1>
             <p className="text-xl text-slate-400 max-w-md mx-auto">
-              Precision Engineering. Intelligent Solutions.
+              Secure Administrative Management
             </p>
           </motion.div>
         </div>
@@ -163,7 +163,7 @@ export default function LoginPage() {
 
               <form onSubmit={handleLogin} className="space-y-5">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Access Protocol</label>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Email Address</label>
                   <input
                     type="email"
                     required
@@ -176,7 +176,7 @@ export default function LoginPage() {
 
                 <div className="space-y-2">
                   <div className="flex justify-between mb-1">
-                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Security Key</label>
+                    <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Password</label>
                     <a href="#" className="text-[9px] font-black text-purple-400 hover:text-purple-300 transition-colors uppercase tracking-widest">Forgot?</a>
                   </div>
                   <input
@@ -204,7 +204,7 @@ export default function LoginPage() {
                   disabled={loading}
                   className="w-full py-5 mt-4 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl font-black text-[11px] text-white uppercase tracking-[0.3em] hover:shadow-2xl hover:shadow-purple-500/40 active:scale-[0.98] transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group shadow-xl"
                 >
-                  <span className={loading ? 'opacity-0' : 'opacity-100'}>Initialize Session</span>
+                  <span className={loading ? 'opacity-0' : 'opacity-100'}>Login</span>
                   {loading && (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

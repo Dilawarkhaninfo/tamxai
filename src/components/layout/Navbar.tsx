@@ -12,71 +12,7 @@ import {
 } from 'lucide-react'
 import { usePreloader } from '@/context/PreloaderContext'
 
-const services = [
-  {
-    title: 'Product Design',
-    icon: Paintbrush,
-    href: '/services',
-    desc: 'Crafting premium, user-centric experiences that define modern digital products.',
-    items: ['User Research & Design Strategy', 'UX Architecture & Wireframing', 'High-Fidelity UI Design', 'Design Systems & Dev-Handoff']
-  },
-  {
-    title: 'AI Software Development',
-    icon: Code,
-    href: '/services',
-    desc: 'Building intelligent, scalable AI-powered applications for web and mobile.',
-    items: ['WEB DEVELOPMENT', 'APP DEVELOPMENT', 'Cloud-Native AI Architecture', 'Scalable Microservices']
-  },
-  {
-    title: 'Digital Marketing',
-    icon: TrendingUp,
-    href: '/services',
-    desc: 'Driving exponential growth with performance-led digital marketing strategies.',
-    items: ['Growth Hacking & Performance Marketing', 'Social Media Branding & Strategy', 'Content Strategy & Lifecycle Marketing', 'Conversion Rate Optimization (CRO)']
-  },
-  {
-    title: 'Research & Development',
-    icon: Brain,
-    href: '/services',
-    desc: 'Pioneering frontier technologies through deep AI research and R&D.',
-    items: ['Neural Network Research', 'Generative AI Prototyping', 'Predictive Modeling & Data Science', 'Proof-of-Concept Development']
-  },
-  {
-    title: 'SEO',
-    icon: Stethoscope,
-    href: '/services',
-    desc: 'Dominating search rankings with professional, performance-driven SEO.',
-    items: ['Technical SEO & Performance Audit', 'Competitive Keyword Strategy', 'Semantic Content Optimization', 'Authority & Link Building Building']
-  },
-  {
-    title: 'Solutions',
-    icon: Cpu,
-    href: '/services',
-    desc: 'Comprehensive enterprise solutions tailored for digital transformation.',
-    items: ['Enterprise AI Implementation', 'Operational Tech Consulting', 'Digital Transformation Strategy', 'Modernization & Infrastructure Scale']
-  }
-]
-
-const products = [
-  {
-    title: 'Ecommerce',
-    icon: ShoppingCart,
-    href: '/product/ecommerce',
-    desc: 'Full-featured ecommerce platform with inventory management, payments, and analytics.',
-  },
-  {
-    title: 'LMS',
-    icon: GraduationCap,
-    href: '/lms',
-    desc: 'Learning management system with E-Courses, assessments, and progress tracking.',
-  },
-  {
-    title: 'CRM',
-    icon: LayoutGrid,
-    href: '/product',
-    desc: 'Customer relationship management system to streamline your sales and support.',
-  },
-]
+import { SERVICES as services, PRODUCTS as products } from '@/data/navigation'
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -160,13 +96,12 @@ export function Navbar() {
     >
       <div
         className={`absolute top-0 left-0 w-full h-full pointer-events-none transition-all duration-300 ${
-          isScrolled 
-            ? 'opacity-100 glass-navbar shadow-nav' 
-            : 'opacity-40 md:opacity-0 glass-navbar'
+          isMobileMenuOpen
+            ? 'opacity-100 bg-zinc-950 shadow-nav'
+            : isScrolled 
+              ? 'opacity-100 glass-navbar shadow-nav' 
+              : 'opacity-70 md:opacity-0 glass-navbar shadow-nav'
         }`}
-        style={{
-          background: isScrolled ? 'transparent' : 'linear-gradient(to bottom, var(--background) 40%, transparent 100%)'
-        }}
       />
 
       <div className="relative z-20 mx-auto" style={{ width: 'calc(100% - 60px)', maxWidth: '1400px' }}>
@@ -446,7 +381,7 @@ export function Navbar() {
                   className="flex items-center justify-center gap-3 rounded-full bg-foreground text-background px-8 py-4 text-base font-bold shadow-xl shadow-brand-purple/20 transition-transform active:scale-95"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <span>Get Started Now</span>
+                  <span>Contact Us</span>
                   <ArrowUpRight className="h-5 w-5" />
                 </Link>
               </div>

@@ -150,7 +150,7 @@ export const HomeVideoSection = ({
             </div>
 
             {/* Bottom Controls Bar */}
-            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 z-40 flex items-end justify-end translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
+            <div className={`absolute bottom-0 left-0 right-0 p-8 md:p-12 z-40 flex items-end justify-end transition-all duration-500 ${isHovered ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}>
               <div className="flex items-center gap-4">
                 <button
                   onClick={(e) => {

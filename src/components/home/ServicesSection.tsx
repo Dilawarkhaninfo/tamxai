@@ -4,7 +4,8 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Navigation, Pagination, EffectCoverflow } from 'swiper/modules';
+import 'swiper/css/effect-coverflow';
 import Link from 'next/link';
 import type { Swiper as SwiperType } from 'swiper';
 import type { IconType } from 'react-icons';
@@ -316,8 +317,17 @@ export function ServicesSection() {
               slidesPerView={1}
               slidesOffsetAfter={30}
               spaceBetween={5}
-              modules={[Navigation, Pagination]}
-              navigation={{ nextEl: '.slider-next', prevEl: '.slider-prev' }}
+              modules={[Navigation, Pagination, EffectCoverflow]}
+              effect={'coverflow'}
+              coverflowEffect={{
+                rotate: 0,
+                stretch: 0,
+                depth: 100,
+                modifier: 2.5,
+                slideShadows: false,
+              }}
+              grabCursor={true}
+              centeredSlides={true}
               pagination={{ el: '.slider-pagination', clickable: true, renderBullet }}
               onSwiper={handleSlideChange}
               onSlideChange={handleSlideChange}

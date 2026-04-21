@@ -76,9 +76,9 @@ export default function SettingsPage() {
             <div className="p-2.5 rounded-2xl bg-slate-500/10 text-slate-400 border border-white/5 shadow-inner">
               <SettingsIcon size={22} />
             </div>
-            <h1 className="text-3xl font-black text-white uppercase tracking-tighter">System <span className="text-slate-500">Settings</span></h1>
+          <h1 className="text-3xl font-black text-white uppercase tracking-tighter">General <span className="text-slate-500">Settings</span></h1>
           </div>
-          <p className="text-slate-400 text-sm font-bold uppercase tracking-widest opacity-60">Architect your global identity and secure your node.</p>
+          <p className="text-slate-400 text-sm font-bold uppercase tracking-widest opacity-60">Manage your global contact information and platform security.</p>
         </div>
         <button 
           onClick={handleSave}
@@ -86,41 +86,13 @@ export default function SettingsPage() {
           className="flex items-center justify-center gap-3 px-10 py-5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl text-xs font-black shadow-xl shadow-purple-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-[0.2em] text-white group"
         >
           {isSaving ? <RefreshCw className="animate-spin" size={18} /> : <Save size={18} />}
-          Save Configuration
+          Save Changes
         </button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2 space-y-10">
           
-          {/* Identity & SEO */}
-          <section className="bg-[#090E1A] border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl">
-             <div className="p-8 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
-                <div className="flex items-center gap-3">
-                   <div className="p-2 rounded-xl bg-purple-500/10 text-purple-400">
-                      <Globe size={18} />
-                   </div>
-                   <h3 className="font-black text-white uppercase tracking-widest text-xs">Global Identity</h3>
-                </div>
-                <div className="w-2 h-2 rounded-full bg-purple-500 shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
-             </div>
-             <div className="p-10 space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                   <div className="space-y-3">
-                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Company Entity</label>
-                      <input type="text" className="w-full bg-black border border-white/10 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-white font-black transition-all" defaultValue="TAMx AI" />
-                   </div>
-                   <div className="space-y-3">
-                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Platform Alias</label>
-                      <input type="text" className="w-full bg-black border border-white/10 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-white font-black transition-all" defaultValue="tamx.ai" />
-                   </div>
-                </div>
-                <div className="space-y-3">
-                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Meta Description (SEO)</label>
-                   <textarea className="w-full bg-black border border-white/10 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 h-32 text-slate-400 font-medium leading-relaxed transition-all resize-none" defaultValue="Building the next generation of autonomous digital intelligence." />
-                </div>
-             </div>
-          </section>
 
           {/* Contact Details */}
           <section className="bg-[#090E1A] border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl">
@@ -129,13 +101,13 @@ export default function SettingsPage() {
                    <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400">
                       <Smartphone size={18} />
                    </div>
-                   <h3 className="font-black text-white uppercase tracking-widest text-xs">Reachability</h3>
+                   <h3 className="font-black text-white uppercase tracking-widest text-xs">Contact Information</h3>
                 </div>
                 <Check size={16} className="text-blue-500/50" />
              </div>
              <div className="p-10 grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-3">
-                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Operations Email</label>
+                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Email Address</label>
                    <div className="relative">
                       <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-700" size={18} />
                       <input 
@@ -147,7 +119,7 @@ export default function SettingsPage() {
                    </div>
                 </div>
                 <div className="space-y-3">
-                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Phone Line</label>
+                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Phone Number</label>
                    <div className="relative">
                       <Phone className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-700" size={18} />
                       <input 
@@ -159,7 +131,7 @@ export default function SettingsPage() {
                    </div>
                 </div>
                 <div className="md:col-span-2 space-y-3">
-                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Physical Node (Address)</label>
+                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Office Address</label>
                    <div className="relative">
                       <MapPin className="absolute left-6 top-6 text-slate-700" size={18} />
                       <textarea 
@@ -179,7 +151,7 @@ export default function SettingsPage() {
                    <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400">
                       <Share2 size={18} />
                    </div>
-                   <h3 className="font-black text-white uppercase tracking-widest text-xs">Social Grid</h3>
+                   <h3 className="font-black text-white uppercase tracking-widest text-xs">Social Media Links</h3>
                 </div>
                 <div className="flex gap-1">
                    {[1,2,3].map(i => <div key={i} className="w-1.5 h-1.5 rounded-full bg-emerald-500/30" />)}
@@ -232,12 +204,12 @@ export default function SettingsPage() {
                    <div className="p-2 rounded-xl bg-orange-500/10 text-orange-400">
                       <Lock size={18} />
                    </div>
-                   <h4 className="font-black text-white uppercase tracking-widest text-xs">Access Control</h4>
+                   <h4 className="font-black text-white uppercase tracking-widest text-xs">Update Password</h4>
                 </div>
                 
                 <form onSubmit={handleChangePassword} className="space-y-6">
                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">New Terminal Password</label>
+                      <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">New Password</label>
                       <div className="relative">
                          <input 
                             type={showPassword ? 'text' : 'password'}
@@ -256,7 +228,7 @@ export default function SettingsPage() {
                       </div>
                    </div>
                    <div className="space-y-2">
-                      <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">Confirm Update</label>
+                      <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">Confirm Password</label>
                       <input 
                          type={showPassword ? 'text' : 'password'}
                          value={passwordData.confirm}
@@ -271,7 +243,7 @@ export default function SettingsPage() {
                    >
                       <span className="flex items-center justify-center gap-2">
                          <Shield size={14} className="group-hover/btn:rotate-12 transition-transform" />
-                         Sync Credentials
+                         Update Password
                       </span>
                    </button>
                 </form>
@@ -286,12 +258,12 @@ export default function SettingsPage() {
                    <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400">
                       <Cpu size={18} />
                    </div>
-                   <span className="text-xs font-black text-white uppercase tracking-widest">Node Health</span>
+                   <span className="text-xs font-black text-white uppercase tracking-widest">System Status</span>
                 </div>
                 <div className="space-y-8">
                     <div className="space-y-3">
                        <div className="flex justify-between text-[8px] font-black tracking-[0.4em] text-slate-600">
-                          <span>STORAGE CLUSTER</span>
+                          <span>SERVICE STORAGE</span>
                           <span className="text-cyan-400">42%</span>
                        </div>
                        <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
@@ -305,7 +277,7 @@ export default function SettingsPage() {
                     </div>
                     <div className="space-y-3">
                        <div className="flex justify-between text-[8px] font-black tracking-[0.4em] text-slate-600">
-                          <span>NEURAL UPTIME</span>
+                          <span>API UPTIME</span>
                           <span className="text-emerald-400">99.9%</span>
                        </div>
                        <div className="flex gap-1.5">
@@ -316,7 +288,7 @@ export default function SettingsPage() {
                     </div>
                     <button className="flex items-center justify-center gap-3 w-full py-4 bg-white/5 hover:bg-white/10 border border-white/5 rounded-2xl text-[9px] font-black text-slate-500 hover:text-white transition-all uppercase tracking-widest mt-4">
                        <RefreshCw size={14} />
-                       Re-Index Node
+                       Refresh Sync
                     </button>
                 </div>
              </div>
