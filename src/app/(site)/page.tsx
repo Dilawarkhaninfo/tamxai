@@ -16,10 +16,10 @@ export default function Home() {
         <AnimatedBackground />
         <HeroScrollController />
 
-        <div className="relative w-full h-screen z-40 overflow-x-hidden" id="hero-section">
+        <div className="relative w-full h-screen z-40 overflow-hidden" id="hero-section">
           <h2
             id="hero-company"
-            className="absolute top-30 left-1/2 -translate-x-1/2 text-[14vw] font-bold text-nowrap text-center opacity-5 pointer-events-none select-none"
+            className="absolute top-1/4 left-1/2 -translate-x-1/2 text-[18vw] sm:text-[14vw] font-bold text-nowrap text-center opacity-[0.03] pointer-events-none select-none"
           >
             TAMX.AI &nbsp; TAMX.AI &nbsp; TAMX.AI
           </h2>

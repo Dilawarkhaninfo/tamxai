@@ -14,7 +14,7 @@ export function LMSGrowth() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-8 leading-tight"
+            className="text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-6 md:mb-8 leading-tight"
           >
             Cognitive Skill Evolution <br />
             <span className="gradient-text">Precision</span> Navigator

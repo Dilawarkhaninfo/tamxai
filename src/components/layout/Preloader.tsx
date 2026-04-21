@@ -32,7 +32,7 @@ export const Preloader = () => {
       scale: 1,
       opacity: 1,
       filter: 'blur(0px)',
-      duration: 1.2,
+      duration: 0.8,
       ease: 'expo.out',
     });
 
@@ -40,7 +40,7 @@ export const Preloader = () => {
       logoRef.current,
       {
         filter: 'drop-shadow(0 0 20px rgba(105, 106, 172, 0.4))',
-        duration: 0.8,
+        duration: 0.5,
         ease: 'power2.inOut',
       },
       '-=0.4'
@@ -52,8 +52,8 @@ export const Preloader = () => {
         opacity: 1,
         y: 0,
         filter: 'blur(0px)',
-        duration: 0.8,
-        stagger: 0.1,
+        duration: 0.5,
+        stagger: 0.06,
         ease: 'back.out(1.7)',
       },
       '-=0.6'
@@ -70,7 +70,7 @@ export const Preloader = () => {
       0
     );
 
-    tl.addPause('+=0.3');
+    tl.addPause('+=0.1');
     tl.play();
 
     function exitAnimation() {

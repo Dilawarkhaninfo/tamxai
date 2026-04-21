@@ -58,10 +58,9 @@ export function TrustedBySection() {
     >
       {/* ── Header ── */}
       <div className="flex flex-col text-center gap-3 items-center justify-center">
-        <h2 className="text-center" style={{ 
+        <h2 className="text-center text-3xl sm:text-4xl md:text-[2.5rem]" style={{ 
           fontFamily: '"Plus Jakarta Sans", "Plus Jakarta Sans Fallback", sans-serif',
           fontWeight: 'var(--font-weight-semibold, 600)',
-          fontSize: '2.5rem',
           lineHeight: 'var(--leading-tight, 1.25)'
         }}>
           <span className="inline-flex flex-wrap justify-center gap-x-2 gap-y-1">
@@ -84,14 +83,14 @@ export function TrustedBySection() {
       </div>
 
       {/* ── Curve + Orbiting Logos ── */}
-      <div className="w-full h-[600px] -mb-96 flex flex-col items-center justify-center relative overflow-hidden">
+      <div className="w-full h-[300px] sm:h-[400px] md:h-[600px] -mb-40 sm:-mb-60 md:-mb-96 flex flex-col items-center justify-center relative overflow-hidden">
         <div className="relative w-full h-full">
 
           {/* ── SVG: Glowing curve (exact reference viewBox + path) ── */}
           <svg
             viewBox="0 0 1200 400"
             xmlns="http://www.w3.org/2000/svg"
-            className="w-[1500px] h-full absolute left-1/2 -translate-x-1/2 top-0 z-10 pointer-events-none"
+            className="w-[800px] sm:w-[1200px] md:w-[1500px] h-full absolute left-1/2 -translate-x-1/2 top-0 z-10 pointer-events-none"
           >
             <defs>
               {/* Gradient along curve — fades at edges, bright in center */}

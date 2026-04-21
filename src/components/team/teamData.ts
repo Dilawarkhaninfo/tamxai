@@ -17,7 +17,7 @@ export const teamData: TeamMember[] = [
     role: 'Founder and CEO',
     company: 'TAMx',
     description: 'Visionary leader driving the future of enterprise AI with a focus on scalable intelligence.',
-    image: '/images/AhmedAbdullah.png',
+    image: '/images/AhmedAbdullah.jpeg',
     category: 'Leadership',
     isFounder: true,
     quote: "At TAMx, we don't just build AI; we architect the intelligence that empowers the next generation of human potential. Our mission is to make advanced technology as intuitive as thought itself."

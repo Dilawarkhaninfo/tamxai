@@ -28,10 +28,10 @@ export function LMSHero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-[1.1]"
+            className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 md:mb-8 leading-[1.2] md:leading-[1.1]"
           >
             AI-Powered Learning, <br />
-            <span className="gradient-text">10x Smarter,</span> <br />
+            <span className="gradient-text text-2xl sm:text-4xl md:text-6xl lg:text-7xl">10x Smarter,</span> <br />
             Gamified, and <span className="text-brand-lavender">Personalized</span>
           </motion.h1>
 

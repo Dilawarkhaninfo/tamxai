@@ -182,7 +182,7 @@ export function AtomicSphere() {
   return (
     <div
       id="particles3d"
-      className="absolute lg:fixed pointer-events-none -mt-30 sm:mt-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[500px] sm:size-[700px] 2xl:size-[900px] z-10"
+      className="absolute lg:fixed pointer-events-none -mt-30 sm:mt-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[350px] sm:size-[700px] 2xl:size-[900px] z-10"
     >
       <div className="relative w-full h-full">
         <div

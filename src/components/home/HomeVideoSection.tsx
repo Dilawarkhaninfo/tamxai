@@ -3,16 +3,32 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, useSpring } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX, Sparkles, Globe, ShieldCheck } from 'lucide-react';
+import { useYoutubePlayer } from '@/hooks/useYoutubePlayer';
 
-export const HomeVideoSection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isMuted, setIsMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(true);
+interface HomeVideoSectionProps {
+  videoId?: string;
+  title?: string;
+  subtitle?: string;
+}
+
+export const HomeVideoSection = ({ 
+  videoId = '7pu3zCvBE5U', 
+  title = 'EXPERIENCE THE FUTURE', 
+  subtitle = 'TAMX • Shaping Innovation' 
+}: HomeVideoSectionProps = {}) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
 
+  const {
+    containerRef: youtubeContainerRef,
+    isPlaying,
+    isMuted,
+    togglePlay,
+    toggleMute
+  } = useYoutubePlayer({ videoId });
+
   const { scrollYProgress } = useScroll({
-    target: containerRef,
+    target: scrollContainerRef,
     offset: ["start end", "end start"]
   });
 
@@ -33,39 +49,10 @@ export const HomeVideoSection = () => {
   const textY = useTransform(smoothProgress, [0, 1], [50, -150]);
   const glowScale = useTransform(smoothProgress, [0, 0.5, 1], [0.8, 1.2, 0.8]);
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.muted = true;
-      videoRef.current.play().catch(() => {
-        setIsPlaying(false);
-      });
-    }
-  }, []);
-
-  const toggleMute = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (videoRef.current) {
-      videoRef.current.muted = !videoRef.current.muted;
-      setIsMuted(videoRef.current.muted);
-    }
-  };
-
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (videoRef.current.paused) {
-        videoRef.current.play();
-        setIsPlaying(true);
-      } else {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      }
-    }
-  };
-
   return (
     <section 
-      ref={containerRef}
-      className="relative h-screen flex items-center justify-center py-12 overflow-hidden bg-black select-none"
+      ref={scrollContainerRef}
+      className="relative min-h-[80vh] flex items-center justify-center py-20 overflow-hidden bg-black select-none"
     >
       {/* Dynamic Background Elements */}
       <div className="absolute inset-0 pointer-events-none">
@@ -97,11 +84,11 @@ export const HomeVideoSection = () => {
             className="text-3xl md:text-5xl font-black mb-4 tracking-tighter"
           >
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-brand-purple to-white/40">
-              EXPERIENCE THE FUTURE
+              {title}
             </span>
           </motion.h2>
-          <p className="text-white/50 text-lg md:text-xl font-light tracking-[0.2em] uppercase">
-            TAMX • Shaping Innovation
+          <p className="text-white/50 text-sm md:text-xl font-light tracking-[0.1em] md:tracking-[0.2em] uppercase">
+            {subtitle}
           </p>
         </motion.div>
 
@@ -121,26 +108,18 @@ export const HomeVideoSection = () => {
           
           <div 
             onClick={togglePlay}
-            className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-pointer bg-neutral-900 overflow-hidden"
+            className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] cursor-pointer bg-neutral-900 group/video"
           >
             {/* Cinematic Overlay Gradients */}
             <div className="absolute inset-0 z-20 pointer-events-none bg-gradient-to-t from-black/60 via-transparent to-black/30 opacity-60" />
             
-            {/* Main Video Element */}
-            <video 
-              ref={videoRef}
-              className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.01]"
-              autoPlay
-              loop
-              muted
-              playsInline
-            >
-              <source 
-                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" 
-                type="video/mp4" 
-              />
-              Your browser does not support the video tag.
-            </video>
+            {/* Main YouTube Video Container */}
+            <div className="absolute inset-0 w-full h-full object-cover z-10 scale-[1.0] pointer-events-none">
+              <div ref={youtubeContainerRef} className="w-full h-full pointer-events-none" />
+            </div>
+
+            {/* Interaction Mask (prevents iframe from stealing clicks while keeping the container clickable) */}
+            <div className="absolute inset-0 z-20" />
 
             {/* Central Play/Pause Animation */}
             <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
@@ -171,18 +150,13 @@ export const HomeVideoSection = () => {
             </div>
 
             {/* Bottom Controls Bar */}
-            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 z-40 flex items-end justify-between translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
-              <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-3">
-                  <span className="w-12 h-[1px] bg-brand-purple" />
-                  <span className="text-[10px] text-white/70 uppercase tracking-[0.5em] font-medium">TAMX Official Showcase</span>
-                </div>
-                <h3 className="text-xl md:text-2xl font-bold text-white tracking-tight">Our Journey 2024</h3>
-              </div>
-
+            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 z-40 flex items-end justify-end translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500">
               <div className="flex items-center gap-4">
                 <button
-                  onClick={toggleMute}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleMute();
+                  }}
                   className="w-14 h-14 bg-white/5 hover:bg-white/10 text-white rounded-full flex items-center justify-center border border-white/10 transition-all duration-300 backdrop-blur-xl group/btn"
                 >
                   <AnimatePresence mode="wait">
@@ -200,8 +174,6 @@ export const HomeVideoSection = () => {
               </div>
             </div>
 
-            {/* Progress Bar (Visual Only for now) */}
-            <div className="absolute bottom-0 left-0 h-[2px] bg-brand-purple shadow-[0_0_15px_rgba(105,106,172,0.8)] z-50 w-full scale-x-0 group-hover:scale-x-100 transition-transform duration-[10s] ease-linear origin-left" />
           </div>
         </motion.div>
 

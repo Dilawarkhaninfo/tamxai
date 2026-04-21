@@ -72,11 +72,11 @@ export default function LoginPage() {
 
     // Dummy Authentication
     setTimeout(() => {
-      if (email === 'admin@tamx.ai' && password === 'tamx123') {
+      if (email === 'admin@tamx.ai' && password === 'admin123') {
         localStorage.setItem('admin_auth', 'true');
         router.push('/admin');
       } else {
-        setError('Invalid credentials. Please use admin@tamx.ai / tamx123');
+        setError('Invalid credentials. Please use admin@tamx.ai / admin123');
         setLoading(false);
       }
     }, 1500);

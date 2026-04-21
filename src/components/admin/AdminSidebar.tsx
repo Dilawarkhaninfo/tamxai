@@ -23,13 +23,11 @@ import { cn } from '@/lib/utils';
 
 const menuItems = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
-  { icon: Briefcase, label: 'Projects', href: '/admin/projects' },
   { icon: FileText, label: 'Blog', href: '/admin/blog' },
   { icon: Wrench, label: 'Services', href: '/admin/services' },
   { icon: Package, label: 'Products', href: '/admin/products' },
-  { icon: ImageIcon, label: 'Media Library', href: '/admin/media' },
-  { icon: BarChart3, label: 'Analytics', href: '/admin/analytics' },
-  { icon: Users, label: 'Users', href: '/admin/users' },
+  { icon: Users, label: 'Team', href: '/admin/team' },
+  { icon: Briefcase, label: 'Pricing', href: '/admin/pricing' },
   { icon: Settings, label: 'Settings', href: '/admin/settings' },
 ];
 

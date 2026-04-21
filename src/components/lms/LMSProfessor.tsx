@@ -32,7 +32,7 @@ export function LMSProfessor() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-10 sm:mb-16 leading-tight"
+            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 sm:mb-16 leading-tight"
           >
             Meet Your <span className="gradient-text">AI Professor</span> <br />
             24/7 Guide
@@ -46,16 +46,16 @@ export function LMSProfessor() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: idx * 0.15 }}
                 viewport={{ once: true }}
-                className="flex items-start gap-8 group"
+                className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 sm:gap-8 group"
               >
-                <div className="p-4 rounded-2xl bg-brand-purple/10 border border-brand-purple/20 text-brand-purple group-hover:bg-brand-purple/20 group-hover:scale-110 transition-all duration-500 shadow-glow-purple">
-                  <item.icon className="w-8 h-8" />
+                <div className="shrink-0 p-4 rounded-2xl bg-brand-purple/10 border border-brand-purple/20 text-brand-purple group-hover:bg-brand-purple/20 group-hover:scale-110 transition-all duration-500 shadow-glow-purple">
+                  <item.icon className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-brand-lavender transition-colors duration-300">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 group-hover:text-brand-lavender transition-colors duration-300">
                     {item.title}
                   </h3>
-                  <p className="text-text-secondary text-lg leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
+                  <p className="text-text-secondary text-base sm:text-lg leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
                     {item.description}
                   </p>
                 </div>
