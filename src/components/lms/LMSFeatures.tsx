@@ -7,28 +7,28 @@ import { Brain, Gamepad2, Globe } from 'lucide-react'
 
 const features = [
   {
-    title: 'AI-Powered Learning Paths',
-    description: "Unlock a personalized learning journey with our advanced AI agents. Our intelligent system analyzes each student's strengths and weaknesses, building customized learning paths that enhance understanding, retention, and progress, at their own pace.",
+    title: 'Adaptive Learning Intelligence',
+    description: "Leverage AI-driven cognitive mapping to create hyper-personalized learning journeys that adapt in real-time to each learner's unique pace and proficiency.",
     icon: Brain,
     gradient: 'from-[#2D97CE] to-[#5AB9B4]',
     delay: 0.1
   },
   {
-    title: 'Gamified Learning',
-    description: 'Dive into a world of interactive learning with our gamified approach! Earn badges, climb leaderboards, and unlock achievements as you progress through engaging lessons and activities.',
+    title: 'Unified Institutional Ecosystem',
+    description: 'Consolidate your entire educational infrastructure into one high-performance platform, streamlining administration and enhancing collaboration across all departments.',
     icon: Gamepad2,
     gradient: 'from-[#696aac] to-[#a2a3e9]',
     delay: 0.2
   },
   {
-    title: 'Immersive Metaverse Classrooms',
-    description: 'Step into our interactive 3D classrooms. Join live lectures, collaborate seamlessly with peers, and participate in virtual seminars, all from anywhere. Experience learning without limits.',
+    title: 'Immersive Virtual Classrooms',
+    description: 'Bridge the gap between physical and digital with metaverse-ready classrooms and high-fidelity interactive media that redefine student engagement and knowledge retention.',
     icon: Globe,
     gradient: 'from-[#c7c8f2] to-[#e3e3f8]',
     delay: 0.3
   }
 ]
-
+ 
 export function LMSFeatures() {
   return (
     <PageSection id="lms-features" fullHeight={false} className="bg-dark-secondary relative z-20 py-16 md:py-32 scroll-mt-32">
@@ -40,8 +40,7 @@ export function LMSFeatures() {
             viewport={{ once: true }}
             className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 leading-tight"
           >
-            Supercharge <span className="gradient-text">Your Learning</span> <br className="hidden sm:block" />
-            with E-learning
+            Engineered for <span className="gradient-text">Educational Excellence</span>
           </motion.h2>
           <motion.div 
             initial={{ scaleX: 0 }}

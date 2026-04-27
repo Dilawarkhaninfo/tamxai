@@ -21,27 +21,26 @@ export function LMSHero() {
             transition={{ duration: 0.8, ease: 'easeOut' }}
             className="inline-block mb-6 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md"
           >
-            <span className="text-sm font-medium text-brand-lavender tracking-wider uppercase">Next-Gen Education</span>
+            <span className="text-sm font-medium text-brand-lavender tracking-wider uppercase">Enterprise LMS Solutions</span>
           </motion.div>
-
+ 
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 md:mb-8 leading-[1.2] md:leading-[1.1]"
           >
-            AI-Powered Learning, <br />
-            <span className="gradient-text text-2xl sm:text-4xl md:text-6xl lg:text-7xl">10x Smarter,</span> <br />
-            Gamified, and <span className="text-brand-lavender">Personalized</span>
+            Architecting the <br />
+            <span className="gradient-text">Future of Learning</span>
           </motion.h1>
-
+ 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto mb-10 leading-relaxed"
           >
-            Boost student engagement, improve retention, reduce workload, and gain real-time insights—all with an Learning Experience Platform trusted by educators and built for your institution.
+            The TAMX LMS is a sophisticated, AI-native ecosystem designed to empower institutions with adaptive intelligence, seamless scalability, and immersive educational experiences.
           </motion.p>
 
           <motion.div

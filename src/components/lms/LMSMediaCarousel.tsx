@@ -12,10 +12,10 @@ import 'swiper/css/pagination'
 import 'swiper/css/effect-coverflow'
 
 const carouselImages = [
-  'https://edeviser.com/wp-content/uploads/2025/03/241555a3-3ce4-4a70-b814-65dd6961fc88.jpg',
-  'https://edeviser.com/wp-content/uploads/2025/03/12484847-d06f-4eba-bd05-c2d532488980.jpg',
-  'https://edeviser.com/wp-content/uploads/2025/03/bcfa0d86-4e82-45c3-b939-15feabb16320.jpg',
-  'https://edeviser.com/wp-content/uploads/2025/03/511d5714-a278-4156-9769-340e68d1fdc2.jpg'
+  '/images/lms/env_1.png',
+  '/images/lms/env_2.png',
+  '/images/lms/env_3.png',
+  '/images/lms/env_4.png'
 ]
 
 export function LMSMediaCarousel() {

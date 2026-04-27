@@ -6,7 +6,7 @@ import { HomeVideoSection } from '../home/HomeVideoSection';
 export const VideoShowcase = () => {
   return (
     <HomeVideoSection 
-      videoId="m8QHKdNB_uo"
+      videoId="7pu3zCvBE5U"
       title="TAMX INNOVATION HUB"
       subtitle="TRANSFORMING POSSIBILITIES • ABOUT OUR VISION"
     />

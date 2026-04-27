@@ -3,6 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { PageSection } from '@/components/layout/PageSection'
+import { Zap, Activity } from 'lucide-react'
 import Image from 'next/image'
 
 export function LMSGrowth() {
@@ -37,16 +38,24 @@ export function LMSGrowth() {
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-fit"
+            whileHover={{ rotate: -5, scale: 1.05 }}
+            className="w-fit mb-8 relative group/icon"
           >
-            <img 
-              src="https://edeviser.com/wp-content/uploads/2025/03/mic-and-star-circles.svg" 
-              alt="Decoration"
-              className="w-16 h-auto opacity-30 invert"
-            />
+            <div className="w-20 h-20 md:w-28 md:h-28 relative">
+              <div className="absolute inset-0 bg-brand-purple/20 rounded-full blur-xl group-hover/icon:bg-brand-purple/40 transition-colors" />
+              <div className="relative h-full w-full rounded-full border border-white/20 bg-white/5 backdrop-blur-xl flex items-center justify-center overflow-hidden shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-purple/10 to-transparent" />
+                <div className="flex flex-col items-center gap-1 relative z-10">
+                   <div className="w-10 h-10 md:w-14 md:h-14 rounded-full bg-gradient-to-tr from-brand-purple to-brand-blue flex items-center justify-center border border-white/20 shadow-inner">
+                     <Zap className="w-5 h-5 md:w-7 md:h-7 text-white fill-current" />
+                   </div>
+                   <div className="flex items-center gap-1">
+                      <Activity className="w-3 h-3 text-brand-lavender" />
+                      <span className="text-[8px] md:text-[10px] text-brand-lavender font-bold tracking-widest uppercase">Live Path</span>
+                   </div>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
 

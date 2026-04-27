@@ -3,6 +3,7 @@
 import React, { useRef, useMemo } from 'react'
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion'
 import { PageSection } from '@/components/layout/PageSection'
+import { Shield, Globe } from 'lucide-react'
 
 const pillars = [
   {
@@ -140,17 +141,26 @@ export function LMSPillars() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            whileHover={{ rotate: 5, scale: 1.1 }}
-            className="flex-shrink-0"
+            whileHover={{ rotate: 10, scale: 1.1 }}
+            className="flex-shrink-0 relative group/icon"
           >
-            <img 
-              src="https://edeviser.com/wp-content/uploads/2025/03/mic-and-star-circles.svg" 
-              alt="Decoration" 
-              className="w-32 h-auto drop-shadow-glow-purple"
-            />
+            <div className="w-24 h-24 md:w-32 md:h-32 relative">
+              <div className="absolute inset-0 bg-brand-purple/20 rounded-3xl blur-2xl group-hover/icon:bg-brand-purple/40 transition-colors" />
+              <div className="relative h-full w-full rounded-3xl border border-white/20 bg-white/5 backdrop-blur-2xl flex items-center justify-center overflow-hidden shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-purple/10 to-transparent" />
+                <div className="flex flex-col items-center gap-3 relative z-10">
+                   <div className="relative">
+                      <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-brand-purple to-brand-blue flex items-center justify-center border border-white/30 rotate-45 shadow-glow-purple">
+                         <Shield className="w-6 h-6 md:w-8 md:h-8 text-white -rotate-45" />
+                      </div>
+                      <div className="absolute -bottom-2 -right-2 w-6 h-6 md:w-8 md:h-8 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
+                         <Globe className="w-3 h-3 md:w-4 md:h-4 text-brand-lavender animate-pulse" />
+                      </div>
+                   </div>
+                   <span className="text-[10px] md:text-xs text-brand-lavender font-black tracking-widest uppercase mt-2">Strategic Hub</span>
+                </div>
+              </div>
+            </div>
           </motion.div>
         </div>
 

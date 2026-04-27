@@ -7,22 +7,22 @@ import { Sparkles, BarChart, FileJson } from 'lucide-react'
 
 const highlights = [
   {
-    title: 'Adaptive & Personalized Learning',
-    description: 'The AI Professor adapts to each learner’s pace providing customized lessons and recommendations for a seamless learning experience.',
+    title: 'Cognitive-Adaptive Mentorship',
+    description: 'The AI Professor dynamically restructures curricula based on real-time cognitive mapping, ensuring a bespoke educational journey for every learner.',
     icon: Sparkles
   },
   {
-    title: 'Automated Administrative Tasks',
-    description: 'It handles attendance tracking, assignment grading, course management, and progress monitoring, reducing manual workload for educators.',
+    title: 'Autonomous Faculty Assistance',
+    description: 'Offload administrative complexity—including predictive grading, attendance analytics, and dynamic course management—to our robust AI backend.',
     icon: BarChart
   },
   {
-    title: 'Content Generation & Enhancement',
-    description: 'AI auto-generates study materials, provides multilingual support, converts text to speech, and enhances videos with transcripts and interactive elements.',
+    title: 'High-Fidelity Content Synthesis',
+    description: 'Automatically synthesize expert-level study materials, multilingual transcripts, and interactive media layers that transform static learning.',
     icon: FileJson
   }
 ]
-
+ 
 export function LMSProfessor() {
   return (
     <PageSection id="lms-professor" fullHeight={false} className="bg-background py-32 overflow-hidden">
@@ -34,8 +34,8 @@ export function LMSProfessor() {
             viewport={{ once: true }}
             className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 sm:mb-16 leading-tight"
           >
-            Meet Your <span className="gradient-text">AI Professor</span> <br />
-            24/7 Guide
+            Meet Your <span className="gradient-text">Digital Mentor:</span> <br />
+            The TAMX AI Professor
           </motion.h2>
 
           <div className="space-y-12">

@@ -16,6 +16,7 @@ const CLIENTS = [
   { name: 'QuickSilver',   id: 'quicksilver' },
   { name: 'NICAT',         id: 'nicat' },
   { name: 'RegionalPlan9', id: 'regionalplan9' },
+  { name: 'FBBuilders', id: 'fbbuilders' },
 ];
 
 // Triple the list for seamless infinite loop
