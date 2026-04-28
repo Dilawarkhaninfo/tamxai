@@ -4,12 +4,9 @@ const nextConfig: NextConfig = {
   images: {
     qualities: [75, 90],
     remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'edeviser.com',
-        port: '',
-        pathname: '/**',
-      },
+      { protocol: 'https', hostname: 'edeviser.com' },
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+      { protocol: 'https', hostname: 'ajozkyhcfuagjrgzpxyj.supabase.co' },
     ],
   },
 };

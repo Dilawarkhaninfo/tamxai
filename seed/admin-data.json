@@ -1,0 +1,340 @@
+{
+  "_meta": {
+    "generated_at": "2026-04-28T09:12:14.228Z",
+    "generator": "scripts/generate-seed-json.mjs",
+    "note": "These rows are mocked in the existing admin pages. They are seeded into Supabase as initial data so the dashboard works the moment auth is wired."
+  },
+  "profiles": [
+    {
+      "id": "user-1",
+      "email": "admin@tamx.ai",
+      "full_name": "Ahmed Malik",
+      "role": "admin",
+      "status": "active",
+      "last_login_label": "2 mins ago"
+    },
+    {
+      "id": "user-2",
+      "email": "sarah@tamx.ai",
+      "full_name": "Sarah Wilson",
+      "role": "editor",
+      "status": "active",
+      "last_login_label": "5 hours ago"
+    },
+    {
+      "id": "user-3",
+      "email": "alex@tamx.ai",
+      "full_name": "Alex Chen",
+      "role": "viewer",
+      "status": "inactive",
+      "last_login_label": "3 days ago"
+    },
+    {
+      "id": "user-4",
+      "email": "m.scott@tamx.ai",
+      "full_name": "Michael Scott",
+      "role": "editor",
+      "status": "suspended",
+      "last_login_label": "1 week ago"
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj-1",
+      "title": "TAMx AI Platform",
+      "slug": "tamx-ai-platform",
+      "industry": "Artificial Intelligence",
+      "status": "published",
+      "published_at": "2024-03-10",
+      "cover_url": "/p1.jpg",
+      "position": 0,
+      "description": ""
+    },
+    {
+      "id": "proj-2",
+      "title": "Nexus Cloud Sync",
+      "slug": "nexus-cloud-sync",
+      "industry": "Cloud Computing",
+      "status": "published",
+      "published_at": "2024-03-08",
+      "cover_url": "/p2.jpg",
+      "position": 1,
+      "description": ""
+    },
+    {
+      "id": "proj-3",
+      "title": "Aether Finance App",
+      "slug": "aether-finance-app",
+      "industry": "FinTech",
+      "status": "draft",
+      "published_at": null,
+      "cover_url": "/p3.jpg",
+      "position": 2,
+      "description": ""
+    },
+    {
+      "id": "proj-4",
+      "title": "Quantum SEO Suite",
+      "slug": "quantum-seo-suite",
+      "industry": "Digital Marketing",
+      "status": "published",
+      "published_at": "2024-03-01",
+      "cover_url": "/p4.jpg",
+      "position": 3,
+      "description": ""
+    },
+    {
+      "id": "proj-5",
+      "title": "Zen Healthcare Portal",
+      "slug": "zen-healthcare-portal",
+      "industry": "HealthTech",
+      "status": "archived",
+      "published_at": "2024-02-28",
+      "cover_url": "/p5.jpg",
+      "position": 4,
+      "description": ""
+    },
+    {
+      "id": "proj-6",
+      "title": "Orbit Logistics",
+      "slug": "orbit-logistics",
+      "industry": "Logistics",
+      "status": "draft",
+      "published_at": null,
+      "cover_url": "/p6.jpg",
+      "position": 5,
+      "description": ""
+    }
+  ],
+  "media_assets": [
+    {
+      "id": "media-1",
+      "filename": "hero_primary_render.webp",
+      "mime": "image/webp",
+      "kind": "image",
+      "size_bytes": 2400000,
+      "width": 3840,
+      "height": 2160,
+      "path": "media/library/hero_primary_render.webp",
+      "created_at": "2024-03-10"
+    },
+    {
+      "id": "media-2",
+      "filename": "tamx_identity_v2.svg",
+      "mime": "image/svg+xml",
+      "kind": "vector",
+      "size_bytes": 12000,
+      "width": null,
+      "height": null,
+      "path": "media/library/tamx_identity_v2.svg",
+      "created_at": "2024-03-08"
+    },
+    {
+      "id": "media-3",
+      "filename": "cloud_infra_blueprint.png",
+      "mime": "image/png",
+      "kind": "image",
+      "size_bytes": 1200000,
+      "width": 1920,
+      "height": 1080,
+      "path": "media/library/cloud_infra_blueprint.png",
+      "created_at": "2024-03-02"
+    },
+    {
+      "id": "media-4",
+      "filename": "system_manual_v1.pdf",
+      "mime": "application/pdf",
+      "kind": "document",
+      "size_bytes": 450000,
+      "width": null,
+      "height": null,
+      "path": "media/library/system_manual_v1.pdf",
+      "created_at": "2024-02-28"
+    },
+    {
+      "id": "media-5",
+      "filename": "neural_mesh_motion.mp4",
+      "mime": "video/mp4",
+      "kind": "video",
+      "size_bytes": 12800000,
+      "width": 1920,
+      "height": 1080,
+      "path": "media/library/neural_mesh_motion.mp4",
+      "created_at": "2024-02-25"
+    },
+    {
+      "id": "media-6",
+      "filename": "corporate_font_spec.json",
+      "mime": "application/json",
+      "kind": "code",
+      "size_bytes": 4000,
+      "width": null,
+      "height": null,
+      "path": "media/library/corporate_font_spec.json",
+      "created_at": "2024-02-20"
+    }
+  ],
+  "contact_submissions": [],
+  "meeting_bookings": [],
+  "activity_log": [
+    {
+      "id": 1,
+      "actor_name": "Ahmed Malik",
+      "entity": "project",
+      "entity_id": "proj-1",
+      "action": "published",
+      "created_at_label": "2 hours ago",
+      "meta": {
+        "title": "TAMx Mobile App"
+      }
+    },
+    {
+      "id": 2,
+      "actor_name": "Ahmed Malik",
+      "entity": "blog",
+      "entity_id": null,
+      "action": "updated",
+      "created_at_label": "5 hours ago",
+      "meta": {
+        "title": "The Future of AI in B2B"
+      }
+    },
+    {
+      "id": 3,
+      "actor_name": "Ahmed Malik",
+      "entity": "user",
+      "entity_id": "user-2",
+      "action": "created",
+      "created_at_label": "1 day ago",
+      "meta": {
+        "title": "Sarah Wilson",
+        "role": "Editor"
+      }
+    },
+    {
+      "id": 4,
+      "actor_name": "Ahmed Malik",
+      "entity": "project",
+      "entity_id": null,
+      "action": "deleted",
+      "created_at_label": "2 days ago",
+      "meta": {
+        "title": "Cloud Infrastructure"
+      }
+    }
+  ],
+  "dashboard_kpis": [
+    {
+      "key": "total_projects",
+      "label": "Total Projects",
+      "value": 42,
+      "trend_value": "12%",
+      "trend_up": true,
+      "color": "purple"
+    },
+    {
+      "key": "published_blogs",
+      "label": "Published Blogs",
+      "value": 128,
+      "trend_value": "8%",
+      "trend_up": true,
+      "color": "blue"
+    },
+    {
+      "key": "active_clients",
+      "label": "Active Clients",
+      "value": "1,240",
+      "trend_value": "5%",
+      "trend_up": true,
+      "color": "cyan"
+    },
+    {
+      "key": "website_views",
+      "label": "Website Views",
+      "value": "84.2K",
+      "trend_value": "3%",
+      "trend_up": false,
+      "color": "lavender"
+    }
+  ],
+  "analytics_kpis": [
+    {
+      "key": "bounce_rate",
+      "label": "Bounce Rate",
+      "value": "24.5%",
+      "trend_value": "2%",
+      "trend_up": false,
+      "color": "purple"
+    },
+    {
+      "key": "avg_session",
+      "label": "Avg. Session",
+      "value": "4m 32s",
+      "trend_value": "15%",
+      "trend_up": true,
+      "color": "blue"
+    },
+    {
+      "key": "direct_traffic",
+      "label": "Direct Traffic",
+      "value": "64%",
+      "trend_value": "5%",
+      "trend_up": true,
+      "color": "cyan"
+    },
+    {
+      "key": "click_rate",
+      "label": "Click Rate",
+      "value": "3.8%",
+      "trend_value": "1%",
+      "trend_up": true,
+      "color": "lavender"
+    }
+  ],
+  "top_countries": [
+    {
+      "name": "United States",
+      "flag": "🇺🇸",
+      "sessions": "45.2K",
+      "share_pct": 54
+    },
+    {
+      "name": "United Kingdom",
+      "flag": "🇬🇧",
+      "sessions": "12.8K",
+      "share_pct": 15
+    },
+    {
+      "name": "Germany",
+      "flag": "🇩🇪",
+      "sessions": "8.4K",
+      "share_pct": 10
+    },
+    {
+      "name": "India",
+      "flag": "🇮🇳",
+      "sessions": "6.1K",
+      "share_pct": 7
+    },
+    {
+      "name": "Canada",
+      "flag": "🇨🇦",
+      "sessions": "4.2K",
+      "share_pct": 5
+    }
+  ],
+  "device_breakdown": [
+    {
+      "label": "Desktop",
+      "share_pct": 65
+    },
+    {
+      "label": "Mobile",
+      "share_pct": 28
+    },
+    {
+      "label": "Tablet",
+      "share_pct": 7
+    }
+  ]
+}

@@ -130,7 +130,14 @@ const columns = [
   },
 ];
 
-export function Footer() {
+interface FooterProps {
+  contactEmail?: string
+  socialLinkedin?: string | null
+}
+
+export function Footer({ contactEmail = 'info@tamxai.com', socialLinkedin = 'https://www.linkedin.com/company/tamxai/' }: FooterProps) {
+  const linkedinHref = socialLinkedin || 'https://www.linkedin.com/company/tamxai/'
+
   return (
     <footer className="w-full relative overflow-hidden bg-background border-t border-white/5">
       <div className="w-main mx-auto pt-24 md:pt-40 pb-5 md:pb-10 relative z-20">
@@ -141,16 +148,16 @@ export function Footer() {
 
             <p className="text-2xl mt-4 md:mt-0">
               <a
-                href="mailto:info@tamxai.com"
+                href={`mailto:${contactEmail}`}
                 className="hover:opacity-70 transition-opacity duration-300"
               >
-                info@tamxai.com
+                {contactEmail}
               </a>
             </p>
 
             <div className="flex gap-4 mt-3 justify-start">
               <a
-                href="https://www.linkedin.com/company/tamxai/"
+                href={linkedinHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1 border-b border-current pb-0.5 hover:opacity-70 transition-opacity duration-300"

@@ -8,11 +8,43 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, ChevronDown } from 'lucide-react'
 import {
   Paintbrush, Code, TrendingUp, Brain, Stethoscope, Cpu,
-  ShoppingCart, GraduationCap, LayoutGrid
+  ShoppingCart, GraduationCap, LayoutGrid, LucideIcon
 } from 'lucide-react'
 import { usePreloader } from '@/context/PreloaderContext'
+import type { NavService, NavProduct } from '@/app/_actions/navigation'
 
-import { SERVICES as services, PRODUCTS as products } from '@/data/navigation'
+// Map icon name strings to Lucide components (used client-side only)
+const ICON_MAP: Record<string, LucideIcon> = {
+  Paintbrush,
+  Code,
+  TrendingUp,
+  Brain,
+  Stethoscope,
+  Cpu,
+  ShoppingCart,
+  GraduationCap,
+  LayoutGrid,
+}
+
+// Derive an icon from service/product title for display
+function getServiceIcon(title: string): LucideIcon {
+  const t = title.toLowerCase()
+  if (t.includes('design')) return Paintbrush
+  if (t.includes('ai') || t.includes('software') || t.includes('develop')) return Code
+  if (t.includes('marketing')) return TrendingUp
+  if (t.includes('research')) return Brain
+  if (t.includes('seo')) return Stethoscope
+  if (t.includes('solution')) return Cpu
+  return Cpu
+}
+
+function getProductIcon(title: string): LucideIcon {
+  const t = title.toLowerCase()
+  if (t.includes('ecommerce') || t.includes('shop')) return ShoppingCart
+  if (t.includes('lms') || t.includes('learning') || t.includes('course')) return GraduationCap
+  if (t.includes('crm')) return LayoutGrid
+  return LayoutGrid
+}
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -24,7 +56,12 @@ const navLinks = [
   { href: '/pricing', label: 'Pricing' },
 ]
 
-export function Navbar() {
+interface NavbarProps {
+  services: NavService[]
+  products: NavProduct[]
+}
+
+export function Navbar({ services, products }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
@@ -98,8 +135,8 @@ export function Navbar() {
         className={`absolute top-0 left-0 w-full h-full pointer-events-none transition-all duration-300 ${
           isMobileMenuOpen
             ? 'opacity-100 bg-zinc-950 shadow-nav'
-            : isScrolled 
-              ? 'opacity-100 glass-navbar shadow-nav' 
+            : isScrolled
+              ? 'opacity-100 glass-navbar shadow-nav'
               : 'opacity-70 md:opacity-0 glass-navbar shadow-nav'
         }`}
       />
@@ -173,24 +210,27 @@ export function Navbar() {
                         >
                           <div className="w-[340px] bg-zinc-950 border border-foreground/20 rounded-xl overflow-hidden">
                             <div className="p-3">
-                              {products.map((product) => (
-                                <Link
-                                  key={product.title}
-                                  href={product.href}
-                                  className="flex items-start gap-3 px-3 py-2.5 rounded-lg border border-transparent transition hover:bg-white/5 hover:border-white/5 cursor-pointer group/item text-foreground no-underline"
-                                  onClick={() => setIsProductOpen(false)}
-                                >
-                                  <div className="mt-0.5 text-white/90">
-                                    <product.icon className="w-5 h-5" />
-                                  </div>
-                                  <div className="flex flex-col flex-1">
-                                    <h3 className="text-sm font-semibold">{product.title}</h3>
-                                    <p className="text-xs text-pretty leading-snug opacity-60">
-                                      {product.desc}
-                                    </p>
-                                  </div>
-                                </Link>
-                              ))}
+                              {products.map((product) => {
+                                const ProductIcon = getProductIcon(product.title)
+                                return (
+                                  <Link
+                                    key={product.title}
+                                    href={product.href}
+                                    className="flex items-start gap-3 px-3 py-2.5 rounded-lg border border-transparent transition hover:bg-white/5 hover:border-white/5 cursor-pointer group/item text-foreground no-underline"
+                                    onClick={() => setIsProductOpen(false)}
+                                  >
+                                    <div className="mt-0.5 text-white/90">
+                                      <ProductIcon className="w-5 h-5" />
+                                    </div>
+                                    <div className="flex flex-col flex-1">
+                                      <h3 className="text-sm font-semibold">{product.title}</h3>
+                                      <p className="text-xs text-pretty leading-snug opacity-60">
+                                        {product.desc}
+                                      </p>
+                                    </div>
+                                  </Link>
+                                )
+                              })}
                             </div>
                           </div>
                         </motion.div>
@@ -249,34 +289,37 @@ export function Navbar() {
             <div className="w-[680px] lg:w-[860px] xl:w-[980px] rounded-2xl overflow-hidden border border-white/10 bg-[#0a0a14]/95 backdrop-blur-2xl shadow-2xl shadow-black/40">
               <div className="p-2">
                 <div className="grid grid-cols-3 gap-1">
-                  {services.map((service) => (
-                    <Link
-                      key={service.title}
-                      href={service.href}
-                      className="group/card p-4 rounded-xl hover:bg-white/4 transition-all duration-200 relative"
-                    >
-                      <div className="flex items-start gap-3">
-                        <div className="shrink-0 w-9 h-9 rounded-lg bg-white/6 border border-white/6 flex items-center justify-center text-foreground/60 group-hover/card:text-brand-purple group-hover/card:border-brand-purple/30 group-hover/card:bg-brand-purple/10 transition-all duration-200">
-                          <service.icon className="w-4.5 h-4.5" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-[13px] font-semibold text-foreground mb-1 group-hover/card:text-white transition-colors">
-                            {service.title}
-                          </h3>
-                          <p className="text-[11px] leading-relaxed text-foreground/40 mb-2.5">
-                            {service.desc}
-                          </p>
-                          <div className="flex flex-col gap-1">
-                            {service.items.map((item) => (
-                              <span key={item} className="text-[11px] text-foreground/30 group-hover/card:text-foreground/50 transition-colors">
-                                {item}
-                              </span>
-                            ))}
+                  {services.map((service) => {
+                    const ServiceIcon = getServiceIcon(service.title)
+                    return (
+                      <Link
+                        key={service.title}
+                        href={service.href}
+                        className="group/card p-4 rounded-xl hover:bg-white/4 transition-all duration-200 relative"
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="shrink-0 w-9 h-9 rounded-lg bg-white/6 border border-white/6 flex items-center justify-center text-foreground/60 group-hover/card:text-brand-purple group-hover/card:border-brand-purple/30 group-hover/card:bg-brand-purple/10 transition-all duration-200">
+                            <ServiceIcon className="w-4.5 h-4.5" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-[13px] font-semibold text-foreground mb-1 group-hover/card:text-white transition-colors">
+                              {service.title}
+                            </h3>
+                            <p className="text-[11px] leading-relaxed text-foreground/40 mb-2.5">
+                              {service.desc}
+                            </p>
+                            <div className="flex flex-col gap-1">
+                              {service.items.map((item) => (
+                                <span key={item} className="text-[11px] text-foreground/30 group-hover/card:text-foreground/50 transition-colors">
+                                  {item}
+                                </span>
+                              ))}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))}
+                      </Link>
+                    )
+                  })}
                 </div>
               </div>
 
@@ -319,17 +362,17 @@ export function Navbar() {
                         className="flex items-center justify-between w-full rounded-xl px-5 py-4 text-lg font-medium text-foreground/80 hover:bg-white/5 hover:text-foreground transition-all"
                       >
                         {link.label}
-                        <ChevronDown 
+                        <ChevronDown
                           className={`w-5 h-5 transition-transform duration-300 ${
-                            (link.dropdownId === 'services' && isMobileServicesOpen) || 
-                            (link.dropdownId === 'product' && isMobileProductOpen) 
+                            (link.dropdownId === 'services' && isMobileServicesOpen) ||
+                            (link.dropdownId === 'product' && isMobileProductOpen)
                             ? 'rotate-180' : ''
-                          }`} 
+                          }`}
                         />
                       </button>
-                      
+
                       <AnimatePresence>
-                        {((link.dropdownId === 'services' && isMobileServicesOpen) || 
+                        {((link.dropdownId === 'services' && isMobileServicesOpen) ||
                           (link.dropdownId === 'product' && isMobileProductOpen)) && (
                           <motion.div
                             initial={{ opacity: 0, height: 0 }}
@@ -337,26 +380,31 @@ export function Navbar() {
                             exit={{ opacity: 0, height: 0 }}
                             className="pl-4 mt-1 space-y-1 mb-4"
                           >
-                            {(link.dropdownId === 'services' ? services : products).map((item) => (
-                              <Link
-                                key={item.title}
-                                href={item.href}
-                                className="flex flex-col items-start gap-1 p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                              >
-                                <div className="flex items-center gap-3">
-                                  <div className="p-2 rounded-lg bg-white/5 text-brand-purple">
-                                    <item.icon className="w-4.5 h-4.5" />
+                            {(link.dropdownId === 'services' ? services : products).map((item) => {
+                              const ItemIcon = link.dropdownId === 'services'
+                                ? getServiceIcon(item.title)
+                                : getProductIcon(item.title)
+                              return (
+                                <Link
+                                  key={item.title}
+                                  href={item.href}
+                                  className="flex flex-col items-start gap-1 p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all"
+                                  onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <div className="p-2 rounded-lg bg-white/5 text-brand-purple">
+                                      <ItemIcon className="w-4.5 h-4.5" />
+                                    </div>
+                                    <span className="text-base font-semibold text-foreground/90">{item.title}</span>
                                   </div>
-                                  <span className="text-base font-semibold text-foreground/90">{item.title}</span>
-                                </div>
-                                {'desc' in item && (
-                                  <p className="pl-11 text-xs text-foreground/50 leading-relaxed">
-                                    {item.desc}
-                                  </p>
-                                )}
-                              </Link>
-                            ))}
+                                  {'desc' in item && (
+                                    <p className="pl-11 text-xs text-foreground/50 leading-relaxed">
+                                      {item.desc}
+                                    </p>
+                                  )}
+                                </Link>
+                              )
+                            })}
                           </motion.div>
                         )}
                       </AnimatePresence>
@@ -374,7 +422,7 @@ export function Navbar() {
                   )}
                 </div>
               ))}
-              
+
               <div className="mt-8 pt-8 border-t border-white/5">
                 <Link
                   href="/contact"
