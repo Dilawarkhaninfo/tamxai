@@ -7,6 +7,7 @@ import { TestimonialsSection } from '@/components/home/TestimonialsSection';
 import { FaqSection } from '@/components/home/FaqSection';
 import { TrustedBySection } from '@/components/home/TrustedBySection';
 import { CTASection } from '@/components/home/CTASection';
+import { HomeVideoSection } from '@/components/home/HomeVideoSection';
 
 export default function Home() {
   return (
@@ -15,10 +16,10 @@ export default function Home() {
         <AnimatedBackground />
         <HeroScrollController />
 
-        <div className="relative w-full h-screen z-40 overflow-x-hidden" id="hero-section">
+        <div className="relative w-full h-screen z-40 overflow-hidden" id="hero-section">
           <h2
             id="hero-company"
-            className="absolute top-30 left-1/2 -translate-x-1/2 text-[14vw] font-bold text-nowrap text-center opacity-5 pointer-events-none select-none"
+            className="absolute top-1/4 left-1/2 -translate-x-1/2 text-[18vw] sm:text-[14vw] font-bold text-nowrap text-center opacity-[0.03] pointer-events-none select-none"
           >
             TAMX.AI &nbsp; TAMX.AI &nbsp; TAMX.AI
           </h2>
@@ -26,6 +27,8 @@ export default function Home() {
           <AtomicSphere />
           <HeroSection />
         </div>
+
+        <HomeVideoSection />
 
         <div className="pt-40 sm:pt-60 overflow-x-hidden relative z-20">
           <div className="relative flex flex-col mb-40 sm:mb-60 gap-20 sm:gap-32 w-main m-auto">

@@ -4,9 +4,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { LMSHero } from '@/components/lms/LMSHero'
 import { LMSFeatures } from '@/components/lms/LMSFeatures'
-import { LMSCharacters } from '@/components/lms/LMSCharacters'
 import { LMSGrowth } from '@/components/lms/LMSGrowth'
-import { LMSRewards } from '@/components/lms/LMSRewards'
 import { LMSProfessor } from '@/components/lms/LMSProfessor'
 import { LMSAgents } from '@/components/lms/LMSAgents'
 import { LMSMetaverse } from '@/components/lms/LMSMetaverse'
@@ -29,8 +27,6 @@ export default function LMSPage() {
         <div className="relative z-20 space-y-0">
           <LMSFeatures />
           <LMSGrowth />
-          <LMSCharacters />
-          <LMSRewards />
           <LMSProfessor />
           <LMSAgents />
           <LMSMetaverse />

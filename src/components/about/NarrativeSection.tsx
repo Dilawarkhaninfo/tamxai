@@ -26,7 +26,7 @@ export function NarrativeSection() {
                 <span className="text-brand-lavender font-bold uppercase tracking-[0.4em] text-[10px]">Our Mission</span>
             </div>
             
-            <h2 className="text-5xl md:text-7xl font-bold text-white mb-12 leading-[1.1] tracking-tighter">
+            <h2 className="text-4xl md:text-7xl font-bold text-white mb-8 md:mb-12 leading-[1.1] tracking-tighter">
               The <span className="gradient-text">Human Element</span> <br /> behind AI
             </h2>
             

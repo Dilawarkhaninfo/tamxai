@@ -1,14 +1,17 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
 }
+
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
@@ -76,6 +79,8 @@
   --shadow-glow-purple: 0 0 40px rgba(105, 106, 172, 0.3), 0 0 80px rgba(162, 163, 233, 0.2);
   --shadow-glow-lavender: 0 0 40px rgba(199, 200, 242, 0.3), 0 0 80px rgba(199, 200, 242, 0.2);
   --shadow-glow-card: 0 20px 60px rgba(105, 106, 172, 0.4);
+  --shadow-nav: 0 4px 20px -2px rgba(0, 0, 0, 0.15);
+  --border-nav: 1px solid rgba(246, 246, 253, 0.08);
 
   /* TAMx Animations */
   --animate-float: float 6s ease-in-out infinite;
@@ -92,6 +97,7 @@
   0% {
     stroke-dashoffset: 100;
   }
+
   100% {
     stroke-dashoffset: 0;
   }
@@ -244,8 +250,16 @@
 
 @layer utilities {
   .w-main {
-    width: calc(100% - 60px);
+    width: calc(100% - 40px);
     max-width: 1380px;
+    @apply md:w-[calc(100%-60px)];
+  }
+
+  .glass-navbar {
+    background: rgba(10, 10, 15, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   }
 
   .glass-effect {
@@ -367,13 +381,23 @@
 }
 
 @keyframes border-beam {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 @keyframes border-beam-v {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
 }
 
 .animate-border-beam {
@@ -382,4 +406,4 @@
 
 .animate-border-beam-v {
   animation: border-beam-v 4s linear infinite;
-}
+}

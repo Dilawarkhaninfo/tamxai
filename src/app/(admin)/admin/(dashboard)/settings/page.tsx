@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Settings as SettingsIcon, 
   Globe, 
@@ -10,183 +10,290 @@ import {
   Share2, 
   Save,
   Shield,
-  Bell,
-  Eye,
   Lock,
   Zap,
   Cpu,
-  RefreshCw
+  RefreshCw,
+  Instagram,
+  Linkedin,
+  Facebook,
+  Eye,
+  EyeOff,
+  Check,
+  Smartphone
 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from '@/components/admin/Toast';
 
 export default function SettingsPage() {
   const { showToast } = useToast();
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Form States
+  const [socials, setSocials] = useState({
+    linkedin: 'https://linkedin.com/company/tamxai',
+    instagram: 'https://instagram.com/tamxai',
+    facebook: 'https://facebook.com/tamxai'
+  });
+
+  const [contact, setContact] = useState({
+    email: 'ops@tamx.ai',
+    phone: '+1.TAMX.AI',
+    address: 'Innovation District, Global Node A-1'
+  });
+
+  const [passwordData, setPasswordData] = useState({
+    current: '',
+    new: '',
+    confirm: ''
+  });
 
   const handleSave = () => {
-    showToast('Settings saved successfully', 'success');
+    setIsSaving(true);
+    setTimeout(() => {
+      setIsSaving(false);
+      showToast('Settings & Contact info synchronized', 'success');
+    }, 1000);
+  };
+
+  const handleChangePassword = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordData.new !== passwordData.confirm) {
+      showToast('New passwords do not match', 'error');
+      return;
+    }
+    showToast('Password updated successfully', 'success');
+    setPasswordData({ current: '', new: '', confirm: '' });
   };
 
   return (
-    <div className="space-y-8 max-w-5xl">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div className="space-y-10 max-w-6xl pb-20">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-3 mb-2">
-             <div className="p-2 rounded-lg bg-slate-500/10 text-slate-400">
-               <SettingsIcon size={20} />
-             </div>
-             <h1 className="text-3xl font-bold text-white uppercase tracking-tighter">System <span className="text-slate-500">Settings</span></h1>
+            <div className="p-2.5 rounded-2xl bg-slate-500/10 text-slate-400 border border-white/5 shadow-inner">
+              <SettingsIcon size={22} />
+            </div>
+          <h1 className="text-3xl font-black text-white uppercase tracking-tighter">General <span className="text-slate-500">Settings</span></h1>
           </div>
-          <p className="text-slate-400 text-sm font-medium">Manage global website configuration, contact details, and social profiles.</p>
+          <p className="text-slate-400 text-sm font-bold uppercase tracking-widest opacity-60">Manage your global contact information and platform security.</p>
         </div>
         <button 
           onClick={handleSave}
-          className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl text-sm font-bold shadow-lg shadow-purple-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-widest text-white"
+          disabled={isSaving}
+          className="flex items-center justify-center gap-3 px-10 py-5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl text-xs font-black shadow-xl shadow-purple-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-[0.2em] text-white group"
         >
-          <Save size={18} />
+          {isSaving ? <RefreshCw className="animate-spin" size={18} /> : <Save size={18} />}
           Save Changes
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-6">
-          {/* General Settings */}
-          <div className="bg-[#090E1A] border border-white/5 rounded-3xl overflow-hidden shadow-2xl group">
-             <div className="p-6 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div className="lg:col-span-2 space-y-10">
+          
+
+          {/* Contact Details */}
+          <section className="bg-[#090E1A] border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl">
+             <div className="p-8 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
                 <div className="flex items-center gap-3">
-                   <Globe size={18} className="text-purple-400" />
-                   <h3 className="font-bold text-white uppercase tracking-widest text-sm">General Information</h3>
+                   <div className="p-2 rounded-xl bg-blue-500/10 text-blue-400">
+                      <Smartphone size={18} />
+                   </div>
+                   <h3 className="font-black text-white uppercase tracking-widest text-xs">Contact Information</h3>
                 </div>
-                <div className="w-2 h-2 rounded-full bg-purple-500" />
+                <Check size={16} className="text-blue-500/50" />
              </div>
-             <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+             <div className="p-10 grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-3">
-                   <label className="text-[10px] font-bold text-slate-600 uppercase tracking-[0.3em]">Company Name</label>
-                   <input type="text" className="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-white font-bold transition-all" defaultValue="TAMx AI Systems" />
-                </div>
-                <div className="space-y-3">
-                   <label className="text-[10px] font-bold text-slate-600 uppercase tracking-[0.3em]">Website Title</label>
-                   <input type="text" className="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 text-white font-bold transition-all" defaultValue="TAMx - Building Digital Futures" />
-                </div>
-                <div className="md:col-span-2 space-y-3">
-                   <label className="text-[10px] font-bold text-slate-600 uppercase tracking-[0.3em]">Meta Description (SEO)</label>
-                   <textarea className="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/50 h-28 text-slate-400 font-medium leading-relaxed transition-all" defaultValue="TAMx Systems provides high-fidelity AI products and digital strategy for modern global enterprises." />
-                </div>
-             </div>
-          </div>
-
-          {/* Contact Information */}
-          <div className="bg-[#090E1A] border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
-             <div className="p-6 border-b border-white/5 flex items-center gap-3 bg-white/[0.02]">
-                <Mail size={18} className="text-blue-400" />
-                <h3 className="font-bold text-white uppercase tracking-widest text-sm">Contact Details</h3>
-             </div>
-             <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-3">
-                   <label className="text-[10px] font-bold text-slate-600 uppercase tracking-[0.3em]">Support Email</label>
+                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Email Address</label>
                    <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-700" size={16} />
-                      <input type="email" className="w-full bg-black border border-white/10 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white font-mono transition-all" defaultValue="ops@tamx.ai" />
+                      <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-700" size={18} />
+                      <input 
+                        type="email" 
+                        value={contact.email}
+                        onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                        className="w-full bg-black border border-white/10 rounded-2xl pl-16 pr-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white font-mono font-bold transition-all" 
+                      />
                    </div>
                 </div>
                 <div className="space-y-3">
-                   <label className="text-[10px] font-bold text-slate-600 uppercase tracking-[0.3em]">Phone Number</label>
+                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Phone Number</label>
                    <div className="relative">
-                      <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-700" size={16} />
-                      <input type="text" className="w-full bg-black border border-white/10 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white font-mono transition-all" defaultValue="+1.TAMX.PROTO" />
+                      <Phone className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-700" size={18} />
+                      <input 
+                        type="text" 
+                        value={contact.phone}
+                        onChange={(e) => setContact({ ...contact, phone: e.target.value })}
+                        className="w-full bg-black border border-white/10 rounded-2xl pl-16 pr-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 text-white font-mono font-bold transition-all" 
+                      />
                    </div>
                 </div>
                 <div className="md:col-span-2 space-y-3">
-                   <label className="text-[10px] font-bold text-slate-600 uppercase tracking-[0.3em]">Office Address</label>
+                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">Office Address</label>
                    <div className="relative">
-                      <MapPin className="absolute left-4 top-4 text-slate-700" size={16} />
-                      <textarea className="w-full bg-black border border-white/10 rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 h-24 text-slate-400 transition-all font-medium" defaultValue="Sector 7, Innovation District, Global Node A-1" />
+                      <MapPin className="absolute left-6 top-6 text-slate-700" size={18} />
+                      <textarea 
+                        value={contact.address}
+                        onChange={(e) => setContact({ ...contact, address: e.target.value })}
+                        className="w-full bg-black border border-white/10 rounded-2xl pl-16 pr-6 py-4 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 h-24 text-slate-400 transition-all font-medium resize-none" 
+                      />
                    </div>
                 </div>
              </div>
-          </div>
+          </section>
 
-          {/* Social Links */}
-          <div className="bg-[#090E1A] border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
-             <div className="p-6 border-b border-white/5 flex items-center gap-3 bg-white/[0.02]">
-                <Share2 size={18} className="text-emerald-400" />
-                <h3 className="font-bold text-white uppercase tracking-widest text-sm">Social Presence</h3>
+          {/* Social Presence */}
+          <section className="bg-[#090E1A] border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl">
+             <div className="p-8 border-b border-white/5 flex items-center justify-between bg-white/[0.02]">
+                <div className="flex items-center gap-3">
+                   <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-400">
+                      <Share2 size={18} />
+                   </div>
+                   <h3 className="font-black text-white uppercase tracking-widest text-xs">Social Media Links</h3>
+                </div>
+                <div className="flex gap-1">
+                   {[1,2,3].map(i => <div key={i} className="w-1.5 h-1.5 rounded-full bg-emerald-500/30" />)}
+                </div>
              </div>
-             <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
-                {['LinkedIn', 'Twitter', 'GitHub', 'Instagram'].map((platform) => (
-                  <div key={platform} className="space-y-3">
-                     <label className="text-[10px] font-bold text-slate-600 uppercase tracking-[0.3em]">{platform}</label>
-                     <input type="text" className="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/50 text-emerald-400/70 font-mono transition-all" placeholder={`https://example.com/${platform.toLowerCase()}`} />
-                  </div>
-                ))}
+             <div className="p-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="space-y-3">
+                   <label className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">
+                      <Linkedin size={12} className="text-blue-400" /> LinkedIn
+                   </label>
+                   <input 
+                     type="text" 
+                     value={socials.linkedin}
+                     onChange={(e) => setSocials({ ...socials, linkedin: e.target.value })}
+                     className="w-full bg-black border border-white/10 rounded-2xl px-6 py-4 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50 text-emerald-400/80 font-mono transition-all" 
+                   />
+                </div>
+                <div className="space-y-3">
+                   <label className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">
+                      <Instagram size={12} className="text-pink-400" /> Instagram
+                   </label>
+                   <input 
+                     type="text" 
+                     value={socials.instagram}
+                     onChange={(e) => setSocials({ ...socials, instagram: e.target.value })}
+                     className="w-full bg-black border border-white/10 rounded-2xl px-6 py-4 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50 text-emerald-400/80 font-mono transition-all" 
+                   />
+                </div>
+                <div className="space-y-3">
+                   <label className="flex items-center gap-2 text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] ml-1">
+                      <Facebook size={12} className="text-blue-600" /> Facebook
+                   </label>
+                   <input 
+                     type="text" 
+                     value={socials.facebook}
+                     onChange={(e) => setSocials({ ...socials, facebook: e.target.value })}
+                     className="w-full bg-black border border-white/10 rounded-2xl px-6 py-4 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/50 text-emerald-400/80 font-mono transition-all" 
+                   />
+                </div>
              </div>
-          </div>
+          </section>
         </div>
 
-        {/* Sidebar Settings */}
-        <div className="space-y-6">
-           <div className="bg-[#090E1A] border border-white/5 rounded-3xl p-8 shadow-2xl relative overflow-hidden group">
-              <div className="relative z-10">
-                 <div className="flex items-center gap-3 mb-6">
-                    <Shield size={20} className="text-orange-500" />
-                    <h4 className="font-bold text-white uppercase tracking-widest text-sm">Security</h4>
-                 </div>
-                 <div className="space-y-4">
-                    <div className="flex items-center justify-between p-3 bg-black/40 rounded-xl border border-white/5">
-                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Two-Factor Auth</span>
-                       <div className="w-10 h-5 bg-orange-500/20 rounded-full relative border border-orange-500/30">
-                          <div className="absolute right-0.5 top-0.5 w-4 h-4 bg-orange-500 rounded-full shadow-[0_0_10px_rgba(249,115,22,0.5)]" />
-                       </div>
-                    </div>
-                    <div className="flex items-center justify-between p-3 bg-black/40 rounded-xl border border-white/5">
-                       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Login Alerts</span>
-                       <div className="w-10 h-5 bg-white/5 rounded-full relative border border-white/10">
-                          <div className="absolute left-0.5 top-0.5 w-4 h-4 bg-slate-600 rounded-full" />
-                       </div>
-                    </div>
-                    <button className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-[10px] font-bold text-slate-400 hover:text-white transition-all uppercase tracking-widest mt-4">
-                       Adjust Security Layer
-                    </button>
-                 </div>
-              </div>
-              <div className="absolute -right-4 -bottom-4 w-32 h-32 bg-orange-500/5 blur-[50px] pointer-events-none group-hover:bg-orange-500/10 transition-all" />
-           </div>
+        {/* Sidebar Controls */}
+        <div className="space-y-10">
+          {/* Change Password */}
+          <section className="bg-[#0D121F] border border-white/10 rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden group">
+             <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-8">
+                   <div className="p-2 rounded-xl bg-orange-500/10 text-orange-400">
+                      <Lock size={18} />
+                   </div>
+                   <h4 className="font-black text-white uppercase tracking-widest text-xs">Update Password</h4>
+                </div>
+                
+                <form onSubmit={handleChangePassword} className="space-y-6">
+                   <div className="space-y-2">
+                      <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">New Password</label>
+                      <div className="relative">
+                         <input 
+                            type={showPassword ? 'text' : 'password'}
+                            value={passwordData.new}
+                            onChange={(e) => setPasswordData({ ...passwordData, new: e.target.value })}
+                            className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 text-white transition-all font-mono" 
+                            placeholder="••••••••"
+                         />
+                         <button 
+                           type="button"
+                           onClick={() => setShowPassword(!showPassword)}
+                           className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-400 transition-colors"
+                         >
+                            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                         </button>
+                      </div>
+                   </div>
+                   <div className="space-y-2">
+                      <label className="text-[9px] font-black text-slate-500 uppercase tracking-widest ml-1">Confirm Password</label>
+                      <input 
+                         type={showPassword ? 'text' : 'password'}
+                         value={passwordData.confirm}
+                         onChange={(e) => setPasswordData({ ...passwordData, confirm: e.target.value })}
+                         className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/30 text-white transition-all font-mono" 
+                         placeholder="••••••••"
+                      />
+                   </div>
+                   <button 
+                     type="submit"
+                     className="w-full py-4 bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 rounded-2xl text-[10px] font-black text-orange-400 hover:text-orange-300 transition-all uppercase tracking-[0.2em] mt-4 shadow-lg shadow-orange-500/5 group/btn"
+                   >
+                      <span className="flex items-center justify-center gap-2">
+                         <Shield size={14} className="group-hover/btn:rotate-12 transition-transform" />
+                         Update Password
+                      </span>
+                   </button>
+                </form>
+             </div>
+             <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-orange-500/5 blur-[60px] pointer-events-none group-hover:bg-orange-500/10 transition-all duration-1000" />
+          </section>
 
-           <div className="bg-[#090E1A] border border-white/5 rounded-3xl p-8 shadow-2xl relative overflow-hidden group">
-              <div className="relative z-10 font-bold text-white uppercase tracking-widest">
-                 <div className="flex items-center gap-3 mb-6">
-                    <Cpu size={20} className="text-cyan-500" />
-                    <span className="text-sm">Storage Status</span>
-                 </div>
-                 <div className="space-y-6">
-                     <div className="space-y-2">
-                        <div className="flex justify-between text-[8px] tracking-[0.4em]">
-                           <span>STORAGE USAGE</span>
-                           <span className="text-cyan-400 font-bold">42%</span>
-                        </div>
-                        <div className="h-1 bg-white/5 rounded-full overflow-hidden">
-                           <div className="h-full bg-cyan-500 w-[42%] shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
-                        </div>
-                     </div>
-                     <div className="space-y-2">
-                        <div className="flex justify-between text-[8px] tracking-[0.4em]">
-                           <span>CACHE STATUS</span>
-                           <span className="text-cyan-400 font-bold">STABLE</span>
-                        </div>
-                        <div className="flex gap-1">
-                           {[1,2,3,4,5,6,7,8].map(i => (
-                             <div key={i} className={`h-3 w-1.5 rounded-full ${i < 7 ? 'bg-cyan-500' : 'bg-white/5'}`} />
-                           ))}
-                        </div>
-                     </div>
-                     <button className="flex items-center justify-center gap-2 w-full py-4 bg-cyan-500/5 hover:bg-cyan-500/10 border border-cyan-500/30 rounded-2xl text-[9px] text-cyan-400 hover:text-cyan-300 transition-all uppercase tracking-widest mt-4">
-                        <RefreshCw size={14} />
-                        Clear System Cache
-                     </button>
-                 </div>
-              </div>
-              <div className="absolute -right-4 -bottom-4 w-32 h-32 bg-cyan-500/5 blur-[50px] pointer-events-none" />
-           </div>
+          {/* System Health */}
+          <section className="bg-[#090E1A] border border-white/5 rounded-[2.5rem] p-10 shadow-2xl relative overflow-hidden group">
+             <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-8">
+                   <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400">
+                      <Cpu size={18} />
+                   </div>
+                   <span className="text-xs font-black text-white uppercase tracking-widest">System Status</span>
+                </div>
+                <div className="space-y-8">
+                    <div className="space-y-3">
+                       <div className="flex justify-between text-[8px] font-black tracking-[0.4em] text-slate-600">
+                          <span>SERVICE STORAGE</span>
+                          <span className="text-cyan-400">42%</span>
+                       </div>
+                       <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                          <motion.div 
+                            initial={{ width: 0 }}
+                            animate={{ width: '42%' }}
+                            transition={{ duration: 2, ease: "easeOut" }}
+                            className="h-full bg-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.6)]" 
+                          />
+                       </div>
+                    </div>
+                    <div className="space-y-3">
+                       <div className="flex justify-between text-[8px] font-black tracking-[0.4em] text-slate-600">
+                          <span>API UPTIME</span>
+                          <span className="text-emerald-400">99.9%</span>
+                       </div>
+                       <div className="flex gap-1.5">
+                          {[1,2,3,4,5,6,7,8,9,10,11,12].map(i => (
+                            <div key={i} className={`h-4 w-1 rounded-full ${i < 12 ? 'bg-emerald-500/50' : 'bg-emerald-500 animate-pulse'}`} />
+                          ))}
+                       </div>
+                    </div>
+                    <button className="flex items-center justify-center gap-3 w-full py-4 bg-white/5 hover:bg-white/10 border border-white/5 rounded-2xl text-[9px] font-black text-slate-500 hover:text-white transition-all uppercase tracking-widest mt-4">
+                       <RefreshCw size={14} />
+                       Refresh Sync
+                    </button>
+                </div>
+             </div>
+             <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-cyan-500/5 blur-[100px] pointer-events-none" />
+          </section>
         </div>
       </div>
     </div>

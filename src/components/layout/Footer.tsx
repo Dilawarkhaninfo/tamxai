@@ -138,8 +138,6 @@ export function Footer() {
 
           {/* Left — Contact & Clock */}
           <div className="flex flex-col font-light text-lg items-start text-left">
-            {/* Logo + Brand */}
-            <div className="mb-6 h-9 md:block hidden" />
 
             <p className="text-2xl mt-4 md:mt-0">
               <a

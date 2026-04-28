@@ -5,8 +5,13 @@ import { ImmersiveHero } from '@/components/ui/ImmersiveHero';
 import { PageSection } from '@/components/layout/PageSection';
 import { CTASection } from '@/components/home/CTASection';
 import { motion } from 'framer-motion';
-import { Layout, Code2, Rocket, Brain, Stethoscope, Cpu, Search, PencilRuler, PlayCircle, BarChart3 } from 'lucide-react';
+import { Layout, Code2, Rocket, Brain, Stethoscope, Cpu, Search, PencilRuler, PlayCircle, BarChart3, ChevronLeft, ChevronRight } from 'lucide-react';
 import RadialOrbitalTimeline from '@/components/ui/radial-orbital-timeline';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, EffectCreative } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 const servicesImages = [
   'https://images.unsplash.com/photo-1551288049-bbbda5366991?q=80&w=2070&auto=format&fit=crop', // Data dashboard
@@ -53,7 +58,59 @@ export default function ServicesPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {/* Mobile Horizontal Carousel */}
+        <div className="lg:hidden relative w-full px-4 mb-20 overflow-visible">
+          <Swiper
+            modules={[Navigation, Pagination, EffectCreative]}
+            spaceBetween={20}
+            slidesPerView={1.1}
+            centeredSlides={true}
+            grabCursor={true}
+            navigation={{
+              nextEl: '.services-next',
+              prevEl: '.services-prev',
+            }}
+            pagination={{ 
+              clickable: true,
+              bulletClass: 'swiper-pagination-bullet !bg-brand-lavender/30',
+              bulletActiveClass: 'swiper-pagination-bullet-active !bg-brand-lavender !w-8 transition-all duration-300'
+            }}
+            className="pb-24 overflow-visible"
+          >
+            {expandedServices.map((service, idx) => (
+              <SwiperSlide key={service.title} className="h-full">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6 }}
+                  className="p-10 rounded-[3.5rem] bg-[#0F172A] border border-white/5 h-full flex flex-col shadow-2xl relative overflow-hidden group"
+                >
+                  <div className="absolute top-0 right-0 p-10 opacity-[0.03]">
+                    <service.icon className="w-24 h-24 text-white" />
+                  </div>
+                  <div className="p-4 rounded-2xl bg-brand-lavender/10 border border-brand-lavender/20 text-brand-lavender w-fit mb-8 shadow-glow-lavender">
+                    <service.icon className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-4 leading-tight">{service.title}</h3>
+                  <p className="text-text-secondary text-base leading-relaxed opacity-80">{service.desc}</p>
+                </motion.div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          {/* Unique Floating Navigation Buttons */}
+          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 z-20 flex justify-between pointer-events-none px-2">
+             <button className="services-prev pointer-events-auto size-12 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center text-white backdrop-blur-xl hover:bg-brand-lavender/20 transition-all active:scale-90 shadow-2xl">
+                <ChevronLeft size={24} />
+             </button>
+             <button className="services-next pointer-events-auto size-12 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-center text-white backdrop-blur-xl hover:bg-brand-lavender/20 transition-all active:scale-90 shadow-2xl">
+                <ChevronRight size={24} />
+             </button>
+          </div>
+        </div>
+
+        {/* Desktop Grid Layout */}
+        <div className="hidden lg:grid grid-cols-2 lg:grid-cols-3 gap-10">
           {expandedServices.map((service, idx) => (
             <motion.div
               key={service.title}

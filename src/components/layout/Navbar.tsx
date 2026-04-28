@@ -12,71 +12,7 @@ import {
 } from 'lucide-react'
 import { usePreloader } from '@/context/PreloaderContext'
 
-const services = [
-  {
-    title: 'Product Design',
-    icon: Paintbrush,
-    href: '/services',
-    desc: 'Crafting premium, user-centric experiences that define modern digital products.',
-    items: ['User Research & Design Strategy', 'UX Architecture & Wireframing', 'High-Fidelity UI Design', 'Design Systems & Dev-Handoff']
-  },
-  {
-    title: 'AI Software Development',
-    icon: Code,
-    href: '/services',
-    desc: 'Building intelligent, scalable AI-powered applications for web and mobile.',
-    items: ['WEB DEVELOPMENT', 'APP DEVELOPMENT', 'Cloud-Native AI Architecture', 'Scalable Microservices']
-  },
-  {
-    title: 'Digital Marketing',
-    icon: TrendingUp,
-    href: '/services',
-    desc: 'Driving exponential growth with performance-led digital marketing strategies.',
-    items: ['Growth Hacking & Performance Marketing', 'Social Media Branding & Strategy', 'Content Strategy & Lifecycle Marketing', 'Conversion Rate Optimization (CRO)']
-  },
-  {
-    title: 'Research & Development',
-    icon: Brain,
-    href: '/services',
-    desc: 'Pioneering frontier technologies through deep AI research and R&D.',
-    items: ['Neural Network Research', 'Generative AI Prototyping', 'Predictive Modeling & Data Science', 'Proof-of-Concept Development']
-  },
-  {
-    title: 'SEO',
-    icon: Stethoscope,
-    href: '/services',
-    desc: 'Dominating search rankings with professional, performance-driven SEO.',
-    items: ['Technical SEO & Performance Audit', 'Competitive Keyword Strategy', 'Semantic Content Optimization', 'Authority & Link Building Building']
-  },
-  {
-    title: 'Solutions',
-    icon: Cpu,
-    href: '/services',
-    desc: 'Comprehensive enterprise solutions tailored for digital transformation.',
-    items: ['Enterprise AI Implementation', 'Operational Tech Consulting', 'Digital Transformation Strategy', 'Modernization & Infrastructure Scale']
-  }
-]
-
-const products = [
-  {
-    title: 'Ecommerce',
-    icon: ShoppingCart,
-    href: '/product/ecommerce',
-    desc: 'Full-featured ecommerce platform with inventory management, payments, and analytics.',
-  },
-  {
-    title: 'LMS',
-    icon: GraduationCap,
-    href: '/lms',
-    desc: 'Learning management system with E-Courses, assessments, and progress tracking.',
-  },
-  {
-    title: 'CRM',
-    icon: LayoutGrid,
-    href: '/product',
-    desc: 'Customer relationship management system to streamline your sales and support.',
-  },
-]
+import { SERVICES as services, PRODUCTS as products } from '@/data/navigation'
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -93,6 +29,8 @@ export function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isServicesOpen, setIsServicesOpen] = useState(false)
   const [isProductOpen, setIsProductOpen] = useState(false)
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false)
+  const [isMobileProductOpen, setIsMobileProductOpen] = useState(false)
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
   const navRef = useRef<HTMLUListElement>(null)
   const linkRefs = useRef<(HTMLLIElement | null)[]>([])
@@ -157,11 +95,13 @@ export function Navbar() {
       id="header"
     >
       <div
-        className="absolute top-0 left-0 w-full h-full pointer-events-none transition-opacity duration-500"
-        style={{
-          opacity: isScrolled ? 1 : 0.8,
-          background: 'linear-gradient(to bottom, var(--background) 20%, transparent 100%)'
-        }}
+        className={`absolute top-0 left-0 w-full h-full pointer-events-none transition-all duration-300 ${
+          isMobileMenuOpen
+            ? 'opacity-100 bg-zinc-950 shadow-nav'
+            : isScrolled 
+              ? 'opacity-100 glass-navbar shadow-nav' 
+              : 'opacity-70 md:opacity-0 glass-navbar shadow-nav'
+        }`}
       />
 
       <div className="relative z-20 mx-auto" style={{ width: 'calc(100% - 60px)', maxWidth: '1400px' }}>
@@ -278,14 +218,17 @@ export function Navbar() {
             </div>
           </Link>
 
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="w-10 flex flex-col justify-center items-center gap-3 cursor-pointer z-50"
+              className="relative w-12 h-12 flex flex-col justify-center items-center rounded-full bg-white/5 border border-white/10 shadow-lg cursor-pointer z-50 transition-all active:scale-90"
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
-              <span className={`w-full h-0.5 bg-foreground duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-[7px]' : ''}`} />
-              <span className={`w-full h-0.5 bg-foreground duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
+              <div className="flex flex-col gap-1.5 w-6">
+                <span className={`w-full h-0.5 bg-foreground rounded-full transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-[8px]' : ''}`} />
+                <span className={`w-full h-0.5 bg-foreground rounded-full transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''}`} />
+                <span className={`w-full h-0.5 bg-foreground rounded-full transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-[8px]' : ''}`} />
+              </div>
             </button>
           </div>
         </div>
@@ -354,37 +297,92 @@ export function Navbar() {
 
 
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden overflow-hidden bg-background/95 backdrop-blur-xl border-t border-foreground/5 mt-4"
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="md:hidden overflow-hidden bg-zinc-950/98 backdrop-blur-3xl border-t border-white/5 shadow-2xl relative z-50 mt-4"
           >
-            <div className="flex flex-col gap-1 px-8 py-6">
+            <div className="flex flex-col gap-1 px-6 py-8 max-h-[75vh] overflow-y-auto custom-scrollbar">
               {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`rounded-lg px-4 py-3 text-base transition-colors ${
-                    pathname === link.href ? 'bg-foreground/10 text-foreground' : 'text-foreground/60 hover:bg-foreground/5 hover:text-foreground'
-                  }`}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
+                <div key={link.href} className="flex flex-col">
+                  {link.hasDropdown ? (
+                    <>
+                      <button
+                        onClick={() => {
+                          if (link.dropdownId === 'services') setIsMobileServicesOpen(!isMobileServicesOpen)
+                          if (link.dropdownId === 'product') setIsMobileProductOpen(!isMobileProductOpen)
+                        }}
+                        className="flex items-center justify-between w-full rounded-xl px-5 py-4 text-lg font-medium text-foreground/80 hover:bg-white/5 hover:text-foreground transition-all"
+                      >
+                        {link.label}
+                        <ChevronDown 
+                          className={`w-5 h-5 transition-transform duration-300 ${
+                            (link.dropdownId === 'services' && isMobileServicesOpen) || 
+                            (link.dropdownId === 'product' && isMobileProductOpen) 
+                            ? 'rotate-180' : ''
+                          }`} 
+                        />
+                      </button>
+                      
+                      <AnimatePresence>
+                        {((link.dropdownId === 'services' && isMobileServicesOpen) || 
+                          (link.dropdownId === 'product' && isMobileProductOpen)) && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="pl-4 mt-1 space-y-1 mb-4"
+                          >
+                            {(link.dropdownId === 'services' ? services : products).map((item) => (
+                              <Link
+                                key={item.title}
+                                href={item.href}
+                                className="flex flex-col items-start gap-1 p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className="p-2 rounded-lg bg-white/5 text-brand-purple">
+                                    <item.icon className="w-4.5 h-4.5" />
+                                  </div>
+                                  <span className="text-base font-semibold text-foreground/90">{item.title}</span>
+                                </div>
+                                {'desc' in item && (
+                                  <p className="pl-11 text-xs text-foreground/50 leading-relaxed">
+                                    {item.desc}
+                                  </p>
+                                )}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className={`rounded-xl px-5 py-4 text-lg font-medium transition-all ${
+                        pathname === link.href ? 'bg-white/5 text-foreground' : 'text-foreground/80 hover:bg-white/5 hover:text-foreground'
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {link.label}
+                    </Link>
+                  )}
+                </div>
               ))}
-              <div className="mt-4 pt-4 border-t border-foreground/10">
+              
+              <div className="mt-8 pt-8 border-t border-white/5">
                 <Link
                   href="/contact"
-                  className="flex items-center justify-center gap-2 rounded-full border border-foreground/40 bg-background/20 backdrop-blur-xl px-6 py-3 text-sm font-light text-foreground transition-all hover:scale-105 duration-300"
+                  className="flex items-center justify-center gap-3 rounded-full bg-foreground text-background px-8 py-4 text-base font-bold shadow-xl shadow-brand-purple/20 transition-transform active:scale-95"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <span>Contact</span>
-                  <ArrowUpRight className="h-4 w-4" />
+                  <span>Contact Us</span>
+                  <ArrowUpRight className="h-5 w-5" />
                 </Link>
               </div>
             </div>

@@ -354,8 +354,31 @@ export const ModernPricingPage = ({
   featuredPlan,
   showAnimatedBackground = true,
 }: ModernPricingPageProps) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      const progress = scrollLeft / (scrollWidth - clientWidth);
+      setScrollProgress(progress);
+    }
+  };
+
+  const shiftLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -300, behavior: 'smooth' });
+    }
+  };
+
+  const shiftRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="dark bg-background text-foreground min-h-screen w-full overflow-x-hidden pb-20">
+    <div className="dark bg-background text-foreground min-h-screen w-full overflow-x-hidden pb-20 font-sans">
       {showAnimatedBackground && <ShaderCanvas />}
       <main className="relative w-full min-h-screen flex flex-col items-center justify-center px-4 pt-32">
         <div className="w-full max-w-5xl mx-auto text-center mb-10 md:mb-16">
@@ -368,19 +391,59 @@ export const ModernPricingPage = ({
         </div>
         
         {/* Main Plans Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 justify-center items-stretch w-full max-w-7xl px-2 sm:px-4">
-          {plans.map((plan) => (
-            <div key={plan.planName} className="flex h-full">
-              <PricingCard {...plan} />
-            </div>
-          ))}
+        <div className="w-full relative">
+          <div 
+            ref={scrollRef}
+            onScroll={handleScroll}
+            className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 overflow-x-auto md:overflow-visible px-8 md:px-0 pb-12 md:pb-0 snap-x snap-mandatory scrollbar-hide w-full max-w-7xl mx-auto scroll-smooth no-scrollbar"
+          >
+            {plans.map((plan) => (
+              <div key={plan.planName} className="flex-none w-[calc(100vw-64px)] md:w-auto snap-center snap-always h-full py-4">
+                <PricingCard {...plan} />
+              </div>
+            ))}
+          </div>
+
+          {/* Interaction Rail Slider - Mobile Only */}
+          <div className="md:hidden flex flex-col items-center gap-6 mt-4">
+             <div className="flex items-center gap-8">
+                <button 
+                  onClick={shiftLeft}
+                  className="p-3 rounded-full border border-white/10 bg-white/5 text-white/40 hover:text-cyan-400 hover:bg-cyan-400/10 transition-all active:scale-95"
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                </button>
+
+                <div className="w-32 h-[2px] bg-white/10 rounded-full relative overflow-hidden">
+                   <div 
+                      className="absolute top-0 left-0 h-full bg-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.8)] transition-all duration-150" 
+                      style={{ width: '40px', transform: `translateX(${scrollProgress * (128 - 40)}px)` }}
+                   />
+                </div>
+
+                <button 
+                  onClick={shiftRight}
+                  className="p-3 rounded-full border border-white/10 bg-white/5 text-white/40 hover:text-cyan-400 hover:bg-cyan-400/10 transition-all active:scale-95"
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </button>
+             </div>
+             
+             <div className="text-[10px] font-bold text-white/20 uppercase tracking-[0.3em] flex items-center gap-2">
+                <span className="w-8 h-px bg-white/5" />
+                Shift to evaluate nodes
+                <span className="w-8 h-px bg-white/5" />
+             </div>
+          </div>
         </div>
 
         {/* Featured Section (Startup Builder) */}
         {featuredPlan && (
-          <FeaturedStartupPlan {...featuredPlan} />
+          <div className="w-full flex justify-center px-4">
+            <FeaturedStartupPlan {...featuredPlan} />
+          </div>
         )}
       </main>
     </div>
   );
-};
+};

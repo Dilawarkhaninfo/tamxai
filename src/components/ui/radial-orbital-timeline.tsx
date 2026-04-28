@@ -38,12 +38,22 @@ export default function RadialOrbitalTimeline({
   const [activeNodeId, setActiveNodeId] = useState<number | null>(null);
   const [targetAngle, setTargetAngle] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [radius, setRadius] = useState(200);
   const containerRef = useRef<HTMLDivElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
   useEffect(() => {
     setMounted(true);
+    const updateRadius = () => {
+      const width = window.innerWidth;
+      if (width < 480) setRadius(100);
+      else if (width < 768) setRadius(150);
+      else setRadius(200);
+    };
+    updateRadius();
+    window.addEventListener('resize', updateRadius);
+    return () => window.removeEventListener('resize', updateRadius);
   }, []);
 
   const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -138,7 +148,6 @@ export default function RadialOrbitalTimeline({
 
   const calculateNodePosition = (index: number, total: number) => {
     const angle = ((index / total) * 360 + rotationAngle) % 360;
-    const radius = 200;
     const radian = (angle * Math.PI) / 180;
 
     const x = Number((radius * Math.cos(radian) + centerOffset.x).toFixed(3));
@@ -267,10 +276,11 @@ export default function RadialOrbitalTimeline({
 
                 <div
                   className={`
-                  absolute top-12  whitespace-nowrap
-                  text-xs font-semibold tracking-wider
+                  absolute top-12 whitespace-nowrap
+                  text-[10px] sm:text-xs font-semibold tracking-wider
                   transition-all duration-300
-                  ${isExpanded ? "text-white scale-125" : "text-white/70"}
+                  ${isExpanded ? "text-white scale-110 sm:scale-125" : "text-white/70"}
+                  ${radius < 150 ? "hidden xs:block" : ""}
                 `}
                 >
                   {item.title}

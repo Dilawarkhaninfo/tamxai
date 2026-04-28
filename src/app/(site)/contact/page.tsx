@@ -9,6 +9,7 @@ import { PageSection } from '@/components/layout/PageSection';
 import { GlobalNetworkSphere } from '@/components/contact/GlobalNetworkSphere';
 import { MeetingModal } from '@/components/contact/MeetingModal';
 import { ConsultationSection } from '@/components/contact/ConsultationSection';
+import { SERVICES, PRODUCTS } from '@/data/navigation';
 
 const contactInfo = [
   { icon: Mail, label: 'Email', value: 'info@tamxai.com', href: 'mailto:info@tamxai.com' },
@@ -23,23 +24,8 @@ const socials = [
 ];
 
 const technicalFocusOptions = {
-  services: [
-    'AI Development',
-    'Product Design',
-    'Development',
-    'GTM Strategy',
-    'Healthcare Apps',
-    'IoT Development',
-    'Custom LLM Development',
-    'Data Engineering',
-    'Cloud Infrastructure'
-  ],
-  products: [
-    'Automation Engine',
-    'Ecommerce Platform',
-    'LMS (Learning Management System)',
-    'CRM System'
-  ]
+  services: SERVICES.map(s => s.title),
+  products: PRODUCTS.map(p => p.title)
 };
 
 const budgets = [

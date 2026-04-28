@@ -7,6 +7,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Search, Clock, User, ChevronRight, Bookmark } from 'lucide-react';
 import { blogPosts } from '@/data/blogPosts';
 import Link from 'next/link';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { EffectCoverflow, Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
 
 const categories = ['All', 'AI', 'Engineering', 'Design', 'Strategy', 'Healthcare'];
 
@@ -115,8 +120,34 @@ export default function BlogPage() {
             </motion.div>
          )}
 
-         {/* Blog Grid — Professional formal sizing */}
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+         {/* Mobile Editorial Carousel */}
+         <div className="lg:hidden w-full relative -mx-4 px-4 overflow-visible">
+            <Swiper
+                effect={'coverflow'}
+                grabCursor={true}
+                centeredSlides={true}
+                slidesPerView={'auto'}
+                coverflowEffect={{
+                    rotate: 15,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: false,
+                }}
+                pagination={{ clickable: true }}
+                modules={[EffectCoverflow, Pagination]}
+                className="blog-swiper pb-16"
+            >
+                {gridPosts.map((post) => (
+                    <SwiperSlide key={post.slug} className="!w-[85vw] pb-4">
+                        <BlogCard post={post} />
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+         </div>
+
+         {/* Blog Grid (Desktop Only) */}
+         <div className="hidden lg:grid grid-cols-2 lg:grid-cols-3 gap-8">
             <AnimatePresence mode="popLayout">
                 {gridPosts.map((post, idx) => (
                     <motion.div
@@ -127,52 +158,8 @@ export default function BlogPage() {
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ duration: 0.5, delay: idx * 0.05 }}
                         viewport={{ once: true }}
-                        className="group relative flex flex-col bg-slate-900/30 border border-white/5 rounded-[2rem] overflow-hidden hover:border-blue-500/40 hover:bg-slate-900/50 transition-all duration-500 shadow-xl"
                     >
-                        <Link href={`/blog/${post.slug}`} className="absolute inset-0 z-20" />
-                        
-                        <div className="aspect-[16/10] overflow-hidden relative">
-                            <img 
-                                src={post.image} 
-                                alt={post.title} 
-                                className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" 
-                            />
-                            <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors duration-500" />
-                            <div className="absolute top-4 right-4 z-30">
-                                <button className="p-2 rounded-xl bg-black/20 backdrop-blur-md border border-white/10 text-white/40 hover:text-white transition-colors">
-                                    <Bookmark className="w-4 h-4" />
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="p-8 flex flex-col flex-grow">
-                             <div className="flex items-center gap-3 mb-4">
-                                <span className="text-[10px] font-bold text-blue-500 uppercase tracking-widest">{post.category}</span>
-                                <span className="w-1 h-1 rounded-full bg-slate-700" />
-                                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{post.date}</span>
-                             </div>
-
-                            <h3 className="text-xl font-bold text-white mb-4 leading-snug group-hover:text-blue-400 transition-colors line-clamp-2">
-                                {post.title}
-                            </h3>
-                            
-                            <p className="text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3 opacity-80">
-                                {post.excerpt}
-                            </p>
-                            
-                            <div className="mt-auto pt-6 border-t border-white/5 flex justify-between items-center text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                                <div className="flex items-center gap-2">
-                                    <div className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center">
-                                        <User className="w-3 h-3" />
-                                    </div>
-                                    {post.author}
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <Clock className="w-3 h-3" />
-                                    {post.readTime}
-                                </div>
-                            </div>
-                        </div>
+                        <BlogCard post={post} />
                     </motion.div>
                 ))}
             </AnimatePresence>
@@ -211,5 +198,56 @@ export default function BlogPage() {
         </div>
       </PageSection>
     </main>
+  );
+}
+
+function BlogCard({ post }: { post: any }) {
+  return (
+    <div className="group relative flex flex-col bg-slate-900/40 border border-white/5 rounded-[2.5rem] overflow-hidden hover:border-blue-500/40 hover:bg-slate-900/60 transition-all duration-500 shadow-xl h-full backdrop-blur-sm">
+        <Link href={`/blog/${post.slug}`} className="absolute inset-0 z-20" />
+        
+        <div className="aspect-[16/10] overflow-hidden relative">
+            <img 
+                src={post.image} 
+                alt={post.title} 
+                className="w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-[1.05]" 
+            />
+            <div className="absolute inset-0 bg-slate-950/30 group-hover:bg-transparent transition-colors duration-500" />
+            <div className="absolute top-4 right-4 z-30 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button className="p-2.5 rounded-2xl bg-black/40 backdrop-blur-md border border-white/10 text-white/60 hover:text-white transition-all transform hover:scale-110">
+                    <Bookmark size={18} />
+                </button>
+            </div>
+        </div>
+
+        <div className="p-8 flex flex-col flex-grow relative">
+             <div className="flex items-center gap-3 mb-5">
+                <span className="px-2.5 py-1 rounded-lg bg-blue-500/10 border border-blue-500/20 text-[10px] font-bold text-blue-400 uppercase tracking-widest">{post.category}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-800" />
+                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{post.date}</span>
+             </div>
+
+            <h3 className="text-xl md:text-2xl font-bold text-white mb-4 leading-tight group-hover:text-blue-400 transition-colors line-clamp-2">
+                {post.title}
+            </h3>
+            
+            <p className="text-slate-400 text-sm leading-relaxed mb-8 line-clamp-3 opacity-80 group-hover:opacity-100 transition-opacity">
+                {post.excerpt}
+            </p>
+            
+            <div className="mt-auto pt-6 border-t border-white/5 flex justify-between items-center text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-slate-800/50 border border-white/10 flex items-center justify-center text-slate-400 group-hover:bg-blue-500/10 group-hover:text-blue-400 transition-all">
+                        <User size={14} />
+                    </div>
+                    {post.author}
+                </div>
+                <div className="flex items-center gap-2.5">
+                    <Clock size={14} className="text-slate-600" />
+                    {post.readTime}
+                </div>
+            </div>
+        </div>
+    </div>
   );
 }

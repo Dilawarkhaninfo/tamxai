@@ -82,7 +82,7 @@ export function AboutHero({
             Engineering the Future
           </motion.div>
           
-          <h1 className="font-display text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-white mb-12 leading-none">
+          <h1 className="font-display text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-white mb-8 md:mb-12 leading-none">
             {title.split(' ').map((word, i) => (
               <motion.span 
                 key={i} 
@@ -104,7 +104,7 @@ export function AboutHero({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 1 }}
-            className="text-lg md:text-2xl text-text-secondary max-w-3xl mx-auto mb-16 leading-relaxed font-medium opacity-80"
+            className="text-base md:text-2xl text-text-secondary max-w-3xl mx-auto mb-10 md:mb-16 leading-relaxed font-medium opacity-80"
           >
             {subheading}
           </motion.p>

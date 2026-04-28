@@ -7,22 +7,22 @@ import { Sparkles, BarChart, FileJson } from 'lucide-react'
 
 const highlights = [
   {
-    title: 'Adaptive & Personalized Learning',
-    description: 'The AI Professor adapts to each learner’s pace providing customized lessons and recommendations for a seamless learning experience.',
+    title: 'Cognitive-Adaptive Mentorship',
+    description: 'The AI Professor dynamically restructures curricula based on real-time cognitive mapping, ensuring a bespoke educational journey for every learner.',
     icon: Sparkles
   },
   {
-    title: 'Automated Administrative Tasks',
-    description: 'It handles attendance tracking, assignment grading, course management, and progress monitoring, reducing manual workload for educators.',
+    title: 'Autonomous Faculty Assistance',
+    description: 'Offload administrative complexity—including predictive grading, attendance analytics, and dynamic course management—to our robust AI backend.',
     icon: BarChart
   },
   {
-    title: 'Content Generation & Enhancement',
-    description: 'AI auto-generates study materials, provides multilingual support, converts text to speech, and enhances videos with transcripts and interactive elements.',
+    title: 'High-Fidelity Content Synthesis',
+    description: 'Automatically synthesize expert-level study materials, multilingual transcripts, and interactive media layers that transform static learning.',
     icon: FileJson
   }
 ]
-
+ 
 export function LMSProfessor() {
   return (
     <PageSection id="lms-professor" fullHeight={false} className="bg-background py-32 overflow-hidden">
@@ -32,10 +32,10 @@ export function LMSProfessor() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-10 sm:mb-16 leading-tight"
+            className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-8 sm:mb-16 leading-tight"
           >
-            Meet Your <span className="gradient-text">AI Professor</span> <br />
-            24/7 Guide
+            Meet Your <span className="gradient-text">Digital Mentor:</span> <br />
+            The TAMX AI Professor
           </motion.h2>
 
           <div className="space-y-12">
@@ -46,16 +46,16 @@ export function LMSProfessor() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: idx * 0.15 }}
                 viewport={{ once: true }}
-                className="flex items-start gap-8 group"
+                className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 sm:gap-8 group"
               >
-                <div className="p-4 rounded-2xl bg-brand-purple/10 border border-brand-purple/20 text-brand-purple group-hover:bg-brand-purple/20 group-hover:scale-110 transition-all duration-500 shadow-glow-purple">
-                  <item.icon className="w-8 h-8" />
+                <div className="shrink-0 p-4 rounded-2xl bg-brand-purple/10 border border-brand-purple/20 text-brand-purple group-hover:bg-brand-purple/20 group-hover:scale-110 transition-all duration-500 shadow-glow-purple">
+                  <item.icon className="w-6 h-6 sm:w-8 sm:h-8" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-brand-lavender transition-colors duration-300">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4 group-hover:text-brand-lavender transition-colors duration-300">
                     {item.title}
                   </h3>
-                  <p className="text-text-secondary text-lg leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
+                  <p className="text-text-secondary text-base sm:text-lg leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
                     {item.description}
                   </p>
                 </div>
@@ -80,9 +80,9 @@ export function LMSProfessor() {
               transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
             >
               <img 
-                src="https://edeviser.com/wp-content/uploads/2025/03/man-with-bg.svg" 
-                alt="AI Professor Illustration"
-                className="w-full h-auto drop-shadow-2xl"
+                src="/images/lms/ai_professor.png" 
+                alt="Realistic AI Professor Avatar"
+                className="w-full h-auto drop-shadow-2xl rounded-3xl"
               />
             </motion.div>
             

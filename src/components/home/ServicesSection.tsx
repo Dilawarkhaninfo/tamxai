@@ -4,7 +4,8 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Navigation, Pagination, EffectCoverflow } from 'swiper/modules';
+import 'swiper/css/effect-coverflow';
 import Link from 'next/link';
 import type { Swiper as SwiperType } from 'swiper';
 import type { IconType } from 'react-icons';
@@ -17,6 +18,7 @@ import {
   SiArduino, SiRaspberrypi, SiGrafana, SiApachekafka, SiPlatformio, SiEspressif,
 } from 'react-icons/si';
 import 'swiper/css';
+import { ServiceParticles } from './ServiceParticles';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -34,49 +36,49 @@ const servicesData: ServiceItem[] = [
     id: '01',
     title: 'Product Design',
     link: '/services',
-    description: 'Elite product design—from strategic research and UX architecture to polished UI systems and seamless dev-handoff.',
-    services: ['Strategic Research & UX Design', 'User Flows & Wireframing', 'High-Fidelity UI Systems', 'Design Ops & Scale'],
+    description: 'End-to-end product design—from research and UX flows to polished UI systems and developer-ready handoff.',
+    services: ['User Research & Strategy', 'UX Flows & Wireframes', 'UI Systems & Prototypes', 'Design Ops & Dev Handoff'],
     toolIcons: [SiFigma, SiSketch, SiCanva, SiFramer, SiInvision, SiSquarespace],
   },
   {
     id: '02',
-    title: 'AI Software Development',
+    title: 'Development',
     link: '/services',
-    description: 'Engineering intelligent, scalable digital platforms—from sophisticated Web AI solutions to high-performance Mobile App ecosystems.',
-    services: ['WEB DEVELOPMENT', 'APP DEVELOPMENT', 'Scalable Cloud Architecture', 'Automated DevOps & CI/CD'],
+    description: 'Robust, scalable products across web and mobile—from elegant UIs to reliable APIs and automated DevOps.',
+    services: ['Frontend Platforms (React / Next)', 'Backend APIs & Microservices (Node)', 'Mobile & Cross-platform (Flutter)', 'CI/CD & Cloud Ops (Docker)'],
     toolIcons: [SiReact, SiFlutter, SiNextdotjs, SiNodedotjs, SiDocker, SiTypescript],
   },
   {
     id: '03',
-    title: 'Digital Marketing',
+    title: 'GTM Strategy',
     link: '/services',
-    description: 'Accelerating growth through performance-led digital marketing—data-driven positioning, growth loops, and global scaling.',
-    services: ['Performance & Growth Marketing', 'Social Media Strategy & Branding', 'Data-Driven Content Engines', 'Conversion Rate Optimization'],
+    description: 'Data-driven go-to-market for SaaS and AI—clear positioning, smart pricing, and repeatable growth loops from ICP to post-launch analytics.',
+    services: ['ICP & Segmentation', 'Positioning, Narrative & Messaging', 'Pricing & Packaging', 'Demand Gen & Content Engine'],
     toolIcons: [SiHubspot, SiSalesforce, SiMixpanel, SiZapier, SiMailchimp, SiAirtable],
   },
   {
     id: '04',
-    title: 'SEO',
+    title: 'Healthcare Apps',
     link: '/services',
-    description: 'Professional SEO mastery—dominating organic search rankings, building content authority, and driving high-converting traffic.',
-    services: ['Technical SEO & Performance Audit', 'Strategic Keyword Intelligence', 'Semantic Content Optimization', 'Authority & Link Strategy'],
+    description: 'Secure, compliant healthcare software—from telehealth to EHR integrations—built for HIPAA and auditability.',
+    services: ['HIPAA & PHI Compliance', 'Telehealth & Patient Portals', 'EHR Integrations (FHIR / HL7)', 'Audit Logging & Access Controls'],
     toolIcons: [SiGooglecloud, SiFirebase, SiCircleci, SiTrustpilot, SiTwilio, SiStripe],
   },
   {
     id: '05',
-    title: 'Research & Development',
+    title: 'AI Development',
     link: '/services',
-    description: 'Pioneering frontier technologies—from deep AI research and experimental prototyping to production-ready intelligent systems.',
-    services: ['Advanced AI & Neural Research', 'Generative AI Prototyping', 'Predictive Systems & Modeling', 'Technological Feasibility Study'],
+    description: 'Build production‑ready AI—rapid prototyping to deployed models with solid evals, observability, and safety.',
+    services: ['LLM Apps & Agents (RAG / Tools)', 'Fine‑tuning & Prompt Optimization', 'Model Evals, Guardrails & Monitoring', 'Vision, NLP & Speech Pipelines'],
     toolIcons: [SiKaggle, SiPytorch, SiOpenai, SiKeras, SiHuggingface, SiTensorflow],
   },
   {
     id: '06',
-    title: 'Solutions',
+    title: 'IoT Development',
     link: '/services',
-    description: 'Comprehensive enterprise solutions—bridging complex digital gaps through operational excellence and strategic transformation.',
-    services: ['Enterprise AI Transformation', 'Strategic Digital Consulting', 'Infrastructure Modernization', 'Operational Excellence Systems'],
-    toolIcons: [SiArduino, SiRaspberrypi, SiApachekafka, SiGrafana, SiPlatformio, SiEspressif],
+    description: 'From device firmware to cloud ingestion—secure, reliable IoT systems with OTA updates and real‑time telemetry.',
+    services: ['Embedded Firmware & Drivers', 'BLE / Zigbee / LoRa Connectivity', 'MQTT Ingestion & Stream Processing', 'Edge AI & OTA Update Pipelines'],
+    toolIcons: [SiArduino, SiRaspberrypi, SiGrafana, SiApachekafka, SiPlatformio, SiEspressif],
   },
 ];
 
@@ -95,8 +97,8 @@ function ServiceCard({ id, title, description, services, toolIcons, link, active
         className={`
           p-px grow shrink-0 relative border border-zinc-600 lg:border-zinc-700
           ring-1 lg:ring-0 ring-white/20 ring-inset shadow-none overflow-hidden rounded-3xl
-          w-full h-[460px] duration-500
-          ${active ? 'scale-100 bg-primary' : 'scale-90 bg-[#12122a]'}
+          w-full h-[480px] sm:h-[520px] lg:h-[460px] duration-500
+          ${active ? 'scale-100 bg-primary' : 'scale-100 lg:scale-90 bg-[#12122a]'}
         `}
       >
         <div className="px-5 py-8 sm:py-10 sm:px-10 h-full relative z-10">
@@ -117,7 +119,7 @@ function ServiceCard({ id, title, description, services, toolIcons, link, active
             </div>
 
             {/* Content area — slides up when active to reveal details */}
-            <div className={`relative h-full z-10 duration-500 ${active ? '-translate-y-full' : ''}`}>
+            <div className={`relative h-full z-10 duration-500 ${active ? '-translate-y-full lg:-translate-y-full' : ''}`}>
               {/* Preview layer: number + title */}
               <div className="flex flex-col justify-between h-full">
                 <h4 className="block text-3xl sm:text-4xl font-semibold">{id}</h4>
@@ -125,7 +127,7 @@ function ServiceCard({ id, title, description, services, toolIcons, link, active
                   className={`
                     text-xl pr-1 2xl:text-2xl font-semibold origin-top-left
                     transition-transform will-change-transform duration-500
-                    ${active ? 'scale-[1.2] translate-y-full' : 'scale-100'}
+                    ${active ? 'scale-[1.1] lg:scale-[1.2] translate-y-full' : 'scale-100'}
                   `}
                 >
                   {title}
@@ -224,15 +226,16 @@ export function ServicesSection() {
         scrollTrigger: {
           trigger: triggerRef.current,
           start: 'top top',
-          end: `+=${maxScroll * 1.5}`,
-          scrub: 0.6,
+          end: `+=${totalWidth * 2.5}`, // Significantly longer duration
+          scrub: 1,
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const progress = self.progress;
             const total = servicesData.length;
-            const newIndex = Math.min(total - 1, Math.round(progress * (total - 1)));
+            // Map progress to card index with slight delay at the start
+            const newIndex = Math.min(total - 1, Math.floor(progress * total));
             setActiveIndex((prev) => (prev !== newIndex ? newIndex : prev));
           },
         },
@@ -259,24 +262,49 @@ export function ServicesSection() {
   );
 
   return (
-    <section id="service-section">
+    <section id="service-section" className="relative">
       {/* ─── Desktop: GSAP horizontal scroll with pinning ─── */}
       {isDesktop && (
-        <div ref={triggerRef} className="h-screen flex flex-col justify-center">
-          {header}
-          <div className="relative overflow-visible mt-8">
-            <div className="hidden lg:block absolute -left-[500px] top-0 h-full w-[500px] bg-gradient-to-r from-background from-75% to-transparent z-10 pointer-events-none" />
-            <div className="hidden lg:block absolute -right-[300px] top-0 h-full w-[300px] bg-gradient-to-l from-background from-75% to-transparent z-10 pointer-events-none" />
+        <div ref={triggerRef} className="h-screen w-full flex flex-col justify-center relative overflow-hidden bg-background">
+          {/* Header */}
+          <div className="container mx-auto px-4 z-40 mb-12">
+            {header}
+          </div>
+          
+          <div className="flex w-full items-center h-[75vh] relative">
+            {/* Left side: 3D Animation (35%) */}
+            <div className="w-[35%] h-full relative z-30 lg:-translate-x-[5%]">
+              <ServiceParticles activeIndex={activeIndex} />
+              
+              {/* Ultra-Smooth Gradient Partition */}
+              <div 
+                className="absolute top-0 -right-[50%] h-full w-[120%] pointer-events-none z-40" 
+                style={{
+                  background: 'linear-gradient(to right, rgba(2,2,2,0) 0%, rgba(2,2,2,1) 45%, rgba(2,2,2,1) 55%, rgba(2,2,2,0) 100%)',
+                  transform: 'translateX(20%)'
+                }}
+              />
+            </div>
 
-            <div ref={cardsRef} className="flex">
-              {servicesData.map((service, index) => (
-                <div
-                  key={service.id}
-                  className="transition-all duration-500 ease-in-out service-card lg:w-[340px] xl:w-[380px] 2xl:w-[460px] shrink-0"
-                >
-                  <ServiceCard active={activeIndex === index} {...service} />
-                </div>
-              ))}
+            {/* Right side: Scrollable Cards (65%) */}
+            <div className="w-[65%] relative h-[600px] flex items-center overflow-hidden z-10">
+              <div 
+                ref={cardsRef} 
+                className="flex gap-12 relative z-10 px-[15%] will-change-transform"
+              >
+                {servicesData.map((service, index) => (
+                  <div
+                    key={service.id}
+                    className="service-card lg:w-[380px] xl:w-[440px] 2xl:w-[500px] shrink-0"
+                  >
+                    <ServiceCard active={activeIndex === index} {...service} />
+                  </div>
+                ))}
+                {/* Spacer to allow centering the last card */}
+                <div className="lg:w-[20vw] xl:w-[25vw] shrink-0" />
+              </div>
+              
+              <div className="absolute right-0 top-0 h-full w-[250px] bg-gradient-to-l from-background to-transparent z-20 pointer-events-none" />
             </div>
           </div>
         </div>
@@ -284,13 +312,14 @@ export function ServicesSection() {
 
       {/* ─── Mobile / Tablet: Swiper carousel ─── */}
       {!isDesktop && (
-        <>
+        <div className="container mx-auto px-4 py-12">
           {header}
           <div className="relative overflow-visible mt-10" id="service-cards">
-            <div className="flex mb-8 justify-between items-center">
+            {/* Custom Navigation Buttons */}
+            <div className="flex mb-8 justify-between items-center px-2">
               <button
                 aria-label="Previous slide"
-                className={`px-5 border border-foreground/30 rounded-full transition-colors slider-prev ${
+                className={`px-5 py-2 border border-foreground/30 rounded-full transition-colors slider-prev z-20 ${
                   isBeginning ? 'opacity-30 pointer-events-none' : 'hover:bg-foreground/10 cursor-pointer'
                 }`}
               >
@@ -301,7 +330,7 @@ export function ServicesSection() {
               <div className="slider-pagination flex cursor-pointer" />
               <button
                 aria-label="Next slide"
-                className={`px-5 border border-foreground/30 rounded-full transition-colors slider-next ${
+                className={`px-5 py-2 border border-foreground/30 rounded-full transition-colors slider-next z-20 ${
                   isEnd ? 'opacity-30 pointer-events-none' : 'hover:bg-foreground/10 cursor-pointer'
                 }`}
               >
@@ -310,40 +339,36 @@ export function ServicesSection() {
                 </svg>
               </button>
             </div>
-
+ 
             <Swiper
               className="overflow-visible w-full"
-              slidesPerView={1}
-              slidesOffsetAfter={30}
-              spaceBetween={5}
+              slidesPerView={1.2}
+              centeredSlides={true}
+              spaceBetween={20}
               modules={[Navigation, Pagination]}
-              navigation={{ nextEl: '.slider-next', prevEl: '.slider-prev' }}
+              navigation={{
+                prevEl: '.slider-prev',
+                nextEl: '.slider-next',
+              }}
               pagination={{ el: '.slider-pagination', clickable: true, renderBullet }}
               onSwiper={handleSlideChange}
               onSlideChange={handleSlideChange}
               style={{ overflow: 'visible' }}
-              touchRatio={2}
-              threshold={2}
-              touchAngle={60}
-              resistance
-              resistanceRatio={0.5}
-              longSwipesRatio={0.3}
-              longSwipesMs={200}
-              shortSwipes
               breakpoints={{
-                768: { slidesPerView: 2, spaceBetween: 5, slidesOffsetAfter: 0 },
-              }}
+                640: { slidesPerView: 1.5, spaceBetween: 30 },
+                768: { slidesPerView: 2.2, spaceBetween: 40 },
+              } as any}
             >
               {servicesData.map((service, index) => (
-                <SwiperSlide key={service.id} className="!w-auto transition-all duration-500 ease-in-out">
-                  <div className="transition-all duration-500 ease-in-out service-card w-full shrink-0">
+                <SwiperSlide key={service.id} className="!h-auto flex">
+                  <div className="w-full px-2">
                     <ServiceCard active={activeIndex === index} {...service} />
                   </div>
                 </SwiperSlide>
               ))}
             </Swiper>
           </div>
-        </>
+        </div>
       )}
     </section>
   );
