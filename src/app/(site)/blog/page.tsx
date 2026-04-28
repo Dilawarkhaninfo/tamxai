@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { getPublishedPosts, getCategories } from '@/app/_actions/blog';
 import { BlogClient } from './BlogClient';
 
