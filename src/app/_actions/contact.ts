@@ -1,6 +1,7 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { sendAdminNotification, sendClientConfirmation } from '@/lib/email'
 
 export async function submitContact(formData: {
   firstName: string
@@ -24,5 +25,17 @@ export async function submitContact(formData: {
     message: formData.message,
   })
   if (error) return { error: error.message }
+
+  // Send email notifications (non-blocking — don't fail the form if emails fail)
+  try {
+    await Promise.all([
+      sendAdminNotification(formData),
+      sendClientConfirmation(formData),
+    ])
+  } catch (emailError) {
+    console.error('Email sending failed:', emailError)
+    // Form submission still succeeds even if emails fail
+  }
+
   return { success: true }
 }
