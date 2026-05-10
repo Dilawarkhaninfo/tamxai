@@ -16,27 +16,18 @@ import TeamVision from '@/components/team/TeamVision';
 import { StorySection, AboutCTA } from '@/components/about/AboutComponents';
 import { VideoShowcase } from '@/components/about/VideoShowcase';
 import { PageTransition } from '@/components/layout/PageTransition';
+import { getActiveTeamMembers } from '@/app/_actions/team';
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const members = await getActiveTeamMembers();
   return (
     <PageTransition>
       <main className="relative min-h-screen bg-black">
-        {/* About Hero */}
         <TeamHero />
-        
-        {/* Our Vision */}
         <TeamVision />
-
-        {/* Story Section */}
         <StorySection />
-
-        {/* Team Section */}
-        <TeamSection />
-
-        {/* Video Showcase Section */}
+        <TeamSection dbMembers={members} />
         <VideoShowcase />
-
-        {/* CTA */}
         <AboutCTA />
       </main>
     </PageTransition>

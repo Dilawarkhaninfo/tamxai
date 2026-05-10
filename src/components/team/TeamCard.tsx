@@ -2,10 +2,20 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { TeamMember } from './teamData';
 import Image from 'next/image';
 
-export default function TeamCard({ item }: { item: TeamMember }) {
+interface TeamCardItem {
+  name: string;
+  role: string;
+  company: string;
+  description: string;
+  image: string;
+  category: string;
+  isFounder?: boolean;
+  quote?: string;
+}
+
+export default function TeamCard({ item }: { item: TeamCardItem }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

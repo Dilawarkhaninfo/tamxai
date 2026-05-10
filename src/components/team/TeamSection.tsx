@@ -2,13 +2,44 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
-import { teamData } from './teamData';
+import { teamData as fallbackTeamData } from './teamData';
 import TeamCard from './TeamCard';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import type { TeamMember as DbTeamMember } from '@/lib/supabase/types';
 
 const categories = ['Engineering', 'Science', 'Design', 'Leadership'];
 
-export default function TeamSection() {
+interface TeamMemberDisplay {
+  id: number | string;
+  name: string;
+  role: string;
+  company: string;
+  description: string;
+  image: string;
+  category: string;
+  isFounder?: boolean;
+  quote?: string;
+}
+
+function mapDbToDisplay(members: DbTeamMember[]): TeamMemberDisplay[] {
+  return members.map((m, idx) => ({
+    id: m.id || idx,
+    name: m.full_name,
+    role: m.role,
+    company: m.company,
+    description: m.description,
+    image: m.avatar_url || '',
+    category: m.category,
+    isFounder: m.is_founder,
+    quote: m.quote ?? undefined,
+  }));
+}
+
+interface TeamSectionProps {
+  dbMembers?: DbTeamMember[];
+}
+
+export default function TeamSection({ dbMembers }: TeamSectionProps) {
   const [mobileIndex, setMobileIndex] = useState(0);
   const containerRef = useRef<HTMLElement>(null);
 
@@ -17,6 +48,10 @@ export default function TeamSection() {
     target: containerRef,
     offset: ["start 98%", "start 60%"]
   });
+
+  const teamData = dbMembers && dbMembers.length > 0
+    ? mapDbToDisplay(dbMembers)
+    : fallbackTeamData;
 
   const springConfig = { damping: 12, stiffness: 150 };
   const smoothProgress = useSpring(scrollYProgress, springConfig);

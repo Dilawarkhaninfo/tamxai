@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Package, Plus, Search, Trash2, Edit2, Save, Image as ImageIcon } from 'lucide-react';
+import { Package, Plus, Search, Trash2, Edit2, Save, Image as ImageIcon, Upload } from 'lucide-react';
 import { useToast } from '@/components/admin/Toast';
 import { ToastContainer } from '@/components/admin/Toast';
 import { Modal } from '@/components/admin/Modal';
 import { DeleteConfirmModal } from '@/components/admin/DeleteConfirmModal';
 import { upsertProduct, deleteProduct } from '@/app/_actions/products';
+import { getUploadUrl, registerMediaAsset, getPublicUrl } from '@/app/_actions/media';
 import type { Product } from '@/lib/supabase/types';
 
 const slugify = (text: string) =>
@@ -49,6 +50,25 @@ export function ProductsAdminClient({ initialProducts }: Props) {
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
   const [form, setForm] = useState<FormState>(defaultForm());
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const result = await getUploadUrl(file.name, file.type);
+      if ('error' in result) { showToast(result.error!, 'error'); return; }
+      const uploadRes = await fetch(result.signedUrl!, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
+      if (!uploadRes.ok) { showToast('Upload failed', 'error'); return; }
+      await registerMediaAsset({ path: result.path!, filename: file.name, mime: file.type, size_bytes: file.size });
+      const publicUrl = await getPublicUrl(result.path!);
+      setForm((f) => ({ ...f, hero_image: publicUrl }));
+      showToast('Image uploaded', 'success');
+    } catch { showToast('Upload failed', 'error'); }
+    finally { setUploading(false); }
+  }
 
   const filtered = products.filter(
     (p) =>
@@ -86,6 +106,7 @@ export function ProductsAdminClient({ initialProducts }: Props) {
       href: form.href,
       description: form.description,
       is_published: form.is_published,
+      hero_image: form.hero_image || undefined,
     });
     setSaving(false);
     if (result.error) { showToast(result.error, 'error'); return; }
@@ -248,13 +269,32 @@ export function ProductsAdminClient({ initialProducts }: Props) {
               />
             </div>
             <div className="md:col-span-2 space-y-2">
-              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Hero Image URL</label>
-              <input
-                value={form.hero_image}
-                onChange={(e) => setForm((f) => ({ ...f, hero_image: e.target.value }))}
-                className="w-full bg-[#010205] border border-white/5 rounded-2xl px-5 py-3.5 text-sm text-white placeholder:text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/30 transition-all"
-                placeholder="https://..."
-              />
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Hero Image</label>
+              {form.hero_image && (
+                <div className="relative h-32 rounded-2xl overflow-hidden mb-2">
+                  <img src={form.hero_image} alt="Preview" className="w-full h-full object-cover" />
+                  <button type="button" onClick={() => setForm((f) => ({ ...f, hero_image: '' }))} className="absolute top-2 right-2 p-1.5 bg-black/70 rounded-lg text-red-400 hover:text-red-300">
+                    <Trash2 size={14} />
+                  </button>
+                </div>
+              )}
+              <div className="flex gap-3">
+                <input
+                  value={form.hero_image}
+                  onChange={(e) => setForm((f) => ({ ...f, hero_image: e.target.value }))}
+                  className="flex-1 bg-[#010205] border border-white/5 rounded-2xl px-5 py-3.5 text-sm text-white placeholder:text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/30 transition-all"
+                  placeholder="Image URL or upload..."
+                />
+                <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                <button
+                  type="button"
+                  disabled={uploading}
+                  onClick={() => fileInputRef.current?.click()}
+                  className="px-4 py-3.5 bg-purple-600/10 border border-purple-500/20 rounded-2xl text-purple-400 hover:bg-purple-600/20 transition-all disabled:opacity-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest"
+                >
+                  <Upload size={14} /> {uploading ? 'Uploading...' : 'Upload'}
+                </button>
+              </div>
             </div>
             <div className="md:col-span-2 space-y-2">
               <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Description</label>

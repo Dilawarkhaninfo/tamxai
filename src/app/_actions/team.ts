@@ -6,9 +6,17 @@ import { logActivity } from './activity'
 
 export async function getTeamMembers() {
   const supabase = await createClient()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const db = supabase as any
   const { data } = await supabase.from('team_members').select('*').order('position')
+  return data ?? []
+}
+
+export async function getActiveTeamMembers() {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('team_members')
+    .select('*')
+    .eq('is_active', true)
+    .order('position')
   return data ?? []
 }
 

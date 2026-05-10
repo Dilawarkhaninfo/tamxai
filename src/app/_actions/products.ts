@@ -20,16 +20,24 @@ export async function upsertProduct(formData: {
   href: string
   description: string
   is_published: boolean
+  hero_image?: string
 }) {
   const supabase = await createClient()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const db = supabase as any
+
+  const payload = {
+    title: formData.title,
+    slug: formData.slug,
+    icon: formData.icon,
+    href: formData.href,
+    description: formData.description,
+    is_published: formData.is_published,
+    hero_image: formData.hero_image || null,
+  }
 
   let result
   if (formData.id) {
-    result = await supabase.from('products').update(formData).eq('id', formData.id).select().single()
+    result = await supabase.from('products').update(payload).eq('id', formData.id).select().single()
   } else {
-    const { id: _, ...payload } = formData
     result = await supabase.from('products').insert(payload).select().single()
   }
 

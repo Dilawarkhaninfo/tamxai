@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Plus, Search, Trash2, Edit2, Save, Crown, User as UserIcon } from 'lucide-react';
+import { Users, Plus, Search, Trash2, Edit2, Save, Crown, User as UserIcon, Upload } from 'lucide-react';
 import { useToast } from '@/components/admin/Toast';
 import { ToastContainer } from '@/components/admin/Toast';
 import { Modal } from '@/components/admin/Modal';
 import { DeleteConfirmModal } from '@/components/admin/DeleteConfirmModal';
 import { upsertTeamMember, deleteTeamMember } from '@/app/_actions/team';
+import { getUploadUrl, registerMediaAsset, getPublicUrl } from '@/app/_actions/media';
 import type { TeamMember } from '@/lib/supabase/types';
 
 interface Props {
@@ -53,6 +54,25 @@ export function TeamAdminClient({ initialMembers }: Props) {
   const [deleteTarget, setDeleteTarget] = useState<TeamMember | null>(null);
   const [form, setForm] = useState<FormState>(defaultForm());
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+
+  async function handleAvatarUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const result = await getUploadUrl(file.name, file.type);
+      if ('error' in result) { showToast(result.error!, 'error'); return; }
+      const uploadRes = await fetch(result.signedUrl!, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
+      if (!uploadRes.ok) { showToast('Upload failed', 'error'); return; }
+      await registerMediaAsset({ path: result.path!, filename: file.name, mime: file.type, size_bytes: file.size });
+      const publicUrl = await getPublicUrl(result.path!);
+      setForm((f) => ({ ...f, avatar_url: publicUrl }));
+      showToast('Avatar uploaded', 'success');
+    } catch { showToast('Upload failed', 'error'); }
+    finally { setUploading(false); }
+  }
 
   const allCategories = Array.from(new Set(members.map((m) => m.category).filter(Boolean)));
 
@@ -290,13 +310,30 @@ export function TeamAdminClient({ initialMembers }: Props) {
               </select>
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Avatar URL</label>
-              <input
-                value={form.avatar_url}
-                onChange={(e) => setForm((f) => ({ ...f, avatar_url: e.target.value }))}
-                className="w-full bg-[#010205] border border-white/5 rounded-2xl px-5 py-3.5 text-sm text-white placeholder:text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/30 transition-all"
-                placeholder="https://..."
-              />
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Avatar</label>
+              {form.avatar_url && (
+                <div className="flex items-center gap-3 mb-2">
+                  <img src={form.avatar_url} alt="Preview" className="w-14 h-14 rounded-2xl object-cover border-2 border-white/10" />
+                  <button type="button" onClick={() => setForm((f) => ({ ...f, avatar_url: '' }))} className="text-[10px] text-red-400 hover:text-red-300 font-bold uppercase tracking-widest">Remove</button>
+                </div>
+              )}
+              <div className="flex gap-3">
+                <input
+                  value={form.avatar_url}
+                  onChange={(e) => setForm((f) => ({ ...f, avatar_url: e.target.value }))}
+                  className="flex-1 bg-[#010205] border border-white/5 rounded-2xl px-5 py-3.5 text-sm text-white placeholder:text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/30 transition-all"
+                  placeholder="URL or upload..."
+                />
+                <input ref={avatarInputRef} type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" />
+                <button
+                  type="button"
+                  disabled={uploading}
+                  onClick={() => avatarInputRef.current?.click()}
+                  className="px-4 py-3.5 bg-purple-600/10 border border-purple-500/20 rounded-2xl text-purple-400 hover:bg-purple-600/20 transition-all disabled:opacity-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest whitespace-nowrap"
+                >
+                  <Upload size={14} /> {uploading ? '...' : 'Upload'}
+                </button>
+              </div>
             </div>
             <div className="md:col-span-2 space-y-2">
               <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Description</label>
