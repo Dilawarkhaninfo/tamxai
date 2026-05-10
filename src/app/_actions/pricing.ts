@@ -6,11 +6,19 @@ import { logActivity } from './activity'
 
 export async function getPlans() {
   const supabase = await createClient()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const db = supabase as any
   const { data } = await supabase
     .from('pricing_plans')
     .select('*, plan_features(id, label, position)')
+    .order('position')
+  return data ?? []
+}
+
+export async function getActivePlans() {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('pricing_plans')
+    .select('*, plan_features(id, label, position)')
+    .eq('is_active', true)
     .order('position')
   return data ?? []
 }
