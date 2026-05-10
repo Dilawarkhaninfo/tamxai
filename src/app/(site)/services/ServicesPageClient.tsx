@@ -13,7 +13,13 @@ import { Navigation, Pagination, EffectCreative } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import type { Service } from '@/lib/supabase/types';
+interface DbService {
+  title: string;
+  slug: string;
+  icon: string;
+  description: string;
+  service_capabilities?: { label: string; position: number }[];
+}
 
 const servicesImages = [
   'https://images.unsplash.com/photo-1551288049-bbbda5366991?q=80&w=2070&auto=format&fit=crop',
@@ -39,7 +45,7 @@ function getLucideIcon(name: string): LucideIcon {
   return (icons[name] as LucideIcon) ?? (FALLBACK_ICON_MAP[name] as LucideIcon) ?? Layout;
 }
 
-function mapDbServices(dbServices: Service[]) {
+function mapDbServices(dbServices: DbService[]) {
   return dbServices.map((svc) => ({
     icon: getLucideIcon(svc.icon),
     title: svc.title,
@@ -56,7 +62,7 @@ const workflowSteps = [
 ];
 
 interface ServicesPageClientProps {
-  services?: Service[];
+  services?: DbService[];
 }
 
 export default function ServicesPageClient({ services: dbServices }: ServicesPageClientProps) {

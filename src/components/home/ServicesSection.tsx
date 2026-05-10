@@ -19,7 +19,14 @@ import {
 } from 'react-icons/si';
 import 'swiper/css';
 import { ServiceParticles } from './ServiceParticles';
-import type { Service } from '@/lib/supabase/types';
+/* Loose type matching the shape returned by Supabase joined select */
+interface DbService {
+  title: string;
+  slug: string;
+  href: string;
+  description: string;
+  service_capabilities?: { label: string; position: number }[];
+}
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -82,7 +89,7 @@ const FALLBACK_SERVICES: ServiceItem[] = [
   },
 ];
 
-function mapDbServices(dbServices: Service[]): ServiceItem[] {
+function mapDbServices(dbServices: DbService[]): ServiceItem[] {
   return dbServices.map((svc, idx) => ({
     id: String(idx + 1).padStart(2, '0'),
     title: svc.title,
@@ -96,7 +103,7 @@ function mapDbServices(dbServices: Service[]): ServiceItem[] {
 }
 
 interface ServicesSectionProps {
-  services?: Service[];
+  services?: DbService[];
 }
 
 function ArrowSvg({ className }: { className?: string }) {
