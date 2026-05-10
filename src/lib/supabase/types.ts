@@ -3,6 +3,7 @@ export type UserStatus = 'active' | 'inactive' | 'suspended'
 export type PostStatus = 'published' | 'draft' | 'scheduled' | 'archived'
 export type ProjectStatus = 'published' | 'draft' | 'archived'
 export type SubmissionStatus = 'new' | 'in_review' | 'contacted' | 'closed'
+export type BookingStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed'
 export type MediaKind = 'image' | 'vector' | 'document' | 'video' | 'code' | 'audio' | 'other'
 
 export interface Profile {
@@ -223,6 +224,19 @@ export interface TrustedClient {
   logo_url: string | null
   position: number
   is_active: boolean
+}
+
+export interface MeetingBooking {
+  id: string
+  full_name: string
+  email: string
+  company: string
+  topic: string
+  scheduled_at: string
+  duration_min: number
+  notes: string | null
+  status: BookingStatus
+  created_at: string
 }
 
 // Supabase Database type map
