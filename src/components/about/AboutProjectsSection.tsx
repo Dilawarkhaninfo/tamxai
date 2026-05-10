@@ -3,10 +3,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import type { Project } from '@/lib/supabase/types';
+interface DbProject {
+  id: string;
+  title: string;
+  slug: string;
+  industry: string;
+  description: string;
+  cover_url: string | null;
+}
 
 interface Props {
-  projects: Project[];
+  projects: DbProject[];
 }
 
 export function AboutProjectsSection({ projects }: Props) {

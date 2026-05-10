@@ -20,6 +20,8 @@ export interface SiteSettings {
   contact_phone: string
   contact_address: string
   social_linkedin: string | null
+  social_facebook: string | null
+  social_instagram: string | null
 }
 
 // Fallback data used when Supabase env vars are not configured (e.g. first deploy)
@@ -30,6 +32,8 @@ const FALLBACK_SETTINGS: SiteSettings = {
   contact_phone: '+92 3353898844',
   contact_address: 'Regional Plan 9, NASTP, Islamabad, PK',
   social_linkedin: 'https://www.linkedin.com/company/tamxai/',
+  social_facebook: null,
+  social_instagram: null,
 }
 
 export async function getNavigationServices(): Promise<NavService[]> {
@@ -87,7 +91,7 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     const supabase = await createClient()
     const { data } = await supabase
       .from('site_settings')
-      .select('contact_email, contact_phone, contact_address, social_linkedin')
+      .select('contact_email, contact_phone, contact_address, social_linkedin, social_facebook, social_instagram')
       .single()
 
     return {
@@ -95,6 +99,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       contact_phone: data?.contact_phone ?? FALLBACK_SETTINGS.contact_phone,
       contact_address: data?.contact_address ?? FALLBACK_SETTINGS.contact_address,
       social_linkedin: data?.social_linkedin ?? FALLBACK_SETTINGS.social_linkedin,
+      social_facebook: data?.social_facebook ?? null,
+      social_instagram: data?.social_instagram ?? null,
     }
   } catch {
     return FALLBACK_SETTINGS

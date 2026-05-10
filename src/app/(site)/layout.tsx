@@ -26,6 +26,8 @@ export default async function SiteLayout({
       <PageTransition>{children}</PageTransition>
       <Footer
         contactEmail={settings.contact_email}
+        contactPhone={settings.contact_phone}
+        contactAddress={settings.contact_address}
         socialLinkedin={settings.social_linkedin}
       />
     </>

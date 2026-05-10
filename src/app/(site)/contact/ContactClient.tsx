@@ -13,17 +13,7 @@ import { MeetingModal } from '@/components/contact/MeetingModal';
 import { ConsultationSection } from '@/components/contact/ConsultationSection';
 import { submitContact } from '@/app/_actions/contact';
 
-const contactInfo = [
-  { icon: Mail, label: 'Email', value: 'info@tamxai.com', href: 'mailto:info@tamxai.com' },
-  { icon: Phone, label: 'Phone', value: '+92 3353898844', href: 'tel:+923353898844' },
-  { icon: MapPin, label: 'HQ', value: 'Regional Plan 9, NASTP', href: '#' },
-];
-
-const socials = [
-  { name: 'LinkedIn', icon: Linkedin },
-  { name: 'Facebook', icon: Facebook },
-  { name: 'Instagram', icon: Instagram },
-];
+// contactInfo and socials are built from props below
 
 const budgets = [
   '<$25k',
@@ -112,9 +102,35 @@ const mapNodes = [
 interface ContactClientProps {
   serviceNames: string[]
   productNames: string[]
+  contactEmail?: string
+  contactPhone?: string
+  contactAddress?: string
+  socialLinkedin?: string | null
+  socialFacebook?: string | null
+  socialInstagram?: string | null
 }
 
-export function ContactClient({ serviceNames, productNames }: ContactClientProps) {
+export function ContactClient({
+  serviceNames,
+  productNames,
+  contactEmail = 'info@tamxai.com',
+  contactPhone = '+92 3353898844',
+  contactAddress = 'Regional Plan 9, NASTP',
+  socialLinkedin,
+  socialFacebook,
+  socialInstagram,
+}: ContactClientProps) {
+  const contactInfo = [
+    { icon: Mail, label: 'Email', value: contactEmail, href: `mailto:${contactEmail}` },
+    { icon: Phone, label: 'Phone', value: contactPhone, href: `tel:${contactPhone.replace(/\s/g, '')}` },
+    { icon: MapPin, label: 'HQ', value: contactAddress, href: '#' },
+  ];
+
+  const socials = [
+    ...(socialLinkedin ? [{ name: 'LinkedIn', icon: Linkedin, href: socialLinkedin }] : [{ name: 'LinkedIn', icon: Linkedin, href: '#' }]),
+    ...(socialFacebook ? [{ name: 'Facebook', icon: Facebook, href: socialFacebook }] : [{ name: 'Facebook', icon: Facebook, href: '#' }]),
+    ...(socialInstagram ? [{ name: 'Instagram', icon: Instagram, href: socialInstagram }] : [{ name: 'Instagram', icon: Instagram, href: '#' }]),
+  ];
   const technicalFocusOptions = {
     services: serviceNames,
     products: productNames,

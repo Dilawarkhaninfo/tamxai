@@ -125,7 +125,7 @@ export function Navbar({ services, products }: NavbarProps) {
     <motion.header
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1, ease: 'easeInOut' }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
       className={`fixed top-0 left-0 z-50 w-full py-4 transition-all duration-500 ${
         isScrolled ? 'py-3' : 'py-5'
       }`}

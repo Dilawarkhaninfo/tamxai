@@ -132,10 +132,17 @@ const columns = [
 
 interface FooterProps {
   contactEmail?: string
+  contactPhone?: string
+  contactAddress?: string
   socialLinkedin?: string | null
 }
 
-export function Footer({ contactEmail = 'info@tamxai.com', socialLinkedin = 'https://www.linkedin.com/company/tamxai/' }: FooterProps) {
+export function Footer({
+  contactEmail = 'info@tamxai.com',
+  contactPhone = '+92 3353898844',
+  contactAddress = 'Islamabad, PK',
+  socialLinkedin = 'https://www.linkedin.com/company/tamxai/',
+}: FooterProps) {
   const linkedinHref = socialLinkedin || 'https://www.linkedin.com/company/tamxai/'
 
   return (
@@ -168,7 +175,7 @@ export function Footer({ contactEmail = 'info@tamxai.com', socialLinkedin = 'htt
 
             <div className="flex flex-col mt-8 md:mt-10 items-start w-full">
               <div className="flex flex-col lg:flex-row gap-2 lg:gap-4 text-left">
-                <p>Based in Islamabad, PK</p>
+                <p>Based in {contactAddress}</p>
                 <p className="opacity-50">Serving clients globally</p>
               </div>
               <div className="w-full flex md:block justify-end mt-2 md:mt-0">

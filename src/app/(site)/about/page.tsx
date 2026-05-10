@@ -16,7 +16,6 @@ import TeamVision from '@/components/team/TeamVision';
 import { StorySection, AboutCTA } from '@/components/about/AboutComponents';
 import { VideoShowcase } from '@/components/about/VideoShowcase';
 import { TestimonialsSection } from '@/components/home/TestimonialsSection';
-import { PageTransition } from '@/components/layout/PageTransition';
 import { getActiveTeamMembers } from '@/app/_actions/team';
 import { getActiveTestimonials } from '@/app/_actions/testimonials';
 import { getPublishedProjects } from '@/app/_actions/projects';
@@ -29,17 +28,15 @@ export default async function AboutPage() {
     getPublishedProjects(),
   ]);
   return (
-    <PageTransition>
-      <main className="relative min-h-screen bg-black">
-        <TeamHero />
-        <TeamVision />
-        <StorySection />
-        <TeamSection dbMembers={members} />
-        <AboutProjectsSection projects={projects} />
-        <TestimonialsSection dbTestimonials={testimonials} />
-        <VideoShowcase />
-        <AboutCTA />
-      </main>
-    </PageTransition>
+    <main className="relative min-h-screen bg-black">
+      <TeamHero />
+      <TeamVision />
+      <StorySection />
+      <TeamSection dbMembers={members} />
+      <AboutProjectsSection projects={projects} />
+      <TestimonialsSection dbTestimonials={testimonials} />
+      <VideoShowcase />
+      <AboutCTA />
+    </main>
   );
 }

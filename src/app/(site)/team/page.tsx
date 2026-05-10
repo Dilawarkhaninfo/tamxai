@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import TeamHero from '@/components/team/TeamHero';
 import TeamSection from '@/components/team/TeamSection';
 import TeamVision from '@/components/team/TeamVision';
-import { PageTransition } from '@/components/layout/PageTransition';
 import { getActiveTeamMembers } from '@/app/_actions/team';
 
 export const metadata: Metadata = {
@@ -14,12 +13,10 @@ export const metadata: Metadata = {
 export default async function TeamPage() {
   const members = await getActiveTeamMembers();
   return (
-    <PageTransition>
-      <main className="relative min-h-screen bg-black">
-        <TeamHero />
-        <TeamSection dbMembers={members} />
-        <TeamVision />
-      </main>
-    </PageTransition>
+    <main className="relative min-h-screen bg-black">
+      <TeamHero />
+      <TeamSection dbMembers={members} />
+      <TeamVision />
+    </main>
   );
 }

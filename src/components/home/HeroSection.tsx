@@ -45,7 +45,7 @@ export function HeroSection() {
             <motion.div
               initial={{ x: -20, opacity: 0 }}
               animate={finished ? { x: 0, opacity: 1 } : { x: -20, opacity: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
               className="md:col-start-1 md:col-span-1 flex items-center justify-center md:justify-end gap-x-1 md:gap-x-5"
             >
               <span className="text-2xl sm:text-2xl md:text-4xl lg:text-6xl font-extralight tracking-tight text-white/90 whitespace-nowrap">
@@ -56,10 +56,10 @@ export function HeroSection() {
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={finished ? { scale: 1, opacity: 1 } : { scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
               className="md:col-start-2 md:col-span-1 flex justify-center md:justify-start"
             >
-              <AnimatedTextCycle 
+              <AnimatedTextCycle
                 words={prefixWords} 
                 externalIndex={currentIndex}
                 className="text-3xl sm:text-3xl md:text-5xl lg:text-6xl italic font-bold text-brand-purple drop-shadow-2xl translate-y-[-2px]"
@@ -70,10 +70,10 @@ export function HeroSection() {
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={finished ? { scale: 1, opacity: 1 } : { scale: 0.9, opacity: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               className="md:col-start-2 md:col-span-1 flex justify-center md:justify-start"
             >
-              <AnimatedTextCycle 
+              <AnimatedTextCycle
                 words={suffixWords} 
                 externalIndex={currentIndex}
                 className="text-3xl sm:text-3xl md:text-5xl lg:text-6xl italic font-bold text-brand-purple drop-shadow-2xl translate-y-[2px]"
@@ -83,7 +83,7 @@ export function HeroSection() {
             <motion.div
               initial={{ x: 20, opacity: 0 }}
               animate={finished ? { x: 0, opacity: 1 } : { x: 20, opacity: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
+              transition={{ duration: 0.5, delay: 0.25 }}
               className="md:col-start-3 md:col-span-1 flex items-center justify-center md:justify-start"
             >
               <span className="text-2xl sm:text-2xl md:text-4xl lg:text-6xl font-extralight tracking-tight text-white/70 whitespace-nowrap">
@@ -96,7 +96,7 @@ export function HeroSection() {
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={finished ? { y: 0, opacity: 1 } : { y: 50, opacity: 0 }}
-          transition={{ duration: 1.8, ease: 'anticipate', delay: finished ? 0.2 : 0 }}
+          transition={{ duration: 0.7, ease: 'anticipate', delay: finished ? 0.1 : 0 }}
           className="shrink-0"
         >
           <div
