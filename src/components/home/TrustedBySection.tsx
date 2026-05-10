@@ -7,8 +7,8 @@ import './TrustedBySection.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ── Company names for Tamx AI ──────────────────────────────────────────────
-const CLIENTS = [
+// ── Fallback company names ──────────────────────────────────────────────
+const FALLBACK_CLIENTS = [
   { name: 'Devkeytech',    id: 'devkeytech' },
   { name: 'Ignite',        id: 'ignite' },
   { name: 'MOIT',          id: 'moit' },
@@ -19,8 +19,15 @@ const CLIENTS = [
   { name: 'FBBuilders', id: 'fbbuilders' },
 ];
 
-// Triple the list for seamless infinite loop
-const ORBIT_LOGOS = [...CLIENTS, ...CLIENTS, ...CLIENTS];
+interface DbTrustedClient {
+  id: string;
+  name: string;
+  is_active: boolean;
+}
+
+interface TrustedBySectionProps {
+  dbClients?: DbTrustedClient[];
+}
 
 // Full orbit cycle duration (seconds)
 const ORBIT_DURATION = 35;
@@ -29,7 +36,12 @@ const ORBIT_DURATION = 35;
 // viewBox: 0 0 1200 400 | rendered at 1500px wide
 const SVG_PATH = 'M0.5 86.5004C471.448 -28.4531 738.829 -27.0502 1221.5 86.5004';
 
-export function TrustedBySection() {
+export function TrustedBySection({ dbClients }: TrustedBySectionProps) {
+  const CLIENTS = dbClients && dbClients.length > 0
+    ? dbClients.map(c => ({ name: c.name, id: c.id }))
+    : FALLBACK_CLIENTS;
+  const ORBIT_LOGOS = [...CLIENTS, ...CLIENTS, ...CLIENTS];
+
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
