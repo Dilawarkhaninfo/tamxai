@@ -22,7 +22,6 @@ const menuItems = [
   { icon: Briefcase,       label: 'Projects',      href: '/admin/projects' },
   { icon: Inbox,           label: 'Contacts',      href: '/admin/contacts' },
   { icon: CalendarDays,    label: 'Bookings',      href: '/admin/bookings' },
-  { icon: MessageSquare,   label: 'Users',         href: '/admin/users' },
   { icon: BarChart3,       label: 'Analytics',     href: '/admin/analytics' },
   { icon: Settings,        label: 'Settings',      href: '/admin/settings' },
 ];

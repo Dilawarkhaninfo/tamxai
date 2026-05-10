@@ -7,11 +7,19 @@ import type { ProjectStatus } from '@/lib/supabase/types'
 
 export async function getProjects() {
   const supabase = await createClient()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const db = supabase as any
   const { data } = await supabase
     .from('projects')
     .select('*, project_images(id, url, alt, position)')
+    .order('position')
+  return data ?? []
+}
+
+export async function getPublishedProjects() {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('projects')
+    .select('*, project_images(id, url, alt, position)')
+    .eq('status', 'published')
     .order('position')
   return data ?? []
 }

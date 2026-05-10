@@ -8,6 +8,7 @@ import { TrustedBySection } from '@/components/home/TrustedBySection';
 import { CTASection } from '@/components/home/CTASection';
 import { HomeVideoSection } from '@/components/home/HomeVideoSection';
 import { getPublishedServices } from '@/app/_actions/services';
+import { getActiveTestimonials } from '@/app/_actions/testimonials';
 
 const AnimatedBackground = dynamic(() => import('@/components/home/AnimatedBackground').then(m => m.AnimatedBackground));
 const AtomicSphere = dynamic(() => import('@/components/home/AtomicSphere').then(m => m.AtomicSphere));
@@ -24,7 +25,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const services = await getPublishedServices();
+  const [services, testimonials] = await Promise.all([
+    getPublishedServices(),
+    getActiveTestimonials(),
+  ]);
   return (
     <div className="relative">
       <main>
@@ -48,7 +52,7 @@ export default async function Home() {
         <div className="pt-40 sm:pt-60 overflow-x-hidden relative z-20">
           <div className="relative flex flex-col mb-40 sm:mb-60 gap-20 sm:gap-32 w-main m-auto">
             <ServicesSection services={services} />
-            <TestimonialsSection />
+            <TestimonialsSection dbTestimonials={testimonials} />
             <TrustedBySection />
             <FaqSection />
             <CTASection />

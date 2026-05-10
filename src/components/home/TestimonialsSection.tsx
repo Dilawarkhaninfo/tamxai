@@ -2,10 +2,30 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useAnimation, useMotionValue, AnimatePresence } from 'framer-motion';
-import { testimonialsData, Testimonial } from './TestimonialsData';
+import { testimonialsData as fallbackData, Testimonial } from './TestimonialsData';
 import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import type { Testimonial as DbTestimonial } from '@/lib/supabase/types';
 
-export function TestimonialsSection() {
+function mapDbTestimonials(db: DbTestimonial[]): Testimonial[] {
+  return db.map((t, i) => ({
+    id: String(i + 1).padStart(2, '0'),
+    name: t.name,
+    role: t.role,
+    company: t.company,
+    text: t.body,
+    rating: t.rating,
+    image: t.avatar_url ?? undefined,
+  }));
+}
+
+interface TestimonialsSectionProps {
+  dbTestimonials?: DbTestimonial[];
+}
+
+export function TestimonialsSection({ dbTestimonials }: TestimonialsSectionProps) {
+  const testimonialsData = dbTestimonials && dbTestimonials.length > 0
+    ? mapDbTestimonials(dbTestimonials)
+    : fallbackData;
   const [isMobile, setIsMobile] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);

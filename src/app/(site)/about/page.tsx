@@ -15,11 +15,19 @@ import TeamSection from '@/components/team/TeamSection';
 import TeamVision from '@/components/team/TeamVision';
 import { StorySection, AboutCTA } from '@/components/about/AboutComponents';
 import { VideoShowcase } from '@/components/about/VideoShowcase';
+import { TestimonialsSection } from '@/components/home/TestimonialsSection';
 import { PageTransition } from '@/components/layout/PageTransition';
 import { getActiveTeamMembers } from '@/app/_actions/team';
+import { getActiveTestimonials } from '@/app/_actions/testimonials';
+import { getPublishedProjects } from '@/app/_actions/projects';
+import { AboutProjectsSection } from '@/components/about/AboutProjectsSection';
 
 export default async function AboutPage() {
-  const members = await getActiveTeamMembers();
+  const [members, testimonials, projects] = await Promise.all([
+    getActiveTeamMembers(),
+    getActiveTestimonials(),
+    getPublishedProjects(),
+  ]);
   return (
     <PageTransition>
       <main className="relative min-h-screen bg-black">
@@ -27,6 +35,8 @@ export default async function AboutPage() {
         <TeamVision />
         <StorySection />
         <TeamSection dbMembers={members} />
+        <AboutProjectsSection projects={projects} />
+        <TestimonialsSection dbTestimonials={testimonials} />
         <VideoShowcase />
         <AboutCTA />
       </main>
