@@ -203,7 +203,7 @@ export interface ContactSubmission {
   budget: string | null
   message: string
   status: SubmissionStatus
-  source: string
+  source: string | null
   created_at: string
 }
 
@@ -230,7 +230,7 @@ export interface MeetingBooking {
   id: string
   full_name: string
   email: string
-  company: string
+  company: string | null
   topic: string
   scheduled_at: string
   duration_min: number

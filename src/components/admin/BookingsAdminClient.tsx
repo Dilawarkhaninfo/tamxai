@@ -31,7 +31,7 @@ export function BookingsAdminClient({ initialBookings }: Props) {
     const matchSearch =
       b.full_name.toLowerCase().includes(search.toLowerCase()) ||
       b.email.toLowerCase().includes(search.toLowerCase()) ||
-      b.company.toLowerCase().includes(search.toLowerCase());
+      (b.company ?? '').toLowerCase().includes(search.toLowerCase());
     const matchStatus = filterStatus === 'all' || b.status === filterStatus;
     return matchSearch && matchStatus;
   });
