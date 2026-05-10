@@ -9,9 +9,9 @@ import { CTASection } from '@/components/home/CTASection';
 import { HomeVideoSection } from '@/components/home/HomeVideoSection';
 import { getPublishedServices } from '@/app/_actions/services';
 
-const AnimatedBackground = dynamic(() => import('@/components/home/AnimatedBackground').then(m => m.AnimatedBackground), { ssr: false });
-const AtomicSphere = dynamic(() => import('@/components/home/AtomicSphere').then(m => m.AtomicSphere), { ssr: false });
-const HeroScrollController = dynamic(() => import('@/components/home/HeroScrollController').then(m => m.HeroScrollController), { ssr: false });
+const AnimatedBackground = dynamic(() => import('@/components/home/AnimatedBackground').then(m => m.AnimatedBackground));
+const AtomicSphere = dynamic(() => import('@/components/home/AtomicSphere').then(m => m.AtomicSphere));
+const HeroScrollController = dynamic(() => import('@/components/home/HeroScrollController').then(m => m.HeroScrollController));
 
 export const metadata: Metadata = {
   title: 'TAMx — AI-Powered Digital Solutions for Modern Businesses',
