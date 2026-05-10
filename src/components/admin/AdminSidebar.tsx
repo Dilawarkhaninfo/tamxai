@@ -20,7 +20,6 @@ const menuItems = [
   { icon: Users,           label: 'Team',          href: '/admin/team' },
   { icon: Briefcase,       label: 'Pricing',       href: '/admin/pricing' },
   { icon: Briefcase,       label: 'Projects',      href: '/admin/projects' },
-  { icon: ImageIcon,       label: 'Media',         href: '/admin/media' },
   { icon: MessageSquare,   label: 'Users',         href: '/admin/users' },
   { icon: BarChart3,       label: 'Analytics',     href: '/admin/analytics' },
   { icon: Settings,        label: 'Settings',      href: '/admin/settings' },

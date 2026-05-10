@@ -1,16 +1,61 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Package, Plus, Search, Trash2, Edit2, Save, Image as ImageIcon, Upload } from 'lucide-react';
+import {
+  Package, Plus, Search, Trash2, Edit2, Save,
+  ShoppingCart, Monitor, BookOpen, Smartphone, Globe, Cpu, Database,
+  BarChart3, CreditCard, Layers, Box, Briefcase, Rocket, Brain,
+  Shield, Zap, Heart, Star, Settings, Mail, Lock, Cloud, Code,
+  FileText, Users, Headphones, Palette, Camera, Music, Video,
+  type LucideIcon,
+} from 'lucide-react';
 import { useToast } from '@/components/admin/Toast';
 import { ToastContainer } from '@/components/admin/Toast';
 import { Modal } from '@/components/admin/Modal';
 import { DeleteConfirmModal } from '@/components/admin/DeleteConfirmModal';
 import { upsertProduct, deleteProduct } from '@/app/_actions/products';
-import { getUploadUrl, registerMediaAsset, getPublicUrl } from '@/app/_actions/media';
 import type { Product } from '@/lib/supabase/types';
+
+/* ── Curated icon set for products ── */
+const ICON_OPTIONS: { name: string; icon: LucideIcon }[] = [
+  { name: 'ShoppingCart', icon: ShoppingCart },
+  { name: 'Monitor', icon: Monitor },
+  { name: 'BookOpen', icon: BookOpen },
+  { name: 'Smartphone', icon: Smartphone },
+  { name: 'Globe', icon: Globe },
+  { name: 'Cpu', icon: Cpu },
+  { name: 'Database', icon: Database },
+  { name: 'BarChart3', icon: BarChart3 },
+  { name: 'CreditCard', icon: CreditCard },
+  { name: 'Layers', icon: Layers },
+  { name: 'Box', icon: Box },
+  { name: 'Briefcase', icon: Briefcase },
+  { name: 'Rocket', icon: Rocket },
+  { name: 'Brain', icon: Brain },
+  { name: 'Shield', icon: Shield },
+  { name: 'Zap', icon: Zap },
+  { name: 'Heart', icon: Heart },
+  { name: 'Star', icon: Star },
+  { name: 'Settings', icon: Settings },
+  { name: 'Mail', icon: Mail },
+  { name: 'Lock', icon: Lock },
+  { name: 'Cloud', icon: Cloud },
+  { name: 'Code', icon: Code },
+  { name: 'FileText', icon: FileText },
+  { name: 'Users', icon: Users },
+  { name: 'Headphones', icon: Headphones },
+  { name: 'Palette', icon: Palette },
+  { name: 'Camera', icon: Camera },
+  { name: 'Music', icon: Music },
+  { name: 'Video', icon: Video },
+  { name: 'Package', icon: Package },
+];
+
+function getIcon(name: string): LucideIcon {
+  return ICON_OPTIONS.find(o => o.name === name)?.icon ?? Package;
+}
 
 const slugify = (text: string) =>
   text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -27,17 +72,15 @@ interface FormState {
   href: string;
   description: string;
   is_published: boolean;
-  hero_image: string;
 }
 
 const defaultForm = (): FormState => ({
   title: '',
   slug: '',
-  icon: '',
+  icon: 'Package',
   href: '',
   description: '',
   is_published: true,
-  hero_image: '',
 });
 
 export function ProductsAdminClient({ initialProducts }: Props) {
@@ -50,25 +93,13 @@ export function ProductsAdminClient({ initialProducts }: Props) {
   const [deleteTarget, setDeleteTarget] = useState<Product | null>(null);
   const [form, setForm] = useState<FormState>(defaultForm());
   const [saving, setSaving] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [iconPickerOpen, setIconPickerOpen] = useState(false);
+  const [iconSearch, setIconSearch] = useState('');
 
-  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setUploading(true);
-    try {
-      const result = await getUploadUrl(file.name, file.type);
-      if ('error' in result) { showToast(result.error!, 'error'); return; }
-      const uploadRes = await fetch(result.signedUrl!, { method: 'PUT', headers: { 'Content-Type': file.type }, body: file });
-      if (!uploadRes.ok) { showToast('Upload failed', 'error'); return; }
-      await registerMediaAsset({ path: result.path!, filename: file.name, mime: file.type, size_bytes: file.size });
-      const publicUrl = await getPublicUrl(result.path!);
-      setForm((f) => ({ ...f, hero_image: publicUrl }));
-      showToast('Image uploaded', 'success');
-    } catch { showToast('Upload failed', 'error'); }
-    finally { setUploading(false); }
-  }
+  const filteredIcons = useMemo(
+    () => ICON_OPTIONS.filter(o => o.name.toLowerCase().includes(iconSearch.toLowerCase())),
+    [iconSearch]
+  );
 
   const filtered = products.filter(
     (p) =>
@@ -90,7 +121,6 @@ export function ProductsAdminClient({ initialProducts }: Props) {
       href: prod.href,
       description: prod.description,
       is_published: prod.is_published,
-      hero_image: prod.hero_image ?? '',
     });
     setModalOpen(true);
   }
@@ -106,7 +136,6 @@ export function ProductsAdminClient({ initialProducts }: Props) {
       href: form.href,
       description: form.description,
       is_published: form.is_published,
-      hero_image: form.hero_image || undefined,
     });
     setSaving(false);
     if (result.error) { showToast(result.error, 'error'); return; }
@@ -124,6 +153,8 @@ export function ProductsAdminClient({ initialProducts }: Props) {
     setDeleteTarget(null);
     router.refresh();
   }
+
+  const SelectedIcon = getIcon(form.icon);
 
   return (
     <div className="space-y-8">
@@ -167,67 +198,64 @@ export function ProductsAdminClient({ initialProducts }: Props) {
               No products found
             </div>
           ) : (
-            filtered.map((prod, i) => (
-              <motion.div
-                key={prod.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ delay: i * 0.04 }}
-                className="bg-[#090E1A] border border-white/5 rounded-3xl overflow-hidden hover:border-purple-500/20 transition-colors group"
-              >
-                {/* Hero Image */}
-                {prod.hero_image ? (
-                  <div className="h-32 overflow-hidden">
-                    <img src={prod.hero_image} alt={prod.title} className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity" />
+            filtered.map((prod, i) => {
+              const ProdIcon = getIcon(prod.icon);
+              return (
+                <motion.div
+                  key={prod.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ delay: i * 0.04 }}
+                  className="bg-[#090E1A] border border-white/5 rounded-3xl overflow-hidden hover:border-purple-500/20 transition-colors group"
+                >
+                  {/* Icon Header */}
+                  <div className="h-28 bg-gradient-to-br from-purple-600/10 to-indigo-600/5 flex items-center justify-center">
+                    <ProdIcon size={40} className="text-purple-400/60 group-hover:text-purple-400 transition-colors" />
                   </div>
-                ) : (
-                  <div className="h-32 bg-gradient-to-br from-purple-600/5 to-transparent flex items-center justify-center">
-                    <ImageIcon size={32} className="text-purple-400/30" />
-                  </div>
-                )}
 
-                <div className="p-5 space-y-4">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-purple-600/10 flex items-center justify-center text-lg shrink-0">
-                        {prod.icon || '📦'}
+                  <div className="p-5 space-y-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-purple-600/10 flex items-center justify-center shrink-0">
+                          <ProdIcon size={18} className="text-purple-400" />
+                        </div>
+                        <div>
+                          <h3 className="text-sm font-black text-white uppercase tracking-tight leading-tight">{prod.title}</h3>
+                          <p className="text-[10px] text-slate-600 font-mono">{prod.slug}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-sm font-black text-white uppercase tracking-tight leading-tight">{prod.title}</h3>
-                        <p className="text-[10px] text-slate-600 font-mono">{prod.slug}</p>
-                      </div>
+                      <span className={`px-2 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border shrink-0 ${prod.is_published ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-slate-500/10 text-slate-400 border-slate-500/20'}`}>
+                        {prod.is_published ? 'Live' : 'Draft'}
+                      </span>
                     </div>
-                    <span className={`px-2 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border shrink-0 ${prod.is_published ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-slate-500/10 text-slate-400 border-slate-500/20'}`}>
-                      {prod.is_published ? 'Live' : 'Draft'}
-                    </span>
-                  </div>
 
-                  <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">{prod.description}</p>
+                    <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">{prod.description}</p>
 
-                  <div className="flex gap-2 pt-2 border-t border-white/5">
-                    <button
-                      onClick={() => openEdit(prod)}
-                      className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white/5 rounded-xl text-[10px] font-black text-slate-400 hover:text-purple-400 hover:bg-purple-500/5 transition-all uppercase tracking-widest"
-                    >
-                      <Edit2 size={13} /> Edit
-                    </button>
-                    <button
-                      onClick={() => setDeleteTarget(prod)}
-                      className="p-2.5 bg-white/5 rounded-xl text-slate-500 hover:text-red-400 hover:bg-red-500/5 transition-all"
-                    >
-                      <Trash2 size={14} />
-                    </button>
+                    <div className="flex gap-2 pt-2 border-t border-white/5">
+                      <button
+                        onClick={() => openEdit(prod)}
+                        className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-white/5 rounded-xl text-[10px] font-black text-slate-400 hover:text-purple-400 hover:bg-purple-500/5 transition-all uppercase tracking-widest"
+                      >
+                        <Edit2 size={13} /> Edit
+                      </button>
+                      <button
+                        onClick={() => setDeleteTarget(prod)}
+                        className="p-2.5 bg-white/5 rounded-xl text-slate-500 hover:text-red-400 hover:bg-red-500/5 transition-all"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))
+                </motion.div>
+              );
+            })
           )}
         </AnimatePresence>
       </div>
 
       {/* Modal */}
-      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={form.id ? 'Edit Product' : 'New Product'}>
+      <Modal isOpen={modalOpen} onClose={() => { setModalOpen(false); setIconPickerOpen(false); }} title={form.id ? 'Edit Product' : 'New Product'}>
         <form onSubmit={handleSave} className="space-y-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="md:col-span-2 space-y-2">
@@ -250,15 +278,57 @@ export function ProductsAdminClient({ initialProducts }: Props) {
                 required
               />
             </div>
-            <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Icon (emoji/text)</label>
-              <input
-                value={form.icon}
-                onChange={(e) => setForm((f) => ({ ...f, icon: e.target.value }))}
-                className="w-full bg-[#010205] border border-white/5 rounded-2xl px-5 py-3.5 text-sm text-white placeholder:text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/30 transition-all"
-                placeholder="📦"
-              />
+
+            {/* Icon Picker */}
+            <div className="space-y-2 relative">
+              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Icon</label>
+              <button
+                type="button"
+                onClick={() => { setIconPickerOpen(!iconPickerOpen); setIconSearch(''); }}
+                className="w-full bg-[#010205] border border-white/5 rounded-2xl px-5 py-3.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-purple-500/30 transition-all flex items-center gap-3 hover:border-purple-500/30"
+              >
+                <SelectedIcon size={18} className="text-purple-400" />
+                <span className="font-medium">{form.icon}</span>
+              </button>
+
+              {iconPickerOpen && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-[#0a0e1a] border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden">
+                  <div className="p-3 border-b border-white/5">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600" size={14} />
+                      <input
+                        value={iconSearch}
+                        onChange={(e) => setIconSearch(e.target.value)}
+                        placeholder="Search icons..."
+                        className="w-full bg-white/5 border border-white/5 rounded-xl pl-9 pr-3 py-2 text-xs text-white placeholder:text-slate-700 focus:outline-none"
+                        autoFocus
+                      />
+                    </div>
+                  </div>
+                  <div className="max-h-48 overflow-y-auto p-2 grid grid-cols-5 gap-1">
+                    {filteredIcons.map((opt) => (
+                      <button
+                        key={opt.name}
+                        type="button"
+                        title={opt.name}
+                        onClick={() => {
+                          setForm((f) => ({ ...f, icon: opt.name }));
+                          setIconPickerOpen(false);
+                        }}
+                        className={`p-2.5 rounded-xl flex flex-col items-center gap-1 transition-all ${form.icon === opt.name ? 'bg-purple-600/20 border border-purple-500/30' : 'hover:bg-white/5 border border-transparent'}`}
+                      >
+                        <opt.icon size={20} className={form.icon === opt.name ? 'text-purple-400' : 'text-slate-400'} />
+                        <span className="text-[8px] text-slate-600 truncate w-full text-center">{opt.name}</span>
+                      </button>
+                    ))}
+                    {filteredIcons.length === 0 && (
+                      <div className="col-span-5 py-4 text-center text-slate-600 text-xs">No icons found</div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
+
             <div className="md:col-span-2 space-y-2">
               <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Href Link</label>
               <input
@@ -267,34 +337,6 @@ export function ProductsAdminClient({ initialProducts }: Props) {
                 className="w-full bg-[#010205] border border-white/5 rounded-2xl px-5 py-3.5 text-sm text-white placeholder:text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/30 transition-all"
                 placeholder="/products/your-product"
               />
-            </div>
-            <div className="md:col-span-2 space-y-2">
-              <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Hero Image</label>
-              {form.hero_image && (
-                <div className="relative h-32 rounded-2xl overflow-hidden mb-2">
-                  <img src={form.hero_image} alt="Preview" className="w-full h-full object-cover" />
-                  <button type="button" onClick={() => setForm((f) => ({ ...f, hero_image: '' }))} className="absolute top-2 right-2 p-1.5 bg-black/70 rounded-lg text-red-400 hover:text-red-300">
-                    <Trash2 size={14} />
-                  </button>
-                </div>
-              )}
-              <div className="flex gap-3">
-                <input
-                  value={form.hero_image}
-                  onChange={(e) => setForm((f) => ({ ...f, hero_image: e.target.value }))}
-                  className="flex-1 bg-[#010205] border border-white/5 rounded-2xl px-5 py-3.5 text-sm text-white placeholder:text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500/30 transition-all"
-                  placeholder="Image URL or upload..."
-                />
-                <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
-                <button
-                  type="button"
-                  disabled={uploading}
-                  onClick={() => fileInputRef.current?.click()}
-                  className="px-4 py-3.5 bg-purple-600/10 border border-purple-500/20 rounded-2xl text-purple-400 hover:bg-purple-600/20 transition-all disabled:opacity-50 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest"
-                >
-                  <Upload size={14} /> {uploading ? 'Uploading...' : 'Upload'}
-                </button>
-              </div>
             </div>
             <div className="md:col-span-2 space-y-2">
               <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em]">Description</label>
@@ -321,7 +363,7 @@ export function ProductsAdminClient({ initialProducts }: Props) {
           </div>
 
           <div className="flex gap-4 pt-6 border-t border-white/5">
-            <button type="button" onClick={() => setModalOpen(false)} className="px-6 py-3.5 bg-white/5 border border-white/5 rounded-2xl text-[11px] font-black text-slate-400 hover:text-white hover:bg-white/10 transition-all uppercase tracking-widest">
+            <button type="button" onClick={() => { setModalOpen(false); setIconPickerOpen(false); }} className="px-6 py-3.5 bg-white/5 border border-white/5 rounded-2xl text-[11px] font-black text-slate-400 hover:text-white hover:bg-white/10 transition-all uppercase tracking-widest">
               Cancel
             </button>
             <button type="submit" disabled={saving} className="flex-1 flex items-center justify-center gap-2 py-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl text-[11px] font-black text-white uppercase tracking-widest shadow-lg shadow-purple-600/20 hover:shadow-purple-600/40 transition-all disabled:opacity-50">
