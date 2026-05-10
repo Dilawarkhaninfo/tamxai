@@ -38,7 +38,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://tamxai.com';
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'TAMx — AI-Powered Digital Solutions for Modern Businesses',
+    default: 'TAMx | AI Solutions, Software Services & Innovative Digital Products',
     template: '%s | TAMx',
   },
   description:

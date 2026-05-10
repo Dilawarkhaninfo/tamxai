@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, Briefcase, FileText, Wrench, Package,
-  BarChart3, Users, Settings, Inbox, CalendarDays,
+  BarChart3, Users, Settings, Inbox, CalendarDays, MessageSquareQuote, Award,
   ChevronLeft, ChevronRight, LogOut, Sparkles, Star, MessageSquare
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -20,6 +20,8 @@ const menuItems = [
   { icon: Users,           label: 'Team',          href: '/admin/team' },
   { icon: Briefcase,       label: 'Pricing',       href: '/admin/pricing' },
   { icon: Briefcase,       label: 'Projects',      href: '/admin/projects' },
+  { icon: MessageSquareQuote, label: 'Testimonials', href: '/admin/testimonials' },
+  { icon: Award,           label: 'Trusted Clients', href: '/admin/trusted-clients' },
   { icon: Inbox,           label: 'Contacts',      href: '/admin/contacts' },
   { icon: CalendarDays,    label: 'Bookings',      href: '/admin/bookings' },
   { icon: BarChart3,       label: 'Analytics',     href: '/admin/analytics' },
