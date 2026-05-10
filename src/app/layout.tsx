@@ -33,10 +33,44 @@ const customDisplay = localFont({
   display: "swap",
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://tamxai.com';
+
 export const metadata: Metadata = {
-  title: "TAMx - Building Digital Solutions That Matter",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'TAMx — AI-Powered Digital Solutions for Modern Businesses',
+    template: '%s | TAMx',
+  },
   description:
-    "AI-driven technology solutions for modern businesses. Transform your business with cutting-edge AI and technology solutions.",
+    'TAMx delivers AI-driven software development, product design, and go-to-market strategy. We build scalable web apps, healthcare platforms, IoT systems, and intelligent automation for startups and enterprises.',
+  keywords: [
+    'AI development', 'software development', 'product design', 'digital transformation',
+    'web development', 'mobile app development', 'healthcare software', 'IoT solutions',
+    'machine learning', 'SaaS development', 'Next.js', 'React', 'go-to-market strategy',
+  ],
+  authors: [{ name: 'TAMx', url: SITE_URL }],
+  creator: 'TAMx',
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: SITE_URL,
+    siteName: 'TAMx',
+    title: 'TAMx — AI-Powered Digital Solutions for Modern Businesses',
+    description:
+      'TAMx delivers AI-driven software development, product design, and go-to-market strategy for startups and enterprises.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'TAMx — AI-Powered Digital Solutions',
+    description:
+      'AI-driven software development, product design, and go-to-market strategy for modern businesses.',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-video-preview': -1, 'max-image-preview': 'large', 'max-snippet': -1 },
+  },
+  alternates: { canonical: SITE_URL },
 };
 
 

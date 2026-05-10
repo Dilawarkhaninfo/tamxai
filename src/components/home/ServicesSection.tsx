@@ -19,6 +19,7 @@ import {
 } from 'react-icons/si';
 import 'swiper/css';
 import { ServiceParticles } from './ServiceParticles';
+import type { Service } from '@/lib/supabase/types';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,56 +32,72 @@ interface ServiceItem {
   toolIcons: IconType[];
 }
 
-const servicesData: ServiceItem[] = [
+/* Map service slug → brand tool icons (these are React components, can't be stored in DB) */
+const TOOL_ICONS_MAP: Record<string, IconType[]> = {
+  'product-design': [SiFigma, SiSketch, SiCanva, SiFramer, SiInvision, SiSquarespace],
+  'development':    [SiReact, SiFlutter, SiNextdotjs, SiNodedotjs, SiDocker, SiTypescript],
+  'gtm-strategy':   [SiHubspot, SiSalesforce, SiMixpanel, SiZapier, SiMailchimp, SiAirtable],
+  'healthcare-apps':[SiGooglecloud, SiFirebase, SiCircleci, SiTrustpilot, SiTwilio, SiStripe],
+  'ai-development': [SiKaggle, SiPytorch, SiOpenai, SiKeras, SiHuggingface, SiTensorflow],
+  'iot-development':[SiArduino, SiRaspberrypi, SiGrafana, SiApachekafka, SiPlatformio, SiEspressif],
+};
+
+/* Fallback hardcoded data — used only when DB returns no services */
+const FALLBACK_SERVICES: ServiceItem[] = [
   {
-    id: '01',
-    title: 'Product Design',
-    link: '/services',
+    id: '01', title: 'Product Design', link: '/services',
     description: 'End-to-end product design—from research and UX flows to polished UI systems and developer-ready handoff.',
     services: ['User Research & Strategy', 'UX Flows & Wireframes', 'UI Systems & Prototypes', 'Design Ops & Dev Handoff'],
-    toolIcons: [SiFigma, SiSketch, SiCanva, SiFramer, SiInvision, SiSquarespace],
+    toolIcons: TOOL_ICONS_MAP['product-design'],
   },
   {
-    id: '02',
-    title: 'Development',
-    link: '/services',
+    id: '02', title: 'Development', link: '/services',
     description: 'Robust, scalable products across web and mobile—from elegant UIs to reliable APIs and automated DevOps.',
     services: ['Frontend Platforms (React / Next)', 'Backend APIs & Microservices (Node)', 'Mobile & Cross-platform (Flutter)', 'CI/CD & Cloud Ops (Docker)'],
-    toolIcons: [SiReact, SiFlutter, SiNextdotjs, SiNodedotjs, SiDocker, SiTypescript],
+    toolIcons: TOOL_ICONS_MAP['development'],
   },
   {
-    id: '03',
-    title: 'GTM Strategy',
-    link: '/services',
+    id: '03', title: 'GTM Strategy', link: '/services',
     description: 'Data-driven go-to-market for SaaS and AI—clear positioning, smart pricing, and repeatable growth loops from ICP to post-launch analytics.',
     services: ['ICP & Segmentation', 'Positioning, Narrative & Messaging', 'Pricing & Packaging', 'Demand Gen & Content Engine'],
-    toolIcons: [SiHubspot, SiSalesforce, SiMixpanel, SiZapier, SiMailchimp, SiAirtable],
+    toolIcons: TOOL_ICONS_MAP['gtm-strategy'],
   },
   {
-    id: '04',
-    title: 'Healthcare Apps',
-    link: '/services',
+    id: '04', title: 'Healthcare Apps', link: '/services',
     description: 'Secure, compliant healthcare software—from telehealth to EHR integrations—built for HIPAA and auditability.',
     services: ['HIPAA & PHI Compliance', 'Telehealth & Patient Portals', 'EHR Integrations (FHIR / HL7)', 'Audit Logging & Access Controls'],
-    toolIcons: [SiGooglecloud, SiFirebase, SiCircleci, SiTrustpilot, SiTwilio, SiStripe],
+    toolIcons: TOOL_ICONS_MAP['healthcare-apps'],
   },
   {
-    id: '05',
-    title: 'AI Development',
-    link: '/services',
+    id: '05', title: 'AI Development', link: '/services',
     description: 'Build production‑ready AI—rapid prototyping to deployed models with solid evals, observability, and safety.',
     services: ['LLM Apps & Agents (RAG / Tools)', 'Fine‑tuning & Prompt Optimization', 'Model Evals, Guardrails & Monitoring', 'Vision, NLP & Speech Pipelines'],
-    toolIcons: [SiKaggle, SiPytorch, SiOpenai, SiKeras, SiHuggingface, SiTensorflow],
+    toolIcons: TOOL_ICONS_MAP['ai-development'],
   },
   {
-    id: '06',
-    title: 'IoT Development',
-    link: '/services',
+    id: '06', title: 'IoT Development', link: '/services',
     description: 'From device firmware to cloud ingestion—secure, reliable IoT systems with OTA updates and real‑time telemetry.',
     services: ['Embedded Firmware & Drivers', 'BLE / Zigbee / LoRa Connectivity', 'MQTT Ingestion & Stream Processing', 'Edge AI & OTA Update Pipelines'],
-    toolIcons: [SiArduino, SiRaspberrypi, SiGrafana, SiApachekafka, SiPlatformio, SiEspressif],
+    toolIcons: TOOL_ICONS_MAP['iot-development'],
   },
 ];
+
+function mapDbServices(dbServices: Service[]): ServiceItem[] {
+  return dbServices.map((svc, idx) => ({
+    id: String(idx + 1).padStart(2, '0'),
+    title: svc.title,
+    link: svc.href || '/services',
+    description: svc.description,
+    services: (svc.service_capabilities ?? [])
+      .sort((a, b) => a.position - b.position)
+      .map((c) => c.label),
+    toolIcons: TOOL_ICONS_MAP[svc.slug] ?? [],
+  }));
+}
+
+interface ServicesSectionProps {
+  services?: Service[];
+}
 
 function ArrowSvg({ className }: { className?: string }) {
   return (
@@ -186,7 +203,10 @@ function updateBullets(swiper: SwiperType) {
   });
 }
 
-export function ServicesSection() {
+export function ServicesSection({ services: dbServices }: ServicesSectionProps) {
+  const servicesData = dbServices && dbServices.length > 0
+    ? mapDbServices(dbServices)
+    : FALLBACK_SERVICES;
   const [activeIndex, setActiveIndex] = useState(0);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);

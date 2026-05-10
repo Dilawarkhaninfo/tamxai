@@ -1,15 +1,29 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { getPublishedPostBySlug, getPublishedPosts, getPublishedPostSlugs } from '@/app/_actions/blog';
 import { BlogDetailClient } from './BlogDetailClient';
 
-// Force dynamic so every request fetches fresh content from Supabase.
-// generateStaticParams still pre-generates known slugs at build time when
-// env vars are available; if they're not (e.g. first deploy before vars are
-// set), we silently return [] and fall back to on-demand rendering.
-export const dynamic = 'force-dynamic';
+export const revalidate = 300;
 
 interface Props {
   params: Promise<{ slug: string }>
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPublishedPostBySlug(slug);
+  if (!post) return { title: 'Post Not Found' };
+  return {
+    title: post.title,
+    description: post.excerpt || `Read ${post.title} on the TAMx blog.`,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt || `Read ${post.title} on the TAMx blog.`,
+      url: `/blog/${slug}`,
+      type: 'article',
+      ...(post.cover_url ? { images: [{ url: post.cover_url }] } : {}),
+    },
+  };
 }
 
 export async function generateStaticParams() {

@@ -62,6 +62,7 @@ export async function deleteTeamMember(id: string, name: string) {
   if (error) return { error: error.message }
   await logActivity({ entity: 'team', entity_id: id, action: 'deleted', meta: { name } })
   revalidatePath('/admin/team')
+  revalidatePath('/team')
   return { success: true }
 }
 

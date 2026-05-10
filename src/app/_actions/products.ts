@@ -36,6 +36,9 @@ export async function upsertProduct(formData: {
   if (result.error) return { error: result.error.message }
   await logActivity({ entity: 'product', entity_id: result.data?.id, action: formData.id ? 'updated' : 'created', meta: { title: formData.title } })
   revalidatePath('/admin/products')
+  revalidatePath('/', 'layout')
+  revalidatePath('/product/crm')
+  revalidatePath('/product/ecommerce')
   return { success: true }
 }
 
@@ -47,6 +50,9 @@ export async function deleteProduct(id: string, title: string) {
   if (error) return { error: error.message }
   await logActivity({ entity: 'product', entity_id: id, action: 'deleted', meta: { title } })
   revalidatePath('/admin/products')
+  revalidatePath('/', 'layout')
+  revalidatePath('/product/crm')
+  revalidatePath('/product/ecommerce')
   return { success: true }
 }
 

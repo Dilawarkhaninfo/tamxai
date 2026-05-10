@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { BlogHero3D } from '@/components/blog/BlogHero3D';
+import dynamic from 'next/dynamic';
+
+const BlogHero3D = dynamic(() => import('@/components/blog/BlogHero3D').then(m => m.BlogHero3D), { ssr: false });
 import { PageSection } from '@/components/layout/PageSection';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Search, Clock, User, Bookmark } from 'lucide-react';

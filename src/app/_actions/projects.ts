@@ -49,6 +49,7 @@ export async function upsertProject(formData: {
   if (result.error) return { error: result.error.message }
   await logActivity({ entity: 'project', entity_id: result.data?.id, action: formData.id ? 'updated' : 'created', meta: { title: formData.title } })
   revalidatePath('/admin/projects')
+  revalidatePath('/', 'layout')
   return { data: result.data }
 }
 
@@ -60,6 +61,7 @@ export async function deleteProject(id: string, title: string) {
   if (error) return { error: error.message }
   await logActivity({ entity: 'project', entity_id: id, action: 'deleted', meta: { title } })
   revalidatePath('/admin/projects')
+  revalidatePath('/', 'layout')
   return { success: true }
 }
 

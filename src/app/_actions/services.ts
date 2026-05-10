@@ -6,11 +6,19 @@ import { logActivity } from './activity'
 
 export async function getServices() {
   const supabase = await createClient()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const db = supabase as any
   const { data } = await supabase
     .from('services')
     .select('*, service_capabilities(id, label, position)')
+    .order('position')
+  return data ?? []
+}
+
+export async function getPublishedServices() {
+  const supabase = await createClient()
+  const { data } = await supabase
+    .from('services')
+    .select('*, service_capabilities(id, label, position)')
+    .eq('is_published', true)
     .order('position')
   return data ?? []
 }
@@ -59,17 +67,18 @@ export async function upsertService(formData: {
   await logActivity({ entity: 'service', entity_id: serviceId, action: formData.id ? 'updated' : 'created', meta: { title: formData.title } })
   revalidatePath('/admin/services')
   revalidatePath('/', 'layout')
+  revalidatePath('/services')
   return { success: true }
 }
 
 export async function deleteService(id: string, title: string) {
   const supabase = await createClient()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const db = supabase as any
   const { error } = await supabase.from('services').delete().eq('id', id)
   if (error) return { error: error.message }
   await logActivity({ entity: 'service', entity_id: id, action: 'deleted', meta: { title } })
   revalidatePath('/admin/services')
+  revalidatePath('/', 'layout')
+  revalidatePath('/services')
   return { success: true }
 }
 

@@ -1,4 +1,16 @@
-export const dynamic = 'force-dynamic';
+import type { Metadata } from 'next';
+
+export const revalidate = 300;
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: 'Insights on AI, software engineering, product design, and digital strategy from the TAMx team. Stay ahead with expert perspectives.',
+  openGraph: {
+    title: 'Blog | TAMx',
+    description: 'Expert insights on AI, software engineering, product design, and digital strategy.',
+    url: '/blog',
+  },
+};
 
 import { getPublishedPosts, getCategories } from '@/app/_actions/blog';
 import { BlogClient } from './BlogClient';

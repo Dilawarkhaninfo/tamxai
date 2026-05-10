@@ -1,15 +1,30 @@
-import { AnimatedBackground } from '@/components/home/AnimatedBackground';
-import { AtomicSphere } from '@/components/home/AtomicSphere';
+import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { HeroSection } from '@/components/home/HeroSection';
-import { HeroScrollController } from '@/components/home/HeroScrollController';
 import { ServicesSection } from '@/components/home/ServicesSection';
 import { TestimonialsSection } from '@/components/home/TestimonialsSection';
 import { FaqSection } from '@/components/home/FaqSection';
 import { TrustedBySection } from '@/components/home/TrustedBySection';
 import { CTASection } from '@/components/home/CTASection';
 import { HomeVideoSection } from '@/components/home/HomeVideoSection';
+import { getPublishedServices } from '@/app/_actions/services';
 
-export default function Home() {
+const AnimatedBackground = dynamic(() => import('@/components/home/AnimatedBackground').then(m => m.AnimatedBackground), { ssr: false });
+const AtomicSphere = dynamic(() => import('@/components/home/AtomicSphere').then(m => m.AtomicSphere), { ssr: false });
+const HeroScrollController = dynamic(() => import('@/components/home/HeroScrollController').then(m => m.HeroScrollController), { ssr: false });
+
+export const metadata: Metadata = {
+  title: 'TAMx — AI-Powered Digital Solutions for Modern Businesses',
+  description: 'TAMx builds intelligent software, AI-powered products, and scalable digital platforms. From product design to deployment — we deliver solutions that drive growth.',
+  openGraph: {
+    title: 'TAMx — AI-Powered Digital Solutions for Modern Businesses',
+    description: 'Intelligent software, AI-powered products, and scalable digital platforms for startups and enterprises.',
+    url: '/',
+  },
+};
+
+export default async function Home() {
+  const services = await getPublishedServices();
   return (
     <div className="relative">
       <main>
@@ -32,7 +47,7 @@ export default function Home() {
 
         <div className="pt-40 sm:pt-60 overflow-x-hidden relative z-20">
           <div className="relative flex flex-col mb-40 sm:mb-60 gap-20 sm:gap-32 w-main m-auto">
-            <ServicesSection />
+            <ServicesSection services={services} />
             <TestimonialsSection />
             <TrustedBySection />
             <FaqSection />

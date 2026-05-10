@@ -4,9 +4,11 @@ import { useState, useRef, useEffect } from 'react';
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
 import { usePreloader } from '@/context/PreloaderContext';
 import { Mail, Phone, MapPin, ArrowUpRight, ChevronDown, CheckCircle2, Linkedin, Facebook, Instagram } from 'lucide-react';
-import { AnimatedBackground } from '@/components/home/AnimatedBackground';
+import dynamic from 'next/dynamic';
 import { PageSection } from '@/components/layout/PageSection';
-import { GlobalNetworkSphere } from '@/components/contact/GlobalNetworkSphere';
+
+const AnimatedBackground = dynamic(() => import('@/components/home/AnimatedBackground').then(m => m.AnimatedBackground), { ssr: false });
+const GlobalNetworkSphere = dynamic(() => import('@/components/contact/GlobalNetworkSphere').then(m => m.GlobalNetworkSphere), { ssr: false });
 import { MeetingModal } from '@/components/contact/MeetingModal';
 import { ConsultationSection } from '@/components/contact/ConsultationSection';
 import { submitContact } from '@/app/_actions/contact';
@@ -31,11 +33,73 @@ const budgets = [
 ];
 
 const countryCodes = [
-  { code: '+1', flag: '🇺🇸' },
-  { code: '+44', flag: '🇬🇧' },
-  { code: '+971', flag: '🇦🇪' },
-  { code: '+65', flag: '🇸🇬' },
-  { code: '+92', flag: '🇵🇰' },
+  { code: '+1', flag: '🇺🇸', label: 'US' },
+  { code: '+44', flag: '🇬🇧', label: 'UK' },
+  { code: '+92', flag: '🇵🇰', label: 'PK' },
+  { code: '+971', flag: '🇦🇪', label: 'UAE' },
+  { code: '+966', flag: '🇸🇦', label: 'SA' },
+  { code: '+91', flag: '🇮🇳', label: 'IN' },
+  { code: '+86', flag: '🇨🇳', label: 'CN' },
+  { code: '+81', flag: '🇯🇵', label: 'JP' },
+  { code: '+82', flag: '🇰🇷', label: 'KR' },
+  { code: '+65', flag: '🇸🇬', label: 'SG' },
+  { code: '+60', flag: '🇲🇾', label: 'MY' },
+  { code: '+62', flag: '🇮🇩', label: 'ID' },
+  { code: '+63', flag: '🇵🇭', label: 'PH' },
+  { code: '+66', flag: '🇹🇭', label: 'TH' },
+  { code: '+84', flag: '🇻🇳', label: 'VN' },
+  { code: '+880', flag: '🇧🇩', label: 'BD' },
+  { code: '+94', flag: '🇱🇰', label: 'LK' },
+  { code: '+977', flag: '🇳🇵', label: 'NP' },
+  { code: '+93', flag: '🇦🇫', label: 'AF' },
+  { code: '+964', flag: '🇮🇶', label: 'IQ' },
+  { code: '+98', flag: '🇮🇷', label: 'IR' },
+  { code: '+972', flag: '🇮🇱', label: 'IL' },
+  { code: '+962', flag: '🇯🇴', label: 'JO' },
+  { code: '+965', flag: '🇰🇼', label: 'KW' },
+  { code: '+961', flag: '🇱🇧', label: 'LB' },
+  { code: '+968', flag: '🇴🇲', label: 'OM' },
+  { code: '+974', flag: '🇶🇦', label: 'QA' },
+  { code: '+973', flag: '🇧🇭', label: 'BH' },
+  { code: '+90', flag: '🇹🇷', label: 'TR' },
+  { code: '+49', flag: '🇩🇪', label: 'DE' },
+  { code: '+33', flag: '🇫🇷', label: 'FR' },
+  { code: '+39', flag: '🇮🇹', label: 'IT' },
+  { code: '+34', flag: '🇪🇸', label: 'ES' },
+  { code: '+31', flag: '🇳🇱', label: 'NL' },
+  { code: '+32', flag: '🇧🇪', label: 'BE' },
+  { code: '+41', flag: '🇨🇭', label: 'CH' },
+  { code: '+43', flag: '🇦🇹', label: 'AT' },
+  { code: '+46', flag: '🇸🇪', label: 'SE' },
+  { code: '+47', flag: '🇳🇴', label: 'NO' },
+  { code: '+45', flag: '🇩🇰', label: 'DK' },
+  { code: '+358', flag: '🇫🇮', label: 'FI' },
+  { code: '+48', flag: '🇵🇱', label: 'PL' },
+  { code: '+351', flag: '🇵🇹', label: 'PT' },
+  { code: '+353', flag: '🇮🇪', label: 'IE' },
+  { code: '+30', flag: '🇬🇷', label: 'GR' },
+  { code: '+420', flag: '🇨🇿', label: 'CZ' },
+  { code: '+36', flag: '🇭🇺', label: 'HU' },
+  { code: '+40', flag: '🇷🇴', label: 'RO' },
+  { code: '+380', flag: '🇺🇦', label: 'UA' },
+  { code: '+7', flag: '🇷🇺', label: 'RU' },
+  { code: '+61', flag: '🇦🇺', label: 'AU' },
+  { code: '+64', flag: '🇳🇿', label: 'NZ' },
+  { code: '+55', flag: '🇧🇷', label: 'BR' },
+  { code: '+52', flag: '🇲🇽', label: 'MX' },
+  { code: '+54', flag: '🇦🇷', label: 'AR' },
+  { code: '+56', flag: '🇨🇱', label: 'CL' },
+  { code: '+57', flag: '🇨🇴', label: 'CO' },
+  { code: '+51', flag: '🇵🇪', label: 'PE' },
+  { code: '+234', flag: '🇳🇬', label: 'NG' },
+  { code: '+27', flag: '🇿🇦', label: 'ZA' },
+  { code: '+254', flag: '🇰🇪', label: 'KE' },
+  { code: '+20', flag: '🇪🇬', label: 'EG' },
+  { code: '+212', flag: '🇲🇦', label: 'MA' },
+  { code: '+233', flag: '🇬🇭', label: 'GH' },
+  { code: '+255', flag: '🇹🇿', label: 'TZ' },
+  { code: '+256', flag: '🇺🇬', label: 'UG' },
+  { code: '+251', flag: '🇪🇹', label: 'ET' },
 ];
 
 const mapNodes = [
@@ -398,6 +462,7 @@ export function ContactClient({ serviceNames, productNames }: ContactClientProps
                                                         <div className="flex items-center gap-3">
                                                             <span className="text-xl">{item.flag}</span>
                                                             <span className="font-medium">{item.code}</span>
+                                                            {'label' in item && <span className="text-xs text-white/40">{item.label}</span>}
                                                         </div>
                                                         {formData.countryCode === item.code && <CheckCircle2 className="w-4 h-4 text-brand-lavender" />}
                                                     </div>
