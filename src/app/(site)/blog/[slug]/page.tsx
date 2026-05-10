@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: post.excerpt || `Read ${post.title} on the TAMx blog.`,
       url: `/blog/${slug}`,
       type: 'article',
-      ...(post.cover_url ? { images: [{ url: post.cover_url }] } : {}),
+      ...(post.image ? { images: [{ url: post.image }] } : {}),
     },
   };
 }
