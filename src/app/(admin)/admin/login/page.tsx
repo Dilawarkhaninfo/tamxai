@@ -7,6 +7,7 @@ import { Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, AlertCircle } from 'lucide-react';
 
 // ── 3D background ────────────────────────────────────────────────────────────
 function ParticleBackground() {
@@ -46,6 +47,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading]   = useState(false);
   const [error, setError]       = useState('');
 
@@ -129,52 +131,75 @@ export default function LoginPage() {
               </div>
 
               <form onSubmit={handleLogin} className="space-y-5">
+                {/* Email */}
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Email Address</label>
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    className="w-full px-6 py-4 bg-[#010205] border border-white/5 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-bold text-white placeholder:text-slate-700 shadow-inner"
-                    placeholder="ADMIN@TAMX.AI"
-                  />
+                  <label htmlFor="email" className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Email Address</label>
+                  <div className="group relative">
+                    <Mail className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-slate-600 transition-colors group-focus-within:text-purple-400" strokeWidth={2} />
+                    <input
+                      id="email"
+                      type="email"
+                      required
+                      autoComplete="email"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      className="w-full pl-14 pr-5 py-4 bg-[#010205] border border-white/5 rounded-2xl focus:outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/30 transition-all font-semibold text-white placeholder:text-slate-700 placeholder:font-medium shadow-inner"
+                      placeholder="admin@tamx.ai"
+                    />
+                  </div>
                 </div>
 
+                {/* Password */}
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Password</label>
-                  <input
-                    type="password"
-                    required
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    className="w-full px-6 py-4 bg-[#010205] border border-white/5 rounded-2xl focus:outline-none focus:ring-2 focus:ring-purple-500/50 transition-all font-bold text-white placeholder:text-slate-700 shadow-inner tracking-widest"
-                    placeholder="••••••••"
-                  />
+                  <label htmlFor="password" className="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Password</label>
+                  <div className="group relative">
+                    <Lock className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-slate-600 transition-colors group-focus-within:text-purple-400" strokeWidth={2} />
+                    <input
+                      id="password"
+                      type={showPassword ? 'text' : 'password'}
+                      required
+                      autoComplete="current-password"
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
+                      className="w-full pl-14 pr-14 py-4 bg-[#010205] border border-white/5 rounded-2xl focus:outline-none focus:border-purple-500/40 focus:ring-2 focus:ring-purple-500/30 transition-all font-semibold text-white placeholder:text-slate-700 placeholder:font-medium placeholder:tracking-normal shadow-inner tracking-widest"
+                      placeholder="••••••••"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(v => !v)}
+                      aria-label={showPassword ? 'Hide password' : 'Show password'}
+                      aria-pressed={showPassword}
+                      tabIndex={-1}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-xl text-slate-600 hover:text-purple-400 hover:bg-white/5 active:scale-90 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/40"
+                    >
+                      {showPassword ? <EyeOff className="w-[18px] h-[18px]" strokeWidth={2} /> : <Eye className="w-[18px] h-[18px]" strokeWidth={2} />}
+                    </button>
+                  </div>
                 </div>
 
                 {error && (
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="text-red-400 text-[10px] font-black uppercase tracking-widest bg-red-400/5 p-4 rounded-xl border border-red-400/20 text-center"
+                    initial={{ opacity: 0, y: -4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-2.5 text-red-400 text-[11px] font-bold bg-red-400/5 px-4 py-3.5 rounded-xl border border-red-400/20"
                   >
-                    {error}
+                    <AlertCircle className="w-4 h-4 shrink-0" strokeWidth={2.5} />
+                    <span>{error}</span>
                   </motion.div>
                 )}
 
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full py-5 mt-4 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl font-black text-[11px] text-white uppercase tracking-[0.3em] hover:shadow-2xl hover:shadow-purple-500/40 active:scale-[0.98] transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group shadow-xl"
+                  className="w-full flex items-center justify-center gap-2.5 py-5 mt-4 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl font-black text-[11px] text-white uppercase tracking-[0.3em] hover:shadow-2xl hover:shadow-purple-500/40 active:scale-[0.98] transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group shadow-xl"
                 >
-                  <span className={loading ? 'opacity-0' : 'opacity-100'}>
-                    {loading ? '' : 'Login'}
-                  </span>
-                  {loading && (
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    </div>
+                  {loading ? (
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : (
+                    <>
+                      <span>Login</span>
+                      <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={2.5} />
+                    </>
                   )}
                   <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 pointer-events-none" />
                 </button>
