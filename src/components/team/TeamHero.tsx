@@ -43,20 +43,6 @@ export default function TeamHero() {
            transition={{ duration: 0.8 }}
         >
           <div className="flex flex-col items-center">
-            {/* Brand Logo Icon */}
-            <motion.div
-              initial={{ y: -20, opacity: 0 }}
-              animate={finished ? { y: 0, opacity: 1 } : { y: -20, opacity: 0 }}
-              transition={{ duration: 1, ease: 'easeOut', delay: 0.2 }}
-              className="mb-8"
-            >
-              <img 
-                src="/Tamx_logo.png" 
-                alt="TAMx Logo" 
-                className="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-[0_0_15px_rgba(133,135,227,0.5)]" 
-              />
-            </motion.div>
-
             <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={finished ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
@@ -64,8 +50,20 @@ export default function TeamHero() {
               className="py-2"
             >
                <h1 className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-6">
-                Welcome to <span className="bg-gradient-to-r from-brand-purple to-blue-400 bg-clip-text text-transparent italic font-bold">TAMx Technologies</span>
-              </h1>
+                 Welcome to{' '}
+                 <span className="relative inline-flex items-center px-1 group align-middle mx-1 md:mx-2 select-none">
+                   {/* Glow background layer */}
+                   <div className="absolute inset-0 bg-brand-purple/30 blur-xl rounded-full scale-90 opacity-75 group-hover:scale-105 group-hover:opacity-100 transition-all duration-500 pointer-events-none" />
+                   <img 
+                     src="/logo_name.png" 
+                     alt="TAMx" 
+                     className="h-[42px] md:h-[68px] lg:h-[84px] w-auto object-contain drop-shadow-[0_0_15px_rgba(133,135,227,0.7)] relative z-10 transition-transform duration-500 group-hover:scale-105 translate-y-[3px] md:translate-y-[5px]" 
+                   />
+                 </span>{' '}
+                 <span className="bg-gradient-to-r from-brand-purple to-blue-400 bg-clip-text text-transparent italic font-bold">
+                   Technologies
+                 </span>
+               </h1>
             </motion.div>
           </div>
           

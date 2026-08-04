@@ -239,7 +239,7 @@ export function ContactClient({
                     <h2
                         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[14vw] font-bold text-nowrap text-center opacity-[0.03] pointer-events-none select-none z-0"
                     >
-                        TAMX.AI &nbsp; TAMX.AI &nbsp; TAMX.AI
+                        TAMX &nbsp; TAMX &nbsp; TAMX
                     </h2>
 
                     <h1

@@ -116,42 +116,42 @@ function ArrowSvg({ className }: { className?: string }) {
 
 function ServiceCard({ id, title, description, services, toolIcons, link, active }: ServiceItem & { active: boolean }) {
   return (
-    <Link href={link} className="w-full hover:scale-[1.02] block duration-500 transition-transform ease-out group">
+    <Link href={link} className="w-full hover:scale-[1.02] block duration-250 transition-transform ease-out group">
       <div
         className={`
           p-px grow shrink-0 relative border border-zinc-600 lg:border-zinc-700
           ring-1 lg:ring-0 ring-white/20 ring-inset shadow-none overflow-hidden rounded-3xl
-          w-full h-[480px] sm:h-[520px] lg:h-[460px] duration-500
-          ${active ? 'scale-100 bg-primary' : 'scale-100 lg:scale-90 bg-[#12122a]'}
+          w-full h-[480px] sm:h-[520px] lg:h-[480px] duration-300 ease-out transition-all
+          ${active ? 'scale-100 bg-primary' : 'scale-100 lg:scale-95 bg-[#12122a]'}
         `}
       >
-        <div className="px-5 py-8 sm:py-10 sm:px-10 h-full relative z-10">
+        <div className="px-5 py-7 sm:py-9 sm:px-9 h-full relative z-10">
           <div
             className={`
-              w-full h-full duration-200 absolute inset-0 rounded-3xl
+              w-full h-full duration-250 absolute inset-0 rounded-3xl transition-colors
               ${active ? 'bg-primary' : 'bg-[#12122a]'}
             `}
           />
 
           <div className="h-full relative">
             {/* Arrow icon with hover slide effect */}
-            <div className="-rotate-45 absolute right-0 top-0 overflow-hidden size-8 sm:size-9 lg:size-10">
-              <div className="relative group-hover:translate-x-full transition-transform duration-300 ease-[cubic-bezier(.15,-0.26,.43,1.41)]">
+            <div className="-rotate-45 absolute right-0 top-0 overflow-hidden size-8 sm:size-9 lg:size-10 z-30">
+              <div className="relative group-hover:translate-x-full transition-transform duration-250 ease-[cubic-bezier(.15,-0.26,.43,1.41)]">
                 <ArrowSvg className="size-full" />
                 <ArrowSvg className="size-full absolute right-full top-0" />
               </div>
             </div>
 
             {/* Content area — slides up when active to reveal details */}
-            <div className={`relative h-full z-10 duration-500 ${active ? '-translate-y-full lg:-translate-y-full' : ''}`}>
+            <div className={`relative h-full z-10 duration-250 ease-out transition-transform ${active ? '-translate-y-full lg:-translate-y-full' : ''}`}>
               {/* Preview layer: number + title */}
               <div className="flex flex-col justify-between h-full">
                 <h4 className="block text-3xl sm:text-4xl font-semibold">{id}</h4>
                 <h2
                   className={`
-                    text-xl pr-1 2xl:text-2xl font-semibold origin-top-left
-                    transition-transform will-change-transform duration-500
-                    ${active ? 'scale-[1.1] lg:scale-[1.2] translate-y-full' : 'scale-100'}
+                    text-lg sm:text-xl xl:text-2xl font-semibold leading-tight tracking-tight break-words pr-12 sm:pr-14 origin-top-left
+                    transition-transform will-change-transform duration-250 ease-out
+                    ${active ? 'scale-[1.02] translate-y-full' : 'scale-100'}
                   `}
                 >
                   {title}
@@ -159,25 +159,27 @@ function ServiceCard({ id, title, description, services, toolIcons, link, active
               </div>
 
               {/* Details layer: description + services + tools */}
-              <div className="flex flex-col gap-6 justify-between h-full">
-                <h2 className="text-xl pr-1 2xl:text-2xl font-semibold opacity-0">{title}</h2>
+              <div className="flex flex-col gap-4 sm:gap-5 justify-between h-full pt-1">
+                <h2 className="text-lg sm:text-xl xl:text-2xl font-semibold leading-tight tracking-tight break-words pr-12 sm:pr-14 opacity-0">
+                  {title}
+                </h2>
                 <div className="flex justify-between">
-                  <p className="text-sm 2xl:text-base">{description}</p>
+                  <p className="text-sm xl:text-base leading-relaxed text-foreground/90">{description}</p>
                 </div>
-                <div className="flex gap-6 justify-between flex-col sm:flex-row sm:gap-8">
+                <div className="flex gap-6 justify-between flex-col sm:flex-row sm:gap-8 pt-1">
                   <div>
-                    <h3 className="text-foreground/60 text-lg">Services</h3>
-                    <div className="flex flex-col text-sm gap-1">
+                    <h3 className="text-foreground/60 text-base sm:text-lg mb-1">Services</h3>
+                    <div className="flex flex-col text-xs sm:text-sm gap-1">
                       {services.map((item) => (
                         <span key={item}>{item}</span>
                       ))}
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-foreground/60 text-lg">Tools</h3>
-                    <div className="grid grid-cols-3 gap-x-1 gap-y-3 sm:gap-x-2 sm:gap-y-4 lg:gap-x-4 lg:gap-y-4 pt-1 w-[100px] text-center">
+                    <h3 className="text-foreground/60 text-base sm:text-lg mb-1">Tools</h3>
+                    <div className="grid grid-cols-3 gap-x-1 gap-y-2.5 sm:gap-x-2 sm:gap-y-3.5 pt-0.5 w-[90px] sm:w-[100px] text-center">
                       {toolIcons.map((Icon, i) => (
-                        <span key={i} className="text-2xl xl:text-3xl opacity-90" aria-hidden="true">
+                        <span key={i} className="text-xl sm:text-2xl xl:text-3xl opacity-90" aria-hidden="true">
                           <Icon />
                         </span>
                       ))}
@@ -253,15 +255,14 @@ export function ServicesSection({ services: dbServices }: ServicesSectionProps) 
         scrollTrigger: {
           trigger: triggerRef.current,
           start: 'top top',
-          end: `+=${totalWidth * 2.5}`, // Significantly longer duration
-          scrub: 1,
+          end: `+=${servicesData.length * 320}`,
+          scrub: 0.1, // 1:1 instant tracking with scroll wheel, 0 lag
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const progress = self.progress;
             const total = servicesData.length;
-            // Map progress to card index with slight delay at the start
             const newIndex = Math.min(total - 1, Math.floor(progress * total));
             setActiveIndex((prev) => (prev !== newIndex ? newIndex : prev));
           },
@@ -270,7 +271,7 @@ export function ServicesSection({ services: dbServices }: ServicesSectionProps) 
     }, triggerRef);
 
     return () => ctx.revert();
-  }, [isDesktop]);
+  }, [isDesktop, servicesData.length]);
 
   const header = (
     <div className="flex flex-col sm:flex-row gap-10 sm:gap-16 xl:gap-24 justify-between">
@@ -302,22 +303,13 @@ export function ServicesSection({ services: dbServices }: ServicesSectionProps) 
             {/* Left side: 3D Animation (35%) */}
             <div className="w-[35%] h-full relative z-30 lg:-translate-x-[5%]">
               <ServiceParticles activeIndex={activeIndex} />
-              
-              {/* Ultra-Smooth Gradient Partition */}
-              <div 
-                className="absolute top-0 -right-[50%] h-full w-[120%] pointer-events-none z-40" 
-                style={{
-                  background: 'linear-gradient(to right, rgba(2,2,2,0) 0%, rgba(2,2,2,1) 45%, rgba(2,2,2,1) 55%, rgba(2,2,2,0) 100%)',
-                  transform: 'translateX(20%)'
-                }}
-              />
             </div>
 
             {/* Right side: Scrollable Cards (65%) */}
             <div className="w-[65%] relative h-[600px] flex items-center overflow-hidden z-10">
               <div 
                 ref={cardsRef} 
-                className="flex gap-12 relative z-10 px-[15%] will-change-transform"
+                className="flex gap-12 relative z-10 px-4 sm:px-8 will-change-transform"
               >
                 {servicesData.map((service, index) => (
                   <div
@@ -331,7 +323,7 @@ export function ServicesSection({ services: dbServices }: ServicesSectionProps) 
                 <div className="lg:w-[20vw] xl:w-[25vw] shrink-0" />
               </div>
               
-              <div className="absolute right-0 top-0 h-full w-[250px] bg-gradient-to-l from-background to-transparent z-20 pointer-events-none" />
+              <div className="absolute right-0 top-0 h-full w-[200px] bg-gradient-to-l from-background to-transparent z-20 pointer-events-none" />
             </div>
           </div>
         </div>
