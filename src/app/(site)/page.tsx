@@ -42,7 +42,7 @@ export default async function Home() {
             id="hero-company"
             className="absolute top-1/4 left-1/2 -translate-x-1/2 text-[18vw] sm:text-[14vw] font-bold text-nowrap text-center opacity-[0.03] pointer-events-none select-none"
           >
-            TAMX.AI &nbsp; TAMX.AI &nbsp; TAMX.AI
+            TAMX &nbsp; TAMX &nbsp; TAMX
           </h2>
 
           <AtomicSphere />

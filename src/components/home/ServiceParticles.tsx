@@ -195,8 +195,8 @@ function MorphingPoints({ activeIndex }: { activeIndex: number }) {
     const obj = { progress: 0 };
     gsap.to(obj, {
       progress: 1,
-      duration: 1.5,
-      ease: 'power3.inOut',
+      duration: 0.35,
+      ease: 'power2.out',
       onUpdate: () => {
         for (let i = 0; i < currentPositions.length; i++) {
           currentPositions[i] = startPositions[i] + (target[i] - startPositions[i]) * obj.progress;

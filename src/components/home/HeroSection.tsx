@@ -30,13 +30,6 @@ export function HeroSection() {
         className="flex flex-col w-main m-auto pt-6 pb-10 h-full relative z-10 justify-center md:justify-between gap-12 md:gap-0"
       >
         <div className="flex justify-center items-center flex-1 min-h-0">
-          <h2
-            id="hero-company"
-            className="absolute top-1/4 left-1/2 -translate-x-1/2 text-[15vw] sm:text-[14vw] font-bold text-nowrap text-center opacity-[0.03] pointer-events-none select-none overflow-hidden w-full"
-          >
-            TAMX.AI &nbsp; TAMX.AI
-          </h2>
-
           <h1
             id="hero-title"
             className="grid grid-cols-1 md:grid-cols-[auto_auto_auto] gap-y-3 md:gap-y-2 md:gap-x-4 items-center justify-center text-center md:text-left w-fit mx-auto"

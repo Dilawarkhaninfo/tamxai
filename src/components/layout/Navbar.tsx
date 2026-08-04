@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import { usePreloader } from '@/context/PreloaderContext'
 import type { NavService, NavProduct } from '@/app/_actions/navigation'
+import { cn } from '@/lib/utils'
 
 // Map icon name strings to Lucide components (used client-side only)
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -78,8 +79,9 @@ export function Navbar({ services, products }: NavbarProps) {
   const isHomepage = pathname === '/'
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handleScroll)
+    const handleScroll = () => setIsScrolled(window.scrollY > 10)
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -132,32 +134,29 @@ export function Navbar({ services, products }: NavbarProps) {
       id="header"
     >
       <div
-        className={`absolute top-0 left-0 w-full h-full pointer-events-none transition-all duration-300 ${
+        className={cn(
+          "absolute top-0 left-0 w-full h-full pointer-events-none transition-all duration-500",
           isMobileMenuOpen
-            ? 'opacity-100 bg-zinc-950 shadow-nav'
+            ? "bg-zinc-950 border-b border-white/10 backdrop-blur-xl shadow-lg opacity-100"
             : isScrolled
-              ? 'opacity-100 glass-navbar shadow-nav'
-              : 'opacity-70 md:opacity-0 glass-navbar shadow-nav'
-        }`}
+              ? "bg-black/60 border-b border-white/10 backdrop-blur-xl shadow-lg opacity-100"
+              : "bg-transparent border-b border-transparent shadow-none opacity-0"
+        )}
+        style={{
+          backdropFilter: isScrolled || isMobileMenuOpen ? "blur(20px) saturate(180%)" : "none",
+          WebkitBackdropFilter: isScrolled || isMobileMenuOpen ? "blur(20px) saturate(180%)" : "none",
+        }}
       />
 
       <div className="relative z-20 mx-auto" style={{ width: 'calc(100% - 60px)', maxWidth: '1400px' }}>
         <div className="flex justify-between items-center relative">
-          <Link href="/" className="shrink-0 flex items-center gap-2">
-            <Image
-              src="/Tamx_logo.png"
-              alt="TAMx Logo"
-              width={40}
-              height={40}
-              className="w-10 h-10 object-contain"
-              priority
-            />
+          <Link href="/" className="shrink-0 flex items-center">
             <Image
               src="/logo_name.png"
               alt="TAMx"
-              width={100}
-              height={24}
-              className="h-5 lg:h-6 w-auto object-contain"
+              width={150}
+              height={36}
+              className="h-7 lg:h-9 w-auto object-contain"
               priority
             />
           </Link>
