@@ -65,7 +65,7 @@ export async function sendAdminNotification(data: ContactData) {
           <div style="margin-top: 24px;">
             <p style="color: #9ca3af; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Message</p>
             <div style="background: #111128; padding: 20px; border-radius: 8px; border-left: 3px solid #6366f1; color: #e0e0e0; font-size: 15px; line-height: 1.6;">
-              ${data.message.replace(/\n/g, '<br>')}
+              ${(data.message || '').replace(/\n/g, '<br>')}
             </div>
           </div>
           <div style="margin-top: 32px; text-align: center;">
@@ -191,7 +191,7 @@ export async function sendBookingAdminNotification(data: BookingData) {
           <div style="margin-top: 24px;">
             <p style="color: #9ca3af; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Project Goals</p>
             <div style="background: #111128; padding: 20px; border-radius: 8px; border-left: 3px solid #6366f1; color: #e0e0e0; font-size: 15px; line-height: 1.6;">
-              ${data.topic.replace(/\n/g, '<br>') || 'Not specified'}
+              ${(data.topic || '').replace(/\n/g, '<br>') || 'Not specified'}
             </div>
           </div>
           <div style="margin-top: 32px; text-align: center;">

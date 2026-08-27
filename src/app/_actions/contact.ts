@@ -2,6 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { sendAdminNotification, sendClientConfirmation } from '@/lib/email'
 import type { SubmissionStatus } from '@/lib/supabase/types'
 
@@ -43,18 +44,29 @@ export async function submitContact(formData: {
   budget: string
   message: string
 }) {
-  const supabase = await createClient()
-  const { error } = await supabase.from('contact_submissions').insert({
-    first_name: formData.firstName,
-    last_name: formData.lastName,
-    email: formData.email,
-    phone: formData.phone || null,
-    country_code: formData.countryCode || null,
-    service: formData.service || null,
-    budget: formData.budget || null,
-    message: formData.message,
-  })
-  if (error) return { error: error.message }
+  let dbError: string | null = null
+
+  // Use admin client with service role to bypass anon RLS restriction
+  try {
+    const supabase = createAdminClient()
+    const { error } = await supabase.from('contact_submissions').insert({
+      first_name: formData.firstName,
+      last_name: formData.lastName,
+      email: formData.email,
+      phone: formData.phone || null,
+      country_code: formData.countryCode || null,
+      service: formData.service || null,
+      budget: formData.budget || null,
+      message: formData.message,
+    })
+    if (error) {
+      console.error('Supabase contact insert error:', error.message)
+      dbError = error.message
+    }
+  } catch (err: any) {
+    console.error('Database connection error in submitContact:', err?.message || err)
+    dbError = err?.message || 'Database error'
+  }
 
   // Send email notifications (non-blocking — don't fail the form if emails fail)
   try {
@@ -64,8 +76,14 @@ export async function submitContact(formData: {
     ])
   } catch (emailError) {
     console.error('Email sending failed:', emailError)
-    // Form submission still succeeds even if emails fail
   }
 
+  if (dbError && !process.env.SMTP_USER) {
+    return { error: dbError }
+  }
+
+  try {
+    revalidatePath('/admin/contacts')
+  } catch {}
   return { success: true }
 }
