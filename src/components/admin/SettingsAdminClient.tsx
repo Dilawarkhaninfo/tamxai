@@ -216,21 +216,21 @@ export function SettingsAdminClient({ initialSettings }: Props) {
                 label="LinkedIn"
                 value={form.social_linkedin}
                 onChange={(v) => setForm((f) => ({ ...f, social_linkedin: v }))}
-                placeholder="https://linkedin.com/company/tamx"
+                placeholder="https://www.linkedin.com/company/tamx-technologies/"
               />
               <SettingsField
                 icon={Instagram}
                 label="Instagram"
                 value={form.social_instagram}
                 onChange={(v) => setForm((f) => ({ ...f, social_instagram: v }))}
-                placeholder="https://instagram.com/tamxai"
+                placeholder="https://www.instagram.com/tamx_technologies?igsi=MW56cXU2b3BvbWs3cw%3D%3D&utm_source=qr"
               />
               <SettingsField
                 icon={Facebook}
                 label="Facebook"
                 value={form.social_facebook}
                 onChange={(v) => setForm((f) => ({ ...f, social_facebook: v }))}
-                placeholder="https://facebook.com/tamxai"
+                placeholder="https://www.facebook.com/share/19VonTtD5E/?mibextid=wwXIfr"
               />
               <SettingsField
                 icon={Twitter}
