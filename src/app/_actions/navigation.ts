@@ -31,9 +31,9 @@ const FALLBACK_SETTINGS: SiteSettings = {
   contact_email: 'info@tamxai.com',
   contact_phone: '+92 3353898844',
   contact_address: 'Regional Plan 9, NASTP, Islamabad, PK',
-  social_linkedin: 'https://www.linkedin.com/company/tamxai/',
-  social_facebook: null,
-  social_instagram: null,
+  social_linkedin: 'https://www.linkedin.com/company/tamx-technologies/',
+  social_facebook: 'https://www.facebook.com/share/19VonTtD5E/?mibextid=wwXIfr',
+  social_instagram: 'https://www.instagram.com/tamx_technologies?igsi=MW56cXU2b3BvbWs3cw%3D%3D&utm_source=qr',
 }
 
 export async function getNavigationServices(): Promise<NavService[]> {
@@ -95,12 +95,12 @@ export async function getSiteSettings(): Promise<SiteSettings> {
       .single()
 
     return {
-      contact_email: data?.contact_email ?? FALLBACK_SETTINGS.contact_email,
-      contact_phone: data?.contact_phone ?? FALLBACK_SETTINGS.contact_phone,
-      contact_address: data?.contact_address ?? FALLBACK_SETTINGS.contact_address,
-      social_linkedin: data?.social_linkedin ?? FALLBACK_SETTINGS.social_linkedin,
-      social_facebook: data?.social_facebook ?? null,
-      social_instagram: data?.social_instagram ?? null,
+      contact_email: data?.contact_email || FALLBACK_SETTINGS.contact_email,
+      contact_phone: data?.contact_phone || FALLBACK_SETTINGS.contact_phone,
+      contact_address: data?.contact_address || FALLBACK_SETTINGS.contact_address,
+      social_linkedin: data?.social_linkedin || FALLBACK_SETTINGS.social_linkedin,
+      social_facebook: data?.social_facebook || FALLBACK_SETTINGS.social_facebook,
+      social_instagram: data?.social_instagram || FALLBACK_SETTINGS.social_instagram,
     }
   } catch {
     return FALLBACK_SETTINGS
