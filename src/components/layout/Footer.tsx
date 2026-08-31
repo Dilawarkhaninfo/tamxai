@@ -99,7 +99,7 @@ const LiveClock = () => {
   );
 };
 
-const columns = [
+const baseColumns = [
   {
     title: 'Services',
     links: [
@@ -120,14 +120,6 @@ const columns = [
       { label: 'E-Courses', href: '/e-courses' },
     ],
   },
-  {
-    title: 'Socials',
-    links: [
-      { label: 'LinkedIn', href: 'https://www.linkedin.com/company/tamxai/', icon: Linkedin },
-      { label: 'Instagram', href: '#', icon: Instagram },
-      { label: 'Facebook', href: '#', icon: Facebook },
-    ],
-  },
 ];
 
 interface FooterProps {
@@ -135,15 +127,33 @@ interface FooterProps {
   contactPhone?: string
   contactAddress?: string
   socialLinkedin?: string | null
+  socialFacebook?: string | null
+  socialInstagram?: string | null
 }
 
 export function Footer({
   contactEmail = 'info@tamxai.com',
   contactPhone = '+92 3353898844',
   contactAddress = 'Islamabad, PK',
-  socialLinkedin = 'https://www.linkedin.com/company/tamxai/',
+  socialLinkedin = 'https://www.linkedin.com/company/tamx-technologies/',
+  socialFacebook = 'https://www.facebook.com/share/19VonTtD5E/?mibextid=wwXIfr',
+  socialInstagram = 'https://www.instagram.com/tamx_technologies?igsi=MW56cXU2b3BvbWs3cw%3D%3D&utm_source=qr',
 }: FooterProps) {
-  const linkedinHref = socialLinkedin || 'https://www.linkedin.com/company/tamxai/'
+  const linkedinHref = socialLinkedin || 'https://www.linkedin.com/company/tamx-technologies/'
+  const facebookHref = socialFacebook || 'https://www.facebook.com/share/19VonTtD5E/?mibextid=wwXIfr'
+  const instagramHref = socialInstagram || 'https://www.instagram.com/tamx_technologies?igsi=MW56cXU2b3BvbWs3cw%3D%3D&utm_source=qr'
+
+  const columns = [
+    ...baseColumns,
+    {
+      title: 'Socials',
+      links: [
+        { label: 'LinkedIn', href: linkedinHref, icon: Linkedin },
+        { label: 'Instagram', href: instagramHref, icon: Instagram },
+        { label: 'Facebook', href: facebookHref, icon: Facebook },
+      ],
+    },
+  ];
 
   return (
     <footer className="w-full relative overflow-hidden bg-background border-t border-white/5">
@@ -202,7 +212,8 @@ export function Footer({
                     <Link
                       key={link.label}
                       href={link.href}
-                      target={link.label === 'LinkedIn' ? '_blank' : undefined}
+                      target={col.title === 'Socials' || link.href.startsWith('http') ? '_blank' : undefined}
+                      rel={col.title === 'Socials' || link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                       className={`
                         group/link flex items-center transition-all duration-300
                         ${col.title === 'Socials' 

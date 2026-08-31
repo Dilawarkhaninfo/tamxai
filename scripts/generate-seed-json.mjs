@@ -253,9 +253,9 @@ async function buildSiteContent() {
     contact_phone: '+92 3353898844',
     contact_address: 'Regional Plan 9, NASTP, Islamabad, PK',
     serving_note: 'Serving clients globally',
-    social_linkedin: 'https://www.linkedin.com/company/tamxai/',
-    social_instagram: '',
-    social_facebook: '',
+    social_linkedin: 'https://www.linkedin.com/company/tamx-technologies/',
+    social_instagram: 'https://www.instagram.com/tamx_technologies?igsi=MW56cXU2b3BvbWs3cw%3D%3D&utm_source=qr',
+    social_facebook: 'https://www.facebook.com/share/19VonTtD5E/?mibextid=wwXIfr',
     social_twitter: '',
     meta_title: 'TAMx - Building Digital Solutions That Matter',
     meta_description:
@@ -297,9 +297,9 @@ async function buildSiteContent() {
       {
         title: 'Socials',
         links: [
-          { label: 'LinkedIn', href: 'https://www.linkedin.com/company/tamxai/', icon: 'Linkedin' },
-          { label: 'Instagram', href: '#', icon: 'Instagram' },
-          { label: 'Facebook', href: '#', icon: 'Facebook' },
+          { label: 'LinkedIn', href: 'https://www.linkedin.com/company/tamx-technologies/', icon: 'Linkedin' },
+          { label: 'Instagram', href: 'https://www.instagram.com/tamx_technologies?igsi=MW56cXU2b3BvbWs3cw%3D%3D&utm_source=qr', icon: 'Instagram' },
+          { label: 'Facebook', href: 'https://www.facebook.com/share/19VonTtD5E/?mibextid=wwXIfr', icon: 'Facebook' },
         ],
       },
     ],

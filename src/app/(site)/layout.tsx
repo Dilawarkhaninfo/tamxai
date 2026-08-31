@@ -29,6 +29,8 @@ export default async function SiteLayout({
         contactPhone={settings.contact_phone}
         contactAddress={settings.contact_address}
         socialLinkedin={settings.social_linkedin}
+        socialFacebook={settings.social_facebook}
+        socialInstagram={settings.social_instagram}
       />
     </>
   );

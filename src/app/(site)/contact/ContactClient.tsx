@@ -116,9 +116,9 @@ export function ContactClient({
   contactEmail = 'info@tamxai.com',
   contactPhone = '+92 3353898844',
   contactAddress = 'Regional Plan 9, NASTP',
-  socialLinkedin,
-  socialFacebook,
-  socialInstagram,
+  socialLinkedin = 'https://www.linkedin.com/company/tamx-technologies/',
+  socialFacebook = 'https://www.facebook.com/share/19VonTtD5E/?mibextid=wwXIfr',
+  socialInstagram = 'https://www.instagram.com/tamx_technologies?igsi=MW56cXU2b3BvbWs3cw%3D%3D&utm_source=qr',
 }: ContactClientProps) {
   const contactInfo = [
     { icon: Mail, label: 'Email', value: contactEmail, href: `mailto:${contactEmail}` },
@@ -127,9 +127,9 @@ export function ContactClient({
   ];
 
   const socials = [
-    ...(socialLinkedin ? [{ name: 'LinkedIn', icon: Linkedin, href: socialLinkedin }] : [{ name: 'LinkedIn', icon: Linkedin, href: '#' }]),
-    ...(socialFacebook ? [{ name: 'Facebook', icon: Facebook, href: socialFacebook }] : [{ name: 'Facebook', icon: Facebook, href: '#' }]),
-    ...(socialInstagram ? [{ name: 'Instagram', icon: Instagram, href: socialInstagram }] : [{ name: 'Instagram', icon: Instagram, href: '#' }]),
+    { name: 'LinkedIn', icon: Linkedin, href: socialLinkedin || 'https://www.linkedin.com/company/tamx-technologies/' },
+    { name: 'Facebook', icon: Facebook, href: socialFacebook || 'https://www.facebook.com/share/19VonTtD5E/?mibextid=wwXIfr' },
+    { name: 'Instagram', icon: Instagram, href: socialInstagram || 'https://www.instagram.com/tamx_technologies?igsi=MW56cXU2b3BvbWs3cw%3D%3D&utm_source=qr' },
   ];
   const technicalFocusOptions = {
     services: serviceNames,
@@ -363,9 +363,17 @@ export function ContactClient({
                     <p className="text-sm font-bold uppercase tracking-[0.2em] text-text-muted mb-8">Global Networks</p>
                     <div className="flex flex-wrap gap-4">
                         {socials.map((social) => (
-                            <button key={social.name} className="px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white text-sm font-medium hover:bg-white/10 hover:border-brand-lavender transition-all duration-300">
-                                {social.name}
-                            </button>
+                            <a
+                                key={social.name}
+                                href={social.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2.5 px-7 py-3 rounded-full bg-white/5 border border-white/10 text-white text-sm font-medium hover:bg-white/10 hover:border-brand-lavender transition-all duration-300 group active:scale-95 shadow-sm"
+                            >
+                                <social.icon className="w-4 h-4 text-brand-lavender group-hover:scale-110 transition-transform" />
+                                <span>{social.name}</span>
+                                <ArrowUpRight className="w-3.5 h-3.5 opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                            </a>
                         ))}
                     </div>
                 </div>
